@@ -1,7 +1,7 @@
 import express from "express";
 
 const customerRouter = express.Router();
-router.get("/", (req, res) => {
+customerRouter.get("/", (req, res) => {
     res.json({ message: "Customer route" });
 });
 

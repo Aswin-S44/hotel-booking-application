@@ -1,18 +1,24 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
-const FeedbackSchema = new mongoose.Schema(
-    {
-        name: { type: String, required: true },
-        email: { type: String, required: true },
-        phone: { type: String },
-        subject: { type: String, required: true },
-        message: { type: String, required: true },
-        isReplied: { type: Boolean, default: false },
+const userSchema = new mongoose.Schema(
+  {
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    provider: {
+      type: String,
+      enum: ["local", "google"],
+      default: "google",
     },
-    {
-        timestamps: true,
-    }
+    googleId: { type: String },
+    avatar: { type: String },
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
+    },
+    isBlocked: { type: Boolean, default: false },
+  },
+  { timestamps: true }
 );
 
-const Feedback = mongoose.model("Feedback", FeedbackSchema);
-module.exports = Feedback;
+export default mongoose.model("User", userSchema);

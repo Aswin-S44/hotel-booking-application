@@ -7,12 +7,41 @@ import useSignIn from './useSignIn';
 import signInImg from '@/assets/images/element/signin.svg';
 import logoIcon from '@/assets/images/logo-icon.svg';
 import { developedByLink, currentYear } from '@/states';
+import axios from "axios";
+import { signInWithGoogle } from "@/firebase";
+import { useNavigate } from "react-router-dom";
+
 const SignIn = () => {
   const {
     control,
     loading,
     login
   } = useSignIn();
+
+const navigate = useNavigate();
+
+const handleGoogleLogin = async () => {
+  try {
+    console.log("Button clicked"); // 👈 add this
+
+    const idToken = await signInWithGoogle();
+    console.log("Token received:", idToken); // 👈 add this
+
+    const res = await axios.post(
+      "http://localhost:5000/auth/google-login",
+      { idToken },
+      { withCredentials: true }
+    );
+
+    console.log("Backend response:", res.data);
+
+    navigate("/agent/dashboard");
+  } catch (error) {
+    console.error("Google login failed:", error);
+  }
+};
+
+
   return <>
       <Col lg={6} className="d-flex align-items-center order-2 order-lg-1">
         <div className="p-3 p-lg-5">
@@ -33,7 +62,7 @@ const SignIn = () => {
             New here?<Link to="/auth/sign-up"> Create an account</Link>
           </p>
 
-          <form onSubmit={login} className="mt-4 text-start">
+          <form  className="mt-4 text-start">
             <TextFormInput name="email" containerClass="mb-3" label="Enter email id" type="email" control={control} />
 
             <PasswordFormInput name="password" containerClass="mb-3" label="Enter password" control={control} />
@@ -60,7 +89,7 @@ const SignIn = () => {
             </div>
 
             <div className="vstack gap-3">
-              <button type="button" className="btn btn-light mb-0">
+              <button type="button" className="btn btn-light mb-0" onClick={handleGoogleLogin}>
                 <FcGoogle size={16} className="fab fa-fw me-2" />
                 Continue with Google
               </button>
