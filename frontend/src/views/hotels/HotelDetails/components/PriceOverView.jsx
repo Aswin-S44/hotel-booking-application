@@ -3,11 +3,12 @@ import { Button, Card, CardBody, Col, Image, Row } from 'react-bootstrap';
 import { BsArrowRight } from 'react-icons/bs';
 import { FaStarHalfAlt } from 'react-icons/fa';
 import { FaStar } from 'react-icons/fa6';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Sticky from 'react-sticky-el';
 import { useViewPort } from '@/hooks';
 import offerImg4 from '@/assets/images/offer/04.jpg';
 const PriceOverView = () => {
+  const navigate = useNavigate();
   const {
     width
   } = useViewPort();
@@ -42,7 +43,7 @@ const PriceOverView = () => {
           Free breakfast available
         </p>
         <div className="d-grid">
-          <Button variant="primary-soft" size="lg" className="mb-0">
+          <Button variant="primary-soft" size="lg" className="mb-0" onClick={()=> navigate('/hotels/room-detail')}>
             View 10 Rooms Options
           </Button>
         </div>

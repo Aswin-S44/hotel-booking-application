@@ -3,7 +3,10 @@ import { SelectFormInput } from '@/components/form';
 import { useState } from 'react';
 import { Button, Card, Col, Dropdown, DropdownDivider, DropdownMenu, DropdownToggle, FormLabel, Row } from 'react-bootstrap';
 import { BsCalendar, BsDashCircle, BsGeoAlt, BsPerson, BsPlusCircle, BsSearch } from 'react-icons/bs';
+import { useNavigate } from 'react-router-dom';
 const AvailabilityFilter = () => {
+    const navigate = useNavigate();
+
   const initialValue = {
     location: 'San Jacinto, USA',
     stayFor: [new Date(), new Date(Date.now() + 5 * 24 * 60 * 60 * 1000)],
@@ -155,7 +158,7 @@ const AvailabilityFilter = () => {
           </Row>
 
           <div className="btn-position-md-middle">
-            <button type="submit" className="icon-lg btn btn-round btn-primary mb-0 flex-centered">
+            <button type="submit" className="icon-lg btn btn-round btn-primary mb-0 flex-centered" onClick={()=> navigate('/hotels/grid')}>
               <BsSearch className=" fa-fw" />
             </button>
           </div>

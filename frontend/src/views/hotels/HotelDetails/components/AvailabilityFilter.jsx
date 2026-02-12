@@ -19,6 +19,10 @@ const AvailabilityFilter = () => {
     }
   };
   const [formValue, setFormValue] = useState(initialValue);
+
+
+
+
   const updateGuests = (type, increase = true) => {
     const val = formValue.guests[type];
     setFormValue({

@@ -1,6 +1,10 @@
 import { currency, currentYear } from '@/states';
 import { Button, Card, CardBody, CardHeader, Col, Row } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 const PriceSummery = () => {
+
+const navigate = useNavigate();
+
   return <Col as={'aside'} xl={5} className="d-none d-xl-block">
       <Card className="bg-transparent border">
         <CardHeader className="bg-transparent border-bottom">
@@ -40,7 +44,7 @@ const PriceSummery = () => {
             </li>
           </ul>
           <div className="d-grid gap-2">
-            <Button variant="dark" className="mb-0">
+            <Button variant="dark" className="mb-0" onClick={()=> navigate("/hotels/booking")}>
               Continue To Book
             </Button>
           </div>
