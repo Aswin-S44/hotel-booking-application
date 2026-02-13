@@ -7,7 +7,7 @@ configureFakeBackend();
 const App = () => {
   return <CookiesProvider>
       <NotificationProvider>
-        <LayoutProvider>
+        <LayoutProvider> 
           <AuthProvider>
             <AppRouter />
             <BackToTop />

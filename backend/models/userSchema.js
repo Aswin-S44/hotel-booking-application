@@ -1,18 +1,33 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
-const FeedbackSchema = new mongoose.Schema(
-    {
-        name: { type: String, required: true },
-        email: { type: String, required: true },
-        phone: { type: String },
-        subject: { type: String, required: true },
-        message: { type: String, required: true },
-        isReplied: { type: Boolean, default: false },
+const userSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
     },
-    {
-        timestamps: true,
-    }
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+    },
+    password: {
+      type: String,
+    },
+    role: {
+      type: String,
+      enum: ["customer", "admin", "shops"],
+      default: "customer",
+      required: true,
+    },
+  },
+  {
+    timestamps: true,
+  }
 );
 
-const Feedback = mongoose.model("Feedback", FeedbackSchema);
-module.exports = Feedback;
+const User = mongoose.model("User", userSchema);
+
+export default User;

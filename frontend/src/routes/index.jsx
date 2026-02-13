@@ -245,7 +245,7 @@ const blogsRoutes = [{
   path: '/blogs/detail',
   name: 'blogs.detail',
   element: <BlogDetail />
-}];
+}]; 
 export const authRoutes = [{
   path: '/auth/sign-in',
   name: 'auth.sign-in',
