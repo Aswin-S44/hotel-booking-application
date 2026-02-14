@@ -5,7 +5,7 @@ import '@/assets/scss/style.scss';
 createRoot(document.getElementById('root')).render(
 // <StrictMode>
 <BrowserRouter basename={'/'}>
-      <App />
+      <App /> 
     </BrowserRouter>
 // </StrictMode>
 );
