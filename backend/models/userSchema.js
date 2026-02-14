@@ -22,6 +22,14 @@ const userSchema = new mongoose.Schema(
       default: "customer",
       required: true,
     },
+    provider: {
+      type: String,
+      enum: ["local", "google"],
+      default: "google",
+    },
+    googleId: { type: String },
+    avatar: { type: String },
+    isBlocked: { type: Boolean, default: false },
   },
   {
     timestamps: true,

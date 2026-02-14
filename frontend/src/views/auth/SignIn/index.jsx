@@ -10,6 +10,8 @@ import { developedByLink, currentYear } from "@/states";
 import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
 import { useAuthContext } from "../../../states/useAuthContext";
+import axios from "axios";
+import { signInWithGoogle } from "@/firebase";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -65,6 +67,27 @@ const SignIn = () => {
       });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      console.log("Button clicked"); // 👈 add this
+  
+      const idToken = await signInWithGoogle();
+      console.log("Token received:", idToken); // 👈 add this
+  
+      const res = await axios.post(
+        "http://localhost:5000/auth/google-login",
+        { idToken },
+        { withCredentials: true }
+      );
+  
+      console.log("Backend response:", res.data);
+  
+      navigate("/agent/dashboard");
+    } catch (error) {
+      console.error("Google login failed:", error);
     }
   };
 
@@ -136,7 +159,7 @@ const SignIn = () => {
             </div>
 
             <div className="vstack gap-3">
-              <button type="button" className="btn btn-light mb-0">
+              <button type="button" className="btn btn-light mb-0" onClick={handleGoogleLogin}>
                 <FcGoogle size={16} className="fab fa-fw me-2" />
                 Continue with Google
               </button>

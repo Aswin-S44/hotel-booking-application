@@ -9,7 +9,7 @@ import { createBooking } from "../controllers/createBooking.js";
 
 const customerRouter = express.Router();
 customerRouter.get("/", (req, res) => {
-  res.json({ message: "Customer route" });
+    res.json({ message: "Customer route" });
 });
 
 customerRouter.post("/signup", signUp);
