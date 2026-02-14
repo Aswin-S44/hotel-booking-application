@@ -1,4 +1,5 @@
 import Property from "../../models/propertySchema.js";
+import Rating from "../../models/reviewsSchema.js";
 import Room from "../../models/roomSchema.js";
 
 export const getProperties = async (req, res) => {
@@ -55,14 +56,45 @@ export const getProperties = async (req, res) => {
     const totalResults = await Property.countDocuments(query);
 
     const propertyIds = properties.map((p) => p._id);
-    const rooms = await Room.find({ property: { $in: propertyIds } }).lean();
+    const ownerIds = properties.map((p) => p.owner);
 
-    const data = properties.map((property) => ({
-      ...property,
-      rooms: rooms.filter(
-        (room) => room.property.toString() === property._id.toString()
-      ),
-    }));
+    const [rooms, ratingsData] = await Promise.all([
+      Room.find({ property: { $in: propertyIds } }).lean(),
+      Rating.aggregate([
+        { $match: { toId: { $in: ownerIds } } },
+        {
+          $group: {
+            _id: "$toId",
+            averageRating: { $avg: "$rating" },
+            reviewCount: { $sum: 1 },
+          },
+        },
+      ]),
+    ]);
+
+    const ratingsMap = ratingsData.reduce((acc, curr) => {
+      acc[curr._id.toString()] = {
+        averageRating: Number(curr.averageRating.toFixed(1)),
+        reviewCount: curr.reviewCount,
+      };
+      return acc;
+    }, {});
+
+    const data = properties.map((property) => {
+      const ownerRating = ratingsMap[property.owner.toString()] || {
+        averageRating: 0,
+        reviewCount: 0,
+      };
+
+      return {
+        ...property,
+        averageRating: ownerRating.averageRating,
+        reviewCount: ownerRating.reviewCount,
+        rooms: rooms.filter(
+          (room) => room.property.toString() === property._id.toString()
+        ),
+      };
+    });
 
     return res.status(200).json({
       success: true,

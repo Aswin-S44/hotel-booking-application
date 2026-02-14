@@ -11,9 +11,9 @@ shopsRouter.get("/", (req, res) => {
   res.json({ message: "shopsRouter route" });
 });
 
-shopsRouter.post("/booking", userVerification, createProperty);
-shopsRouter.get("/bookings", userVerification, getProperties);
-shopsRouter.patch("/bookings", userVerification, updateProperty);
-shopsRouter.delete("/bookings/:propertyId", userVerification, deleteProperty);
+shopsRouter.post("/rooms", userVerification, createProperty);
+shopsRouter.get("/rooms", userVerification, getProperties);
+shopsRouter.patch("/rooms", userVerification, updateProperty);
+shopsRouter.delete("/rooms/:propertyId", userVerification, deleteProperty);
 
 export default shopsRouter;

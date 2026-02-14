@@ -5,7 +5,7 @@ import LoginAdvantages from './LoginAdvantages';
 import OfferAndDiscounts from './OfferAndDiscounts';
 import PaymentOptions from './PaymentOptions';
 import PriceSummary from './PriceSummary';
-const BookingDetails = () => {
+const BookingDetails = () => { 
   return <section>
       <Container>
         <Row className="g-4 g-lg-5">

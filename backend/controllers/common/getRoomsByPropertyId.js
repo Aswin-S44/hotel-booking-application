@@ -1,29 +1,25 @@
-import Property from "../../models/propertySchema.js";
 import Room from "../../models/roomSchema.js";
 
-export const getPropertyById = async (req, res) => {
+export const getRoomsByPropertyId = async (req, res) => {
   try {
     const { propertyId } = req.params;
+    console.log("propertyId-----------", propertyId);
 
-    const property = await Property.findOne({
-      _id: propertyId,
-      // owner: req.userId,
+    const rooms = await Room.find({
+      property: propertyId,
     }).lean();
 
-    if (!property) {
+    if (!rooms) {
       return res.status(404).json({
         success: false,
-        message: "Property not found",
+        message: "Rooms not found",
       });
     }
-
-    const rooms = await Room.find({ property: propertyId }).lean();
 
     return res.status(200).json({
       success: true,
       data: {
-        ...property,
-        rooms: rooms,
+        rooms,
       },
     });
   } catch (error) {

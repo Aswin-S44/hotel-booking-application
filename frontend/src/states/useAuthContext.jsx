@@ -29,6 +29,7 @@ export function AuthProvider({ children }) {
   const saveSession = (userData) => {
     setCookie(authSessionKey, JSON.stringify(userData), { path: "/" });
     setUser(userData);
+    localStorage.setItem("token", userData.token);
   };
 
   const removeSession = () => {
@@ -36,6 +37,8 @@ export function AuthProvider({ children }) {
     setUser(undefined);
     navigate("/auth/sign-in");
   };
+
+  console.log("user----------", user);
 
   return (
     <AuthContext.Provider
