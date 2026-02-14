@@ -1,5 +1,6 @@
 import { BsBell, BsBookmarkHeart, BsGear, BsGraphUpArrow, BsHeart, BsHouseDoor, BsJournals, BsPeople, BsPerson, BsStar, BsTicketPerforated, BsTrash, BsWallet } from 'react-icons/bs';
 import { FaCar, FaEarthAmericas, FaHotel, FaPlane } from 'react-icons/fa6';
+import { CgProfile } from "react-icons/cg";
 export const bookingHomeMenuItems = [{
   key: 'hotel-home',
   label: 'Hotel',
@@ -17,9 +18,9 @@ export const bookingHomeMenuItems = [{
   icon: FaEarthAmericas
 }, {
   key: 'cabs-home',
-  label: 'Cab',
-  url: '/cabs/home',
-  icon: FaCar
+  label: 'Sign in',
+  url: '/auth/sign-in',
+  icon: CgProfile
 }];
 export const USER_PROFILE_MENU_ITEMS = [{
   key: 'acc-user-profile',
