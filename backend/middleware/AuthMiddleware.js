@@ -5,7 +5,7 @@ import User from "../models/userSchema.js";
 export const userVerification = async (req, res, next) => {
   const token =
     req.headers["authorization"]?.split(" ")[1] || req.cookies.token;
-  console.log("token-----------", token);
+
   if (!token) {
     return res.json({ status: 403, message: "Forebidden" });
   }

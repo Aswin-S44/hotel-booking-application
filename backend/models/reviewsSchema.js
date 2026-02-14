@@ -7,9 +7,9 @@ const reviewsSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    toId: {
+    propertyId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "Property",
       required: true,
     },
     feedback: { type: String },

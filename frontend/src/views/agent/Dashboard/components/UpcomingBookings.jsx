@@ -1,11 +1,88 @@
-import { SelectFormInput } from '@/components';
-import { Card, CardBody, CardFooter, CardHeader, Col, Row } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import { upcomingBookings } from '../data';
-import clsx from 'clsx';
-import { FaSearch } from 'react-icons/fa';
+import { SelectFormInput } from "@/components";
+import {
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  Col,
+  Row,
+} from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { upcomingBookings } from "../data";
+import clsx from "clsx";
+import { FaSearch } from "react-icons/fa";
+import { useCallback, useEffect, useState } from "react";
 const UpcomingBookings = () => {
-  return <Card className="border rounded-3">
+  const [bookings, setBookings] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [totalBooking, setTotalBooking] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const token = localStorage.getItem("token");
+
+  const fetchBookings = useCallback(
+    async (page) => {
+      try {
+        setLoading(true);
+        const response = await fetch(
+          `http://localhost:5000/api/v1/shops/bookings?page=${page}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            credentials: "include",
+          }
+        );
+        const data = await response.json();
+        if (data && data.success) {
+          setBookings(data.data);
+          setTotalBooking(data.total);
+          setTotalPages(data.totalPages);
+          setCurrentPage(data.currentPage);
+        }
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+        setLoading(false);
+      }
+    },
+    [token]
+  );
+
+  useEffect(() => {
+    fetchBookings(currentPage);
+  }, [fetchBookings, currentPage]);
+
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
+  const renderPagination = () => {
+    const items = [];
+    for (let i = 1; i <= totalPages; i++) {
+      items.push(
+        <li
+          key={i}
+          className={clsx("page-item", { active: i === currentPage })}
+        >
+          <button className="page-link" onClick={() => handlePageChange(i)}>
+            {i}
+          </button>
+        </li>
+      );
+    }
+    return items;
+  };
+
+  const startEntry = bookings.length > 0 ? (currentPage - 1) * 10 + 1 : 0;
+  const endEntry = Math.min(currentPage * 10, totalBooking);
+
+  return (
+    <Card className="border rounded-3">
       <CardHeader className="border-bottom">
         <div className="d-sm-flex justify-content-between align-items-center">
           <h5 className="mb-2 mb-sm-0">Upcoming Bookings</h5>
@@ -18,15 +95,26 @@ const UpcomingBookings = () => {
         <Row className="g-3 align-items-center justify-content-between mb-3">
           <Col md={8}>
             <form className="rounded position-relative">
-              <input className="form-control pe-5" type="search" placeholder="Search" aria-label="Search" />
-              <button className="btn border-0 px-3 py-0 position-absolute top-50 end-0 translate-middle-y" type="submit">
+              <input
+                className="form-control pe-5"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+              />
+              <button
+                className="btn border-0 px-3 py-0 position-absolute top-50 end-0 translate-middle-y"
+                type="submit"
+              >
                 <FaSearch />
               </button>
             </form>
           </Col>
           <Col md={3}>
             <form>
-              <SelectFormInput className="form-select js-choice" aria-label=".form-select-sm">
+              <SelectFormInput
+                className="form-select js-choice"
+                aria-label=".form-select-sm"
+              >
                 <option value={-1}>Sort by</option>
                 <option>Free</option>
                 <option>Newest</option>
@@ -46,13 +134,13 @@ const UpcomingBookings = () => {
                   Name
                 </th>
                 <th scope="col" className="border-0">
-                  Type
+                  Requirements
                 </th>
                 <th scope="col" className="border-0">
                   Date
                 </th>
                 <th scope="col" className="border-0">
-                  status
+                  Status
                 </th>
                 <th scope="col" className="border-0">
                   Payment
@@ -63,81 +151,107 @@ const UpcomingBookings = () => {
               </tr>
             </thead>
             <tbody className="border-top-0">
-              {upcomingBookings.map((booking, idx) => {
-              return <tr key={idx}>
+              {loading ? (
+                <tr>
+                  <td colSpan="7" className="text-center">
+                    Loading...
+                  </td>
+                </tr>
+              ) : (
+                bookings.map((booking, idx) => (
+                  <tr key={booking._id || idx}>
                     <td>
-                      {' '}
-                      <h6 className="mb-0">{booking.id}</h6>{' '}
-                    </td>
-                    <td>
-                      {' '}
                       <h6 className="mb-0">
-                        <Link to="">{booking.name}</Link>
-                      </h6>{' '}
-                    </td>
-                    <td> {booking.type} </td>
-                    <td> {booking.date} </td>
-                    <td>
-                      {' '}
-                      <div className={clsx('badge', booking.status == 'Reserved' ? 'text-bg-info' : 'text-bg-success')}>{booking.status}</div>{' '}
+                        {(currentPage - 1) * 10 + idx + 1}
+                      </h6>
                     </td>
                     <td>
-                      {' '}
-                      <div className={clsx('badge bg-opacity-10', booking.payment == 'On Property' ? 'bg-warning text-warning' : booking.payment == 'Half Payment' ? 'bg-info text-info' : 'bg-success text-success')}>
-                        {booking.payment}
-                      </div>{' '}
+                      <h6 className="mb-0">
+                        <Link to="">{booking.roomName}</Link>
+                      </h6>
+                    </td>
+                    <td>{booking.additionalInfo || "N/A"}</td>
+                    <td>
+                      <h6 className="mb-0 fw-light">{booking.checkInDate}</h6>
                     </td>
                     <td>
-                      {' '}
+                      <div
+                        className={clsx(
+                          "badge",
+                          booking.status === "cancel"
+                            ? "bg-danger"
+                            : booking.status === "booked"
+                            ? "bg-success"
+                            : "bg-warning"
+                        )}
+                      >
+                        {booking.status}
+                      </div>
+                    </td>
+                    <td>
+                      <div
+                        className={clsx(
+                          "badge bg-opacity-10",
+                          booking.paymentStatus === "paid"
+                            ? "bg-success text-success"
+                            : "bg-warning text-warning"
+                        )}
+                      >
+                        {booking.paymentStatus}
+                      </div>
+                    </td>
+                    <td>
                       <Link to="" className="btn btn-sm btn-light mb-0">
                         View
-                      </Link>{' '}
+                      </Link>
                     </td>
-                  </tr>;
-            })}
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
       </CardBody>
       <CardFooter className="pt-0">
         <div className="d-sm-flex justify-content-sm-between align-items-sm-center">
-          <p className="mb-sm-0 text-center text-sm-start">Showing 1 to 8 of 20 entries</p>
-          <nav className="mb-sm-0 d-flex justify-content-center" aria-label="navigation">
+          <p className="mb-sm-0 text-center text-sm-start">
+            Showing {startEntry} to {endEntry} of {totalBooking} entries
+          </p>
+          <nav
+            className="mb-sm-0 d-flex justify-content-center"
+            aria-label="navigation"
+          >
             <ul className="pagination pagination-sm pagination-primary-soft mb-0">
-              <li className="page-item disabled">
-                <Link className="page-link" to="" tabIndex={-1}>
+              <li
+                className={clsx("page-item", {
+                  disabled: currentPage === 1,
+                })}
+              >
+                <button
+                  className="page-link"
+                  onClick={() => handlePageChange(currentPage - 1)}
+                >
                   Prev
-                </Link>
+                </button>
               </li>
-              <li className="page-item">
-                <Link className="page-link" to="">
-                  1
-                </Link>
-              </li>
-              <li className="page-item active">
-                <Link className="page-link" to="">
-                  2
-                </Link>
-              </li>
-              <li className="page-item disabled">
-                <Link className="page-link" to="">
-                  ..
-                </Link>
-              </li>
-              <li className="page-item">
-                <Link className="page-link" to="">
-                  15
-                </Link>
-              </li>
-              <li className="page-item">
-                <Link className="page-link" to="">
+              {renderPagination()}
+              <li
+                className={clsx("page-item", {
+                  disabled: currentPage === totalPages,
+                })}
+              >
+                <button
+                  className="page-link"
+                  onClick={() => handlePageChange(currentPage + 1)}
+                >
                   Next
-                </Link>
+                </button>
               </li>
             </ul>
           </nav>
         </div>
       </CardFooter>
-    </Card>;
+    </Card>
+  );
 };
 export default UpcomingBookings;

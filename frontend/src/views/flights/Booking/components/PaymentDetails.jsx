@@ -70,7 +70,7 @@ const PaymentDetails = () => {
 
                     <Col xs={12}>
                       <button type="submit" className="btn btn-primary w-100 mb-0">
-                        Pay Now
+                        Pay Now3
                       </button>
                     </Col>
                   </Row>
