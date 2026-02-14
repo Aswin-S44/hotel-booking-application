@@ -36,7 +36,7 @@ export const bookingHomeMenuItems = [
   },
   {
     key: "sign-in",
-    label: "/auth/sign-in",
+    label: "Sign in",
     url: "/auth/sign-in",
     icon: CgProfile,
   },
