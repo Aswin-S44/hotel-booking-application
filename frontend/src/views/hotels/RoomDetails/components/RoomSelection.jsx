@@ -1,10 +1,18 @@
-import { SelectFormInput } from '@/components';
-import { Card, CardBody, CardHeader, Col, Container, Row } from 'react-bootstrap';
-import { roomDetails } from '../data';
-import PriceSummery from './PriceSummery';
-import RoomCard from './RoomCard';
-const RoomSelection = () => {
-  return <section className="pt-0">
+import { SelectFormInput } from "@/components";
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  Col,
+  Container,
+  Row,
+} from "react-bootstrap";
+import { roomDetails } from "../data";
+import PriceSummery from "./PriceSummery";
+import RoomCard from "./RoomCard";
+const RoomSelection = ({ rooms }) => {
+  return (
+    <section className="pt-0">
       <Container>
         <Row>
           <Col xl={7}>
@@ -24,9 +32,18 @@ const RoomSelection = () => {
               </CardHeader>
               <CardBody className="p-0 pt-3">
                 <div className="vstack gap-5">
-                  {roomDetails.map((room, idx) => {
-                  return <RoomCard key={idx} images={room.images} name={room.name} price={room.price} sqfeet={room.sqfeet} id={room.id} />;
-                })}
+                  {rooms.map((room, idx) => {
+                    return (
+                      <RoomCard
+                        key={idx}
+                        images={[room?.roomThumbnail]}
+                        name={room?.roomName ?? ""}
+                        price={room.price ?? 0}
+                        sqfeet={room.roomArea ?? 0}
+                        id={room.id}
+                      />
+                    );
+                  })}
                 </div>
               </CardBody>
             </Card>
@@ -35,6 +52,7 @@ const RoomSelection = () => {
           <PriceSummery />
         </Row>
       </Container>
-    </section>;
+    </section>
+  );
 };
 export default RoomSelection;

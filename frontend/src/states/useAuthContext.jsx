@@ -1,40 +1,55 @@
-import { createContext, useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
+import { createContext, useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
+
 const AuthContext = createContext(undefined);
+
 export function useAuthContext() {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuthContext must be used within an AuthProvider');
+    throw new Error("useAuthContext must be used within an AuthProvider");
   }
   return context;
 }
-const authSessionKey = '_BOOKING_AUTH_KEY_';
-export function AuthProvider({
-  children
-}) {
+
+const authSessionKey = "_BOOKING_AUTH_KEY_";
+
+export function AuthProvider({ children }) {
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies([authSessionKey]);
+
   const getSession = () => {
-    const fetchedCookie = cookies._BOOKING_AUTH_KEY_;
-    if (!fetchedCookie) return;else return fetchedCookie;
+    const fetchedCookie = cookies[authSessionKey];
+    if (!fetchedCookie) return undefined;
+    return typeof fetchedCookie === "string" ? fetchedCookie : fetchedCookie;
   };
+
   const [user, setUser] = useState(getSession());
-  const saveSession = user => {
-    setCookie(authSessionKey, JSON.stringify(user));
-    setUser(user);
+
+  const saveSession = (userData) => {
+    setCookie(authSessionKey, JSON.stringify(userData), { path: "/" });
+    setUser(userData);
+    localStorage.setItem("token", userData.token);
   };
+
   const removeSession = () => {
-    removeCookie(authSessionKey);
+    removeCookie(authSessionKey, { path: "/" });
     setUser(undefined);
-    navigate('/auth/sign-in');
+    navigate("/auth/sign-in");
   };
-  return <AuthContext.Provider value={{
-    user,
-    isAuthenticated: cookies._BOOKING_AUTH_KEY_,
-    saveSession,
-    removeSession
-  }}>
+
+  console.log("user----------", user);
+
+  return (
+    <AuthContext.Provider
+      value={{
+        user,
+        isAuthenticated: !!cookies[authSessionKey],
+        saveSession,
+        removeSession,
+      }}
+    >
       {children}
-    </AuthContext.Provider>;
+    </AuthContext.Provider>
+  );
 }

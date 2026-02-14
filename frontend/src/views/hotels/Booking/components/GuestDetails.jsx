@@ -5,6 +5,7 @@ import { BsPeopleFill } from 'react-icons/bs';
 import { FaPlus } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
 const SpecialRequest = ['Smoking room', 'Late check-in', 'Early check-in', 'Room on a high floor', 'Large bed', 'Airport transfer', 'Twin beds'];
+
 const GuestDetails = () => {
   const {
     control

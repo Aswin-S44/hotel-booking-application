@@ -2,8 +2,26 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
+    name: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+    },
+    password: {
+      type: String,
+    },
+    role: {
+      type: String,
+      enum: ["customer", "admin", "shops"],
+      default: "customer",
+      required: true,
+    },
     provider: {
       type: String,
       enum: ["local", "google"],
@@ -11,14 +29,13 @@ const userSchema = new mongoose.Schema(
     },
     googleId: { type: String },
     avatar: { type: String },
-    role: {
-      type: String,
-      enum: ["user", "admin"],
-      default: "user",
-    },
     isBlocked: { type: Boolean, default: false },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
-export default mongoose.model("User", userSchema);
+const User = mongoose.model("User", userSchema);
+
+export default User;

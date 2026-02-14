@@ -1,39 +1,54 @@
-import { currency } from '@/states';
-import { Button, Card, CardBody, Col, Image, Row } from 'react-bootstrap';
-import { BsArrowRight } from 'react-icons/bs';
-import { FaStarHalfAlt } from 'react-icons/fa';
-import { FaStar } from 'react-icons/fa6';
-import { Link, useNavigate } from 'react-router-dom';
-import Sticky from 'react-sticky-el';
-import { useViewPort } from '@/hooks';
-import offerImg4 from '@/assets/images/offer/04.jpg';
-const PriceOverView = () => {
+import { currency } from "@/states";
+import { Button, Card, CardBody, Col, Image, Row } from "react-bootstrap";
+import { BsArrowRight } from "react-icons/bs";
+import { FaStarHalfAlt } from "react-icons/fa";
+import { FaStar } from "react-icons/fa6";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import Sticky from "react-sticky-el";
+import { useViewPort } from "@/hooks";
+import offerImg4 from "@/assets/images/offer/04.jpg";
+const PriceOverView = ({ rate, rating, rooms }) => {
   const navigate = useNavigate();
-  const {
-    width
-  } = useViewPort();
-  return <Sticky disabled={width <= 1199} topOffset={100} bottomOffset={0} boundaryElement="aside" hideOnBoundaryHit={false} stickyStyle={{
-    transition: '0.2s all linear'
-  }}>
+  const { id } = useParams();
+  const { width } = useViewPort();
+  return (
+    <Sticky
+      disabled={width <= 1199}
+      topOffset={100}
+      bottomOffset={0}
+      boundaryElement="aside"
+      hideOnBoundaryHit={false}
+      stickyStyle={{
+        transition: "0.2s all linear",
+      }}
+    >
       <Card as={CardBody} className="border">
         <div className="d-sm-flex justify-content-sm-between align-items-center mb-3">
           <div>
             <span>Price Start at</span>
-            <h4 className="card-title mb-0">{currency}3,500</h4>
+            <h4 className="card-title mb-0">
+              {currency}
+              {rate}
+            </h4>
           </div>
           <div>
             <h6 className="fw-normal mb-0">1 room per night</h6>
-            <small>+ {currency}285 taxes &amp; fees</small>
+            <small>
+              + {currency}
+              {rate} taxes &amp; fees
+            </small>
           </div>
         </div>
         <ul className="list-inline mb-2 items-center">
           <li className="list-inline-item me-1 h6 fw-light mb-0">
             <BsArrowRight className="  me-2" />
-            4.5
+            {rating}
           </li>
-          {Array.from(new Array(4)).map((_val, idx) => <li className="list-inline-item me-1 small" key={idx}>
+          {Array.from(new Array(4)).map((_val, idx) => (
+            <li className="list-inline-item me-1 small" key={idx}>
               <FaStar size={16} className="text-warning" />
-            </li>)}
+            </li>
+          ))}
           <li className="list-inline-item me-0 small">
             <FaStarHalfAlt className="text-warning" />
           </li>
@@ -43,7 +58,16 @@ const PriceOverView = () => {
           Free breakfast available
         </p>
         <div className="d-grid">
-          <Button variant="primary-soft" size="lg" className="mb-0" onClick={()=> navigate('/hotels/room-detail')}>
+          <Button
+            variant="primary-soft"
+            size="lg"
+            className="mb-0"
+            onClick={() =>
+              navigate(`/hotels/room-detail/${id}`, {
+                state: { rooms },
+              })
+            }
+          >
             View 10 Rooms Options
           </Button>
         </div>
@@ -62,12 +86,15 @@ const PriceOverView = () => {
                     Travel Plan
                   </Link>
                 </h6>
-                <p className="mb-0">Get up to {currency}10,000 for lifetime limits</p>
+                <p className="mb-0">
+                  Get up to {currency}10,000 for lifetime limits
+                </p>
               </CardBody>
             </Col>
           </Row>
         </Card>
       </div>
-    </Sticky>;
+    </Sticky>
+  );
 };
 export default PriceOverView;

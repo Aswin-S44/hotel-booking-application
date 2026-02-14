@@ -80,7 +80,7 @@ const PaymentOption = () => {
             Previous
           </Button>
           <Button variant="success" className="next-btn mb-0">
-            Pay now
+            Pay now1
           </Button>
         </div>
       </div>;

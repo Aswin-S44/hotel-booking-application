@@ -1,11 +1,56 @@
-import { Card, CardBody, CardHeader, Col, Container, Row } from 'react-bootstrap';
-import { BsJournals } from 'react-icons/bs';
-import { roomBookingList, statistics } from './data';
-import StatisticWidget from './components/StatisticWidget';
-import ListingCard from './components/ListingCard';
-import { PageMetaData } from '@/components';
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  Col,
+  Container,
+  Row,
+} from "react-bootstrap";
+import { BsJournals } from "react-icons/bs";
+import { roomBookingList, statistics } from "./data";
+import StatisticWidget from "./components/StatisticWidget";
+import ListingCard from "./components/ListingCard";
+import { PageMetaData } from "@/components";
+import { useEffect, useState } from "react";
+import axios from "axios";
 const Listings = () => {
-  return <>
+  const [rooms, setRooms] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const token = localStorage.getItem("token");
+  console.log("111111111");
+  useEffect(() => {
+    const fetchRooms = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        setLoading(true);
+        const response = await fetch(
+          "http://localhost:5000/api/v1/shops/rooms",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`, // 👈 IMPORTANT
+            },
+            credentials: "include",
+          }
+        );
+
+        const data = await response.json();
+        setLoading(false);
+        console.log(data);
+        if (data && data.data) {
+          setRooms(data.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchRooms();
+  }, []);
+
+  return (
+    <>
       <PageMetaData title="Agent Listings" />
 
       <section className="pt-0">
@@ -20,27 +65,44 @@ const Listings = () => {
           </Row>
           <Row className="g-4">
             {statistics.map((statistic, idx) => {
-            return <Col md={6} xl={4} key={idx}>
+              return (
+                <Col md={6} xl={4} key={idx}>
                   <StatisticWidget statistic={statistic} />
-                </Col>;
-          })}
+                </Col>
+              );
+            })}
           </Row>
           <Row>
             <Col xs={12}>
               <Card className="border">
                 <CardHeader className="border-bottom">
                   <h5 className="card-header-title">
-                    My Listings <span className="badge bg-primary bg-opacity-10 text-primary ms-2">{roomBookingList.length} Items</span>
+                    My Listings{" "}
+                    <span className="badge bg-primary bg-opacity-10 text-primary ms-2">
+                      {rooms?.length} Items
+                    </span>
                   </h5>
                 </CardHeader>
                 <CardBody className="vstack gap-3">
-                  {roomBookingList.map((room, idx) => <ListingCard key={idx} roomListCard={room} />)}
+                  {loading ? (
+                    <>Loadding....</>
+                  ) : rooms.length == 0 ? (
+                    <>No rooms available</>
+                  ) : (
+                    rooms.map((room, idx) => (
+                      <ListingCard key={idx} roomListCard={room} />
+                    ))
+                  )}
+                  {/* {roomBookingList.map((room, idx) => (
+                    <ListingCard key={idx} roomListCard={room} />
+                  ))} */}
                 </CardBody>
               </Card>
             </Col>
           </Row>
         </Container>
       </section>
-    </>;
+    </>
+  );
 };
 export default Listings;

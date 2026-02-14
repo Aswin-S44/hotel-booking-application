@@ -5,7 +5,7 @@ import { CookiesProvider } from "react-cookie";
 const App = () => {
   return <CookiesProvider>
       <NotificationProvider>
-        <LayoutProvider>
+        <LayoutProvider> 
           <AuthProvider>
             <AppRouter />
             <BackToTop />

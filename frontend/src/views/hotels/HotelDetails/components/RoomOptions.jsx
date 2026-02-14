@@ -1,9 +1,11 @@
-import { SelectFormInput } from '@/components';
-import { Card, CardBody, CardHeader, Col } from 'react-bootstrap';
-import RoomCard from './RoomCard';
-import { hotelRooms } from '../data';
-const RoomOptions = () => {
-  return <Card className="bg-transparent" id="room-options">
+import { SelectFormInput } from "@/components";
+import { Card, CardBody, CardHeader, Col } from "react-bootstrap";
+import RoomCard from "./RoomCard";
+import { hotelRooms } from "../data";
+const RoomOptions = ({ rooms, features }) => {
+  console.log("rooms-----------", rooms);
+  return (
+    <Card className="bg-transparent" id="room-options">
       <CardHeader className="border-bottom bg-transparent px-0 pt-0">
         <div className="d-sm-flex justify-content-sm-between align-items-center">
           <h3 className="mb-2 mb-sm-0">Room Options</h3>
@@ -21,11 +23,38 @@ const RoomOptions = () => {
       </CardHeader>
       <CardBody className="pt-4 p-0">
         <div className="vstack gap-4">
-          {hotelRooms.map((room, idx) => {
-          return <RoomCard key={idx} features={room.features} images={room.images} id={room.id} name={room.name} price={room.price} sale={room.sale} schemes={room.schemes} />;
-        })}
+          {/* {hotelRooms.map((room, idx) => {
+            return (
+              <RoomCard
+                key={idx}
+                features={room.features}
+                images={room.images}
+                id={room.id}
+                name={room.name}
+                price={room.price}
+                sale={room.sale}
+                schemes={room.schemes}
+              />
+            );
+          })} */}
+          {console.log("rooms----------", rooms)}
+          {rooms.map((room, idx) => {
+            return (
+              <RoomCard
+                key={idx}
+                features={features ?? []}
+                images={[room?.roomThumbnail]}
+                id={room._id}
+                name={room?.roomName ?? ""}
+                price={room?.price ?? 0}
+                sale={room.isAvailable}
+                schemes={""}
+              />
+            );
+          })}
         </div>
       </CardBody>
-    </Card>;
+    </Card>
+  );
 };
 export default RoomOptions;

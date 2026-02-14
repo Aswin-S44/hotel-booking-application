@@ -1,11 +1,13 @@
-import { currency, currentYear } from '@/states';
-import { Button, Card, CardBody, CardHeader, Col, Row } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { currency, currentYear } from "@/states";
+import { Button, Card, CardBody, CardHeader, Col, Row } from "react-bootstrap";
+import { useNavigate, useParams } from "react-router-dom";
 const PriceSummery = () => {
+  const { id: propertyId } = useParams();
 
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  return <Col as={'aside'} xl={5} className="d-none d-xl-block">
+  return (
+    <Col as={"aside"} xl={5} className="d-none d-xl-block">
       <Card className="bg-transparent border">
         <CardHeader className="bg-transparent border-bottom">
           <h4 className="card-title mb-0">Price Summary</h4>
@@ -27,7 +29,9 @@ const navigate = useNavigate();
           </Row>
           <ul className="list-group list-group-borderless mb-3">
             <li className="list-group-item px-2 d-flex justify-content-between">
-              <span className="h6 fw-light mb-0">{currency}6,100 x 2 Nights</span>
+              <span className="h6 fw-light mb-0">
+                {currency}6,100 x 2 Nights
+              </span>
               <span className="h6 fw-light mb-0">{currency}13,200</span>
             </li>
             <li className="list-group-item px-2 d-flex justify-content-between">
@@ -44,12 +48,21 @@ const navigate = useNavigate();
             </li>
           </ul>
           <div className="d-grid gap-2">
-            <Button variant="dark" className="mb-0" onClick={()=> navigate("/hotels/booking")}>
+            <Button
+              variant="dark"
+              className="mb-0"
+              onClick={() =>
+                navigate(
+                  `/hotels/booking?property_id=${propertyId}&room_id=698f4c07d4d3d015936bb96d`
+                )
+              }
+            >
               Continue To Book
             </Button>
           </div>
         </CardBody>
       </Card>
-    </Col>;
+    </Col>
+  );
 };
 export default PriceSummery;
