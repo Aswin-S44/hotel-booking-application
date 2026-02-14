@@ -8,24 +8,33 @@ import {
   Row,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { upcomingBookings } from "../data";
 import clsx from "clsx";
 import { FaSearch } from "react-icons/fa";
 import { useCallback, useEffect, useState } from "react";
+
 const UpcomingBookings = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(false);
   const [totalBooking, setTotalBooking] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortBy, setSortBy] = useState("");
   const token = localStorage.getItem("token");
 
   const fetchBookings = useCallback(
-    async (page) => {
+    async (page, search = "", sort = "") => {
       try {
         setLoading(true);
+        const queryParams = new URLSearchParams({
+          page: page.toString(),
+          limit: "10",
+          search: search,
+          sort: sort,
+        });
+
         const response = await fetch(
-          `http://localhost:5000/api/v1/shops/bookings?page=${page}`,
+          `http://localhost:5000/api/v1/shops/bookings?${queryParams.toString()}`,
           {
             method: "GET",
             headers: {
@@ -52,8 +61,16 @@ const UpcomingBookings = () => {
   );
 
   useEffect(() => {
-    fetchBookings(currentPage);
-  }, [fetchBookings, currentPage]);
+    const delayDebounceFn = setTimeout(() => {
+      fetchBookings(1, searchTerm, sortBy);
+    }, 500);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchTerm, sortBy, fetchBookings]);
+
+  useEffect(() => {
+    fetchBookings(currentPage, searchTerm, sortBy);
+  }, [currentPage, fetchBookings]);
 
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages) {
@@ -86,7 +103,7 @@ const UpcomingBookings = () => {
       <CardHeader className="border-bottom">
         <div className="d-sm-flex justify-content-between align-items-center">
           <h5 className="mb-2 mb-sm-0">Upcoming Bookings</h5>
-          <Link to="" className="btn btn-sm btn-primary mb-0">
+          <Link to="/agent/bookings" className="btn btn-sm btn-primary mb-0">
             View All
           </Link>
         </div>
@@ -94,33 +111,32 @@ const UpcomingBookings = () => {
       <CardBody>
         <Row className="g-3 align-items-center justify-content-between mb-3">
           <Col md={8}>
-            <form className="rounded position-relative">
+            <div className="rounded position-relative">
               <input
                 className="form-control pe-5"
                 type="search"
-                placeholder="Search"
-                aria-label="Search"
+                placeholder="Search by room name..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
               <button
                 className="btn border-0 px-3 py-0 position-absolute top-50 end-0 translate-middle-y"
-                type="submit"
+                type="button"
               >
                 <FaSearch />
               </button>
-            </form>
+            </div>
           </Col>
           <Col md={3}>
-            <form>
-              <SelectFormInput
-                className="form-select js-choice"
-                aria-label=".form-select-sm"
-              >
-                <option value={-1}>Sort by</option>
-                <option>Free</option>
-                <option>Newest</option>
-                <option>Oldest</option>
-              </SelectFormInput>
-            </form>
+            <select
+              className="form-select"
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+            >
+              <option value="">Sort by</option>
+              <option value="newest">Newest</option>
+              <option value="oldest">Oldest</option>
+            </select>
           </Col>
         </Row>
         <div className="table-responsive border-0">
@@ -155,6 +171,12 @@ const UpcomingBookings = () => {
                 <tr>
                   <td colSpan="7" className="text-center">
                     Loading...
+                  </td>
+                </tr>
+              ) : bookings.length === 0 ? (
+                <tr>
+                  <td colSpan="7" className="text-center">
+                    No bookings found
                   </td>
                 </tr>
               ) : (
@@ -223,9 +245,7 @@ const UpcomingBookings = () => {
           >
             <ul className="pagination pagination-sm pagination-primary-soft mb-0">
               <li
-                className={clsx("page-item", {
-                  disabled: currentPage === 1,
-                })}
+                className={clsx("page-item", { disabled: currentPage === 1 })}
               >
                 <button
                   className="page-link"
@@ -254,4 +274,5 @@ const UpcomingBookings = () => {
     </Card>
   );
 };
+
 export default UpcomingBookings;
