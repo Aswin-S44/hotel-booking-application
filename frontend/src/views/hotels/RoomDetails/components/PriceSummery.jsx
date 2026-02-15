@@ -10,7 +10,7 @@ const PriceSummery = () => {
     <Col as={"aside"} xl={5} className="d-none d-xl-block">
       <Card className="bg-transparent border">
         <CardHeader className="bg-transparent border-bottom">
-          <h4 className="card-title mb-0">Price Summary</h4>
+          <h4 className="card-title mb-0">Price Summary </h4>
         </CardHeader>
         <CardBody>
           <Row className="g-4 mb-3">

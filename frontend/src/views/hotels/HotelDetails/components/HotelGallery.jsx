@@ -31,11 +31,12 @@ import gallery13 from "@/assets/images/gallery/13.jpg";
 import gallery14 from "@/assets/images/gallery/14.jpg";
 import gallery15 from "@/assets/images/gallery/15.jpg";
 import gallery16 from "@/assets/images/gallery/16.jpg";
+import HotelMediaGallery from "./HotelMediaGallery";
 const HotelGallery = ({ hotelDetails, gallery }) => {
   const { isOpen, toggle } = useToggle();
   const { isOpen: alertVisible, hide: hideAlert } = useToggle(true);
 
-  console.log("gallery-----------", gallery ? gallery : "no gallery");
+  console.log("gallery----------->", gallery ? gallery : "no gallery");
   return (
     <>
       <section className="py-0 pt-sm-5">
@@ -136,7 +137,7 @@ const HotelGallery = ({ hotelDetails, gallery }) => {
       </section>
 
       <section className="card-grid pt-0">
-        <Container>
+        {/* <Container>
           <Row className="g-2">
             <Col md={6}>
               <GlightBox
@@ -247,7 +248,10 @@ const HotelGallery = ({ hotelDetails, gallery }) => {
               </Row>
             </Col>
           </Row>
-        </Container>
+        </Container> */}
+
+<HotelMediaGallery gallery={gallery}/>
+
       </section>
 
       <Modal size="lg" centered show={isOpen} onHide={toggle} className="fade">

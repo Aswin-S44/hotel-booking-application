@@ -132,3 +132,11 @@
     }
   }
 }
+
+
+.card.card-img-scale img {
+    transition: all 0.5s ease;
+    transform: scale(1.001);
+    max-height: 150px;
+    object-fit: cover;
+}
