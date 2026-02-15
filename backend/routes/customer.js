@@ -6,6 +6,8 @@ import { getRoomById } from "../controllers/common/getRoomById.js";
 import { getRoomsByPropertyId } from "../controllers/common/getRoomsByPropertyId.js";
 import { createOrder } from "../controllers/razorpay/createOrder.js";
 import { createBooking } from "../controllers/createBooking.js";
+import { getReviewsByRoomAndProperty, addReview } from "../controllers/user/rating.controller.js";
+import { searchByLocation } from "../controllers/user/searchController.js";
 
 const customerRouter = express.Router();
 customerRouter.get("/", (req, res) => {
@@ -19,5 +21,9 @@ customerRouter.get("/rooms/:roomId", getRoomById);
 customerRouter.get("/rooms/property/:propertyId", getRoomsByPropertyId);
 customerRouter.post("/create-order", createOrder);
 customerRouter.post("/booking/:propertyId/:roomId", createBooking);
+customerRouter.get("/property/:propertyId/review/:roomId", getReviewsByRoomAndProperty);
+customerRouter.post("/review", addReview);
+customerRouter.get("/search-location", searchByLocation);
+
 
 export default customerRouter;

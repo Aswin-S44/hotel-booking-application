@@ -3,6 +3,9 @@ import Flatpicker from '@/components/Flatpicker';
 import { useState } from 'react';
 import { Button, Col, Dropdown, DropdownDivider, DropdownMenu, DropdownToggle, FormLabel, Row } from 'react-bootstrap';
 import { BsCalendar, BsDashCircle, BsGeoAlt, BsPerson, BsPlusCircle, BsSearch } from 'react-icons/bs';
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 const AvailabilityFilter = () => {
   const initialValue = {
     location: 'San Jacinto, USA',
@@ -14,6 +17,11 @@ const AvailabilityFilter = () => {
     }
   };
   const [formValue, setFormValue] = useState(initialValue);
+
+
+console.log("formValue",formValue);
+
+
   const updateGuests = (type, increase = true) => {
     const val = formValue.guests[type];
     setFormValue({
@@ -38,19 +46,79 @@ const AvailabilityFilter = () => {
     }
     return value;
   };
-  return <form className="bg-mode shadow rounded-3 position-relative p-4 pe-md-5 pb-5 pb-md-4 mb-4">
+
+
+
+
+
+const handleSearch = async (e) => {
+  e.preventDefault();
+
+  if (!formValue.location || formValue.location === "-1") {
+    alert("Please select a location");
+    return;
+  }
+console.log("Selected location:", formValue.location);
+
+  try {
+    const response = await axios.get(
+      `http://localhost:5000/api/v1/customer/search-location`,
+      {
+        params: {
+          location: formValue.location,
+        },
+      }
+    );
+
+    console.log("Search Result:", response.data);
+
+    // OPTION 1: Just log data
+    // OPTION 2: Navigate to results page
+    navigate(`/hotels?location=${formValue.location}`, {
+      state: { hotels: response.data.data },
+    });
+
+  } catch (error) {
+    console.error("Search error:", error);
+  }
+};
+
+
+
+
+
+
+  return <form className="bg-mode shadow rounded-3 position-relative p-4 pe-md-5 pb-5 pb-md-4 mb-4" onSubmit={handleSearch}>
       <Row className="g-4 align-items-center">
         <Col lg={4}>
           <div className="form-control-border form-control-transparent form-fs-md flex-centered gap-2">
             <BsGeoAlt size={37} />
             <div className="flex-grow-1">
               <FormLabel className="form-label">Location</FormLabel>
-              <SelectFormInput>
+              {/* <SelectFormInput>
                 <option value={-1}>Select location</option>
                 <option value="1">San Jacinto, USA</option>
                 <option value="2">North Dakota, Canada</option>
                 <option value="3">West Virginia, Paris</option>
-              </SelectFormInput>
+                <option value="4">United States</option>
+              </SelectFormInput> */}
+              <SelectFormInput
+  value={formValue.location}
+ onChange={(value) =>
+  setFormValue({
+    ...formValue,
+    location: value,
+  })
+}
+
+>
+  <option value="">Select location</option>
+  <option value="San Jacinto, USA">San Jacinto, USA</option>
+  <option value="North Dakota, Canada">North Dakota, Canada</option>
+  <option value="West Virginia, Paris">West Virginia, Paris</option>
+  <option value="United States">United States</option>
+</SelectFormInput>
+
             </div>
           </div>
         </Col>
@@ -89,11 +157,11 @@ const AvailabilityFilter = () => {
                       <small>Ages 13 or above</small>
                     </div>
                     <div className="hstack gap-1 align-items-center">
-                      <Button variant="link" className="adult-remove p-0 mb-0" onClick={() => updateGuests('adults', false)}>
+                      <Button type="button" variant="link" className="adult-remove p-0 mb-0" onClick={() => updateGuests('adults', false)}>
                         <BsDashCircle className=" fs-5 fa-fw" />
                       </Button>
                       <h6 className="guest-selector-count mb-0 adults">{formValue.guests.adults ?? 0}</h6>
-                      <Button variant="link" className="adult-add p-0 mb-0" onClick={() => updateGuests('adults')}>
+                      <Button type="button" variant="link" className="adult-add p-0 mb-0" onClick={() => updateGuests('adults')}>
                         <BsPlusCircle className=" fs-5 fa-fw" />
                       </Button>
                     </div>
@@ -105,11 +173,11 @@ const AvailabilityFilter = () => {
                       <small>Ages 13 below</small>
                     </div>
                     <div className="hstack gap-1 align-items-center">
-                      <Button variant="link" type="button" className="btn btn-link child-remove p-0 mb-0" onClick={() => updateGuests('children', false)}>
+                      <Button type="button" variant="link" className="btn btn-link child-remove p-0 mb-0" onClick={() => updateGuests('children', false)}>
                         <BsDashCircle className="  fs-5 fa-fw" />
                       </Button>
                       <h6 className="guest-selector-count mb-0 child">{formValue.guests.children ?? 0}</h6>
-                      <Button variant="link" type="button" className="btn btn-link child-add p-0 mb-0" onClick={() => updateGuests('children')}>
+                      <Button type="button" variant="link"  className="btn btn-link child-add p-0 mb-0" onClick={() => updateGuests('children')}>
                         <BsPlusCircle className=" fs-5 fa-fw" />
                       </Button>
                     </div>
@@ -121,11 +189,11 @@ const AvailabilityFilter = () => {
                       <small>Max room 8</small>
                     </div>
                     <div className="hstack gap-1 align-items-center">
-                      <Button variant="link" type="button" className="room-remove p-0 mb-0" onClick={() => updateGuests('rooms', false)}>
+                      <Button type="button" variant="link"  className="room-remove p-0 mb-0" onClick={() => updateGuests('rooms', false)}>
                         <BsDashCircle className=" fs-5 fa-fw" />
                       </Button>
                       <h6 className="guest-selector-count mb-0 rooms">{formValue.guests.rooms ?? 0}</h6>
-                      <Button variant="link" type="button" className="btn btn-link room-add p-0 mb-0" onClick={() => updateGuests('rooms')}>
+                      <Button type="button" variant="link"  className="btn btn-link room-add p-0 mb-0" onClick={() => updateGuests('rooms')}>
                         <BsPlusCircle className=" fs-5 fa-fw" />
                       </Button>
                     </div>
@@ -138,7 +206,7 @@ const AvailabilityFilter = () => {
       </Row>
 
       <div className="btn-position-md-middle">
-        <button type="submit" className="icon-lg btn btn-round btn-primary mb-0 flex-centered">
+        <button  type="submit" className="icon-lg btn btn-round btn-primary mb-0 flex-centered">
           <BsSearch className=" fa-fw" />
         </button>
       </div>

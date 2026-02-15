@@ -10,7 +10,24 @@ import {
 import { roomDetails } from "../data";
 import PriceSummery from "./PriceSummery";
 import RoomCard from "./RoomCard";
+import { useEffect } from "react";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
 const RoomSelection = ({ rooms }) => {
+
+
+
+const location = useLocation();
+const roomId = location.pathname.split("/").pop();
+  const [room, setRooms] = useState([]);
+
+console.log("room, roomid", room);
+
+
+
+
   return (
     <section className="pt-0">
       <Container>

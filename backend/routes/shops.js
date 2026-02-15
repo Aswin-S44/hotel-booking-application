@@ -1,6 +1,6 @@
 import express from "express";
 import { createProperty } from "../controllers/shops/createProperty.js";
-import { userVerification } from "../middleware/AuthMiddleware.js";
+import { userVerification } from "../middleware/authMiddleware.js";
 import { getProperties } from "../controllers/shops/getProperties.js";
 import { updateProperty } from "../controllers/shops/updateProperty.js";
 import { deleteProperty } from "../controllers/shops/deleteProperty.js";

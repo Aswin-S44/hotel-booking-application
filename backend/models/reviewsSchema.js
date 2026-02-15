@@ -12,13 +12,17 @@ const reviewsSchema = new mongoose.Schema(
       ref: "Property",
       required: true,
     },
+    roomId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Room",
+      required: true,
+    },
     feedback: { type: String },
     rating: { type: Number },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
+
 
 const Rating = mongoose.model("Rating", reviewsSchema);
 

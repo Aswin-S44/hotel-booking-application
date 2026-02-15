@@ -5,6 +5,8 @@ import RoomSelection from "./components/RoomSelection";
 import TopNavBar4 from "./components/TopNavBar4";
 import { useLocation, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import HotelMediaGallery from "../HotelDetails/components/HotelMediaGallery";
+import axios from "axios";
 
 const RoomDetails = () => {
   const location = useLocation();
@@ -13,6 +15,38 @@ const RoomDetails = () => {
 
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [images, setImages] = useState([]);
+
+const roomId = location.pathname.split("/").pop();
+  const [room, setRoom] = useState([]);
+
+  
+console.log("++++++++++++", room);
+
+
+  useEffect(() => {
+    const getRoomDetails = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/v1/customer/rooms/${roomId}`
+        );
+console.log("getRoomDetails response",response);
+
+
+        // If API returns single room → wrap in array
+        setRoom([response.data.data]);
+      } catch (error) {
+        console.error("Error fetching room:", error);
+      }
+    };
+
+    if (roomId) {
+      getRoomDetails();
+    }
+  }, [roomId]);
+
+
+
 
   useEffect(() => {
     if (propertyId) {
@@ -37,8 +71,17 @@ const RoomDetails = () => {
     }
   }, [propertyId]);
 
-  const images = rooms.map((room) => room.roomThumbnail).filter(Boolean);
-  console.log("images------------", images);
+  useEffect(() => {
+    if (rooms.length > 0) {
+      const roomImages = rooms
+        .map((room) => room.roomThumbnail)
+        .filter(Boolean);
+
+      setImages(roomImages);
+    }
+  }, [rooms]);
+
+ 
   if (loading) return null;
 
   return (
@@ -46,7 +89,8 @@ const RoomDetails = () => {
       <PageMetaData title="Hotel - Room Details" />
       <TopNavBar4 />
       <main>
-        <RoomGallery images={images ?? []} />
+        {/* <RoomGallery images={images ?? []} /> */}
+        <HotelMediaGallery gallery={images} />
         <RoomSelection rooms={roomDetails ?? []} />
       </main>
       <FooterWithLinks />

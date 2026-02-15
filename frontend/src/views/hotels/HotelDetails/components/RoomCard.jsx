@@ -17,7 +17,7 @@ import {
 import { renderToString } from "react-dom/server";
 import { BsArrowLeft, BsArrowRight, BsEyeFill } from "react-icons/bs";
 import { FaCheckCircle } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "tiny-slider/dist/tiny-slider.css";
 const amenities = [
   "Swimming Pool",
@@ -29,7 +29,10 @@ const amenities = [
   "Ac",
   "Slippers",
 ];
-const RoomCard = ({ features, images, name, price, sale, schemes }) => {
+const RoomCard = ({ features, images, room, id, name, price, sale, schemes }) => {
+  const navigate = useNavigate();
+
+
   const { isOpen, toggle } = useToggle();
   const { dir } = useLayoutContext();
   const roomSliderSettings = {
@@ -107,7 +110,11 @@ const RoomCard = ({ features, images, name, price, sale, schemes }) => {
                 </span>
               </div>
               <div className="mt-3 mt-sm-0">
-                <Button variant="primary" size="sm" className="mb-0">
+                <Button variant="primary" size="sm" className="mb-0" onClick={() =>
+              navigate(`/hotels/room-detail/${id}`, {
+                state: { room },
+              })
+            }>
                   Select Room
                 </Button>
               </div>

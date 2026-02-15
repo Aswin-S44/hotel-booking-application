@@ -44,6 +44,7 @@ const RoomOptions = ({ rooms, features }) => {
                 key={idx}
                 features={features ?? []}
                 images={[room?.roomThumbnail]}
+                room={room}
                 id={room._id}
                 name={room?.roomName ?? ""}
                 price={room?.price ?? 0}

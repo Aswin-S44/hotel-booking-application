@@ -51,7 +51,7 @@ const SignIn = () => {
           showConfirmButton: false,
         });
 
-        navigate("/hotels/home");
+        navigate("/agent/dashboard");
       } else {
         Swal.fire({
           icon: "error",
@@ -70,26 +70,45 @@ const SignIn = () => {
     }
   };
 
-  const handleGoogleLogin = async () => {
-    try {
-      console.log("Button clicked"); // 👈 add this
-  
-      const idToken = await signInWithGoogle();
-      console.log("Token received:", idToken); // 👈 add this
-  
-      const res = await axios.post(
-        "http://localhost:5000/auth/google-login",
-        { idToken },
-        { withCredentials: true }
-      );
-  
-      console.log("Backend response:", res.data);
-  
+const handleGoogleLogin = async () => {
+  try {
+    setLoading(true);
+
+    const idToken = await signInWithGoogle();
+
+    const res = await axios.post(
+      "http://localhost:5000/api/v1/auth/google-login",
+      { idToken },
+      { withCredentials: true }
+    );
+
+    if (res.status === 200) {
+      saveSession({
+        ...res.data.user,
+        token: res.data.token,
+      });
+
+      Swal.fire({
+        icon: "success",
+        title: "Login Successful",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+
       navigate("/agent/dashboard");
-    } catch (error) {
-      console.error("Google login failed:", error);
     }
-  };
+  } catch (error) {
+    console.error("Google login failed:", error);
+
+    Swal.fire({
+      icon: "error",
+      title: "Google Login Failed",
+      text: error.response?.data?.message || "Something went wrong",
+    });
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <>

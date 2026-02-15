@@ -14,6 +14,7 @@ import {
   BsWallet,
 } from "react-icons/bs";
 import { FaCar, FaEarthAmericas, FaHotel, FaPlane } from "react-icons/fa6";
+import { CgProfile } from "react-icons/cg";
 export const bookingHomeMenuItems = [
   {
     key: "hotel-home",
@@ -34,10 +35,10 @@ export const bookingHomeMenuItems = [
     icon: FaEarthAmericas,
   },
   {
-    key: "cabs-home",
-    label: "Cab",
-    url: "/cabs/home",
-    icon: FaCar,
+    key: "sign-in",
+    label: "Sign in",
+    url: "/auth/sign-in",
+    icon: CgProfile,
   },
 ];
 export const USER_PROFILE_MENU_ITEMS = [

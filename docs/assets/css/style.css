@@ -16842,6 +16842,7 @@ textarea.form-control-lg {
 .btn-primary-soft {
   color: #5143d9;
   background-color: rgba(81, 67, 217, 0.1);
+      border: 2px solid !important;
 }
 .btn-primary-soft:active, .btn-primary-soft:hover, .btn-primary-soft:focus {
   color: #fff;
@@ -17078,13 +17079,28 @@ a.badge:hover {
           transform: translateZ(0);
   position: relative;
   overflow: hidden;
+
+
+
+
 }
+
+
 .card.card-img-scale img {
   -webkit-transition: all 0.5s ease;
   transition: all 0.5s ease;
   -webkit-transform: scale(1.001);
           transform: scale(1.001);
 }
+
+
+.card.card-img-scale img {
+    transition: all 0.5s ease;
+    transform: scale(1.001);
+    max-height: 150px;
+    object-fit: cover;
+}
+
 
 .card.card-img-scale:hover img {
   -webkit-transform: scale(1.03);

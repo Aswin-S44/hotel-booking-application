@@ -1,18 +1,27 @@
-import admin from "../config/firebase.js";
+import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
+import User from "../models/userSchema.js";
 
-export const protect = async (req, res, next) => {
-    try {
-        const token = req.headers.authorization?.split(" ")[1];
+export const userVerification = async (req, res, next) => {
+  const token =
+    req.headers["authorization"]?.split(" ")[1] || req.cookies.token;
 
-        if (!token) {
-            return res.status(401).json({ message: "Unauthorized" });
-        }
+  if (!token) {
+    return res.json({ status: 403, message: "Forebidden" });
+  }
 
-        const decoded = await admin.auth().verifyIdToken(token);
-
-        req.user = decoded;
+  jwt.verify(token, process.env.JWT_SECRET, async (err, data) => {
+    if (err) {
+      return res.json({ status: false });
+    } else {
+      const user = await User.findById(data.id);
+      if (user) {
+        req.user = user;
+        req.userId = user._id;
         next();
-    } catch (error) {
-        res.status(401).json({ message: "Invalid token" });
+      } else {
+        return res.json({ status: false });
+      }
     }
+  });
 };

@@ -4,7 +4,54 @@ import hotel2 from '@/assets/images/category/hotel/4by3/02.jpg';
 import { Link } from 'react-router-dom';
 import { BsAlarm, BsBrightnessHigh, BsGeoAlt, BsPatchCheckFill } from 'react-icons/bs';
 import { FaStarHalfAlt } from 'react-icons/fa';
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
 const HotelInformation = () => {
+
+
+const location = useLocation();
+  const [reviews, setReviews] = useState([]);
+
+console.log("reviews", reviews);
+
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const propertyId = params.get("property_id");
+    const roomId = params.get("room_id");
+
+    console.log("Property ID:", propertyId);
+    console.log("Room ID:", roomId);
+
+    if (propertyId && roomId) {
+      fetchReviews(propertyId, roomId);
+    }
+  }, [location.search]);
+
+  const fetchReviews = async (propertyId, roomId) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/v1/customer/property/${propertyId}/review/${roomId}`
+      );
+
+      setReviews(response.data.data);
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
+    }
+  };
+
+  const calculateAverage = (reviews) => {
+  if (!reviews || reviews.length === 0) return "0.0/5.0";
+
+  const total = reviews.reduce((sum, review) => sum + review.rating, 0);
+  const average = total / reviews.length;
+
+  return `${average.toFixed(1)}/5.0`;
+};
+
+const averageRating = calculateAverage(reviews);
+
   return <Card className="shadow">
       <CardHeader className="p-4 border-bottom">
         <h3 className="mb-0 items-center">
@@ -34,7 +81,7 @@ const HotelInformation = () => {
                   <li className="list-inline-item me-0 mb-1 small">
                     <FaStarHalfAlt size={16} className="text-warning" />
                   </li>
-                  <li className="list-inline-item ms-3 h6 small fw-bold mb-0">4.5/5.0</li>
+                  <li className="list-inline-item ms-3 h6 small fw-bold mb-0">{averageRating}</li>
                 </ul>
               </CardBody>
             </Col>
