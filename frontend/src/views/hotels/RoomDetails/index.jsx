@@ -35,6 +35,8 @@ console.log("getRoomDetails response",response);
 
         // If API returns single room → wrap in array
         setRoom([response.data.data]);
+        console.log("llllllllllllll",response);
+        
       } catch (error) {
         console.error("Error fetching room:", error);
       }

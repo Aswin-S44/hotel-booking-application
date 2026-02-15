@@ -30,6 +30,8 @@
 }
 */
 
+
+
 // Search click to open style
 .nav-search .dropdown-menu{
   top: 120%;
@@ -232,4 +234,17 @@ body.dashboard main{
     // height: 80vh;
     z-index: 1;
  }
+}
+
+
+@media (min-width: 1400px) {
+    .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
+        max-width: 1300px !important;
+    }
+}
+
+.btn-primary-soft {
+    color: #5143d9;
+    background-color: rgba(81, 67, 217, 0.1);
+    border: 2px solid  !important;
 }

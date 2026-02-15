@@ -19,7 +19,7 @@ const HotelLists = () => {
       <Container>
         <Row className="mb-4">
           <Col xs={12}>
-            <Alert show={alertVisible} variant="danger" className="d-flex justify-content-between align-items-center rounded-3 fade show mb-4 mb-0 pe-2 py-3" role="alert">
+            {/* <Alert show={alertVisible} variant="danger" className="d-flex justify-content-between align-items-center rounded-3 fade show mb-4 mb-0 pe-2 py-3" role="alert">
               <div className="items-center">
                 <span className="alert-heading h5 mb-0 me-2">
                   <BsExclamationOctagonFill />
@@ -31,7 +31,7 @@ const HotelLists = () => {
               <Button variant="link" onClick={hideAlert} type="button" className="pb-0 pt-1 text-end" data-bs-dismiss="alert" aria-label="Close">
                 <BsXLg className=" text-dark" />
               </Button>
-            </Alert>
+            </Alert> */}
 
             <div className="hstack gap-3 justify-content-between justify-content-md-end">
               <Button onClick={toggle} variant="primary-soft" className="btn-primary-check mb-0 d-xl-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar">

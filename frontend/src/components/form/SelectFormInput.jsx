@@ -1,30 +1,56 @@
 import Choices from 'choices.js';
 import { useEffect, useRef } from 'react';
+
 const SelectFormInput = ({
   children,
   multiple,
   className,
+  value,
   onChange,
   ...choiceOptions
 }) => {
   const selectE = useRef(null);
+  const choicesInstance = useRef(null);
+
   useEffect(() => {
     if (selectE.current) {
-      const choices = new Choices(selectE.current, {
+      choicesInstance.current = new Choices(selectE.current, {
         ...choiceOptions,
         allowHTML: true,
         shouldSort: false
       });
-      choices.passedElement.element.addEventListener('change', e => {
-        if (!(e.target instanceof HTMLSelectElement)) return;
+
+      selectE.current.addEventListener('change', (e) => {
         if (onChange) {
           onChange(e.target.value);
         }
       });
     }
-  }, [selectE]);
-  return <select ref={selectE} multiple={multiple} className={className}>
+
+    return () => {
+      if (choicesInstance.current) {
+        choicesInstance.current.destroy();
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (choicesInstance.current && value) {
+      choicesInstance.current.setChoiceByValue(value);
+    }
+  }, [value]);
+
+  return (
+    <select
+      ref={selectE}
+      multiple={multiple}
+      className={className}
+      value={value}
+      onChange={() => {}}
+    >
       {children}
-    </select>;
+    </select>
+  );
 };
+
 export default SelectFormInput;
