@@ -3,12 +3,17 @@ import { currency } from '@/states';
 import { Button, Card, CardBody, Col, Image, Row } from 'react-bootstrap';
 import { BsArrowRight } from 'react-icons/bs';
 import { FaBed, FaSquare, FaTableCellsLarge } from 'react-icons/fa6';
+import { useNavigate } from 'react-router-dom';
 const RoomCard = ({
   images,
   name,
   price,
-  sqfeet
+  sqfeet, rooms, id
 }) => {
+  const navigate = useNavigate();
+
+
+
   return <Card className="border bg-transparent p-3">
       <Row className="g-3 g-md-4">
         <Col md={4}>
@@ -48,7 +53,11 @@ const RoomCard = ({
                 </h6>
                 <span className="fw-light">/per night</span>
               </div>
-              <Button size="sm" variant="dark" href="" className="mb-0">
+              <Button size="sm" variant="dark" href="" className="mb-0"  onClick={() =>
+              navigate(`/hotels/room-detail/${id}`, {
+                state: { rooms },
+              })
+            }>
                 Select room
               </Button>
             </div>

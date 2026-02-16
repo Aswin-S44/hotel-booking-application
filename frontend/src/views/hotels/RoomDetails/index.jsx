@@ -12,16 +12,18 @@ const RoomDetails = () => {
   const location = useLocation();
   const { id: propertyId } = useParams();
   const roomDetails = location.state?.rooms;
-
   const [rooms, setRooms] = useState([]);
+  const [roomsDetail, setRoomsDetail] = useState([]);
   const [loading, setLoading] = useState(true);
   const [images, setImages] = useState([]);
-
-const roomId = location.pathname.split("/").pop();
+  const roomId = location.pathname.split("/").pop();
   const [room, setRoom] = useState([]);
+  const passignData = [roomsDetail[0]?.room.roomThumbnail || ""]
 
-  
-console.log("++++++++++++", room);
+
+
+console.log("roomDetails",roomDetails);
+
 
 
   useEffect(() => {
@@ -30,11 +32,14 @@ console.log("++++++++++++", room);
         const response = await axios.get(
           `http://localhost:5000/api/v1/customer/rooms/${roomId}`
         );
-console.log("getRoomDetails response",response);
+        console.log("getRoomDetails response", response);
 
 
         // If API returns single room → wrap in array
         setRoom([response.data.data]);
+        setRoomsDetail([response.data.data])
+        console.log("llllllllllllll", response);
+
       } catch (error) {
         console.error("Error fetching room:", error);
       }
@@ -81,8 +86,11 @@ console.log("getRoomDetails response",response);
     }
   }, [rooms]);
 
- 
+
   if (loading) return null;
+
+console.log("rooms8888",roomsDetail);
+
 
   return (
     <>
@@ -90,7 +98,7 @@ console.log("getRoomDetails response",response);
       <TopNavBar4 />
       <main>
         {/* <RoomGallery images={images ?? []} /> */}
-        <HotelMediaGallery gallery={images} />
+        <HotelMediaGallery gallery={passignData} />
         <RoomSelection rooms={roomDetails ?? []} />
       </main>
       <FooterWithLinks />

@@ -1,9 +1,34 @@
 import { Card, CardBody, CardFooter, CardHeader } from 'react-bootstrap';
 import { userReviews } from '../data';
 import ReviewCard from './ReviewCard';
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 const UserReviews = () => {
+
+
+
+  const [reviews, setReviews] = useState([]);
+
+
+
+
+
+  const fetchReviews = async (propertyId, roomId) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/v1/customer/property/${propertyId}/review/${roomId}`
+      );
+
+      setReviews(response.data.data);
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
+    }
+  };
+
+
+
+
   return <Card className="border rounded-3">
       <CardHeader className="border-bottom">
         <h5 className="card-header-title">User Reviews</h5>

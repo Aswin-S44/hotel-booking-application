@@ -59,12 +59,21 @@ const AvailabilityFilter = () => {
                   </div>
                   <div className="flex-grow-1">
                     <div className="form-fs-lg">
-                      <SelectFormInput className="form-select js-choice h5" data-search-enabled="true" aria-label=".form-select-sm">
-                        <option value={-1}>Select location</option>
-                        <option>San Jacinto, USA</option>
-                        <option>North Dakota, Canada</option>
-                        <option>West Virginia, Paris</option>
-                      </SelectFormInput>
+                     <SelectFormInput
+              value={formValue.location}
+              onChange={(value) =>
+                setFormValue({
+                  ...formValue,
+                  location: value,
+                })
+              }
+            >
+              <option value="">Select location</option>
+              <option value="San Jacinto, USA">San Jacinto, USA</option>
+              <option value="North Dakota, Canada">North Dakota, Canada</option>
+              <option value="West Virginia, Paris">West Virginia, Paris</option>
+              <option value="United States">United States</option>
+            </SelectFormInput>
                     </div>
                   </div>
                 </div>

@@ -8,12 +8,14 @@ import { Link } from 'react-router-dom';
 import 'tiny-slider/dist/tiny-slider.css';
 const HotelGridCard = ({
   feature,
+  id,
   images,
   name,
   price,
   rating,
   sale
 }) => {
+
   const {
     isOpen,
     toggle
@@ -33,9 +35,10 @@ const HotelGridCard = ({
     autoplayDirection: dir === 'ltr' ? 'forward' : 'backward',
     nav: false
   };
+
   return <Card className="shadow p-2 pb-0 h-100">
       {sale && <div className="position-absolute top-0 start-0 z-index-1 m-4">
-          <div className="badge bg-danger text-white">{sale}</div>
+          <div className="badge bg-danger text-white">{sale}% Off</div>
         </div>}
       <div className="tiny-slider arrow-round arrow-xs arrow-dark rounded-2 overflow-hidden">
         <TinySlider settings={gridSliderSettings}>
@@ -55,7 +58,7 @@ const HotelGridCard = ({
           </Link>
         </div>
         <h5 className="card-title">
-          <Link to="/hotels/detail">{name}</Link>
+          <Link   to={`/hotels/detail/${id}`}>{name}</Link>
         </h5>
         <ul className="nav nav-divider mb-2 mb-sm-3">
           {feature.map((feature, idx) => <li key={idx} className="nav-item">
@@ -75,7 +78,7 @@ const HotelGridCard = ({
             {sale && <span className="text-decoration-line-through">{currency}1000</span>}
           </div>
           <div className="mt-2 mt-sm-0">
-            <Link to="/hotels/detail" className="btn btn-sm btn-primary-soft mb-0 w-100 items-center">
+            <Link   to={`/hotels/detail/${id}`} className="btn btn-sm btn-primary-soft mb-0 w-100 items-center">
               View Detail
               <BsArrowRight className=" ms-2" />
             </Link>

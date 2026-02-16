@@ -23,7 +23,7 @@ const location = useLocation();
 const roomId = location.pathname.split("/").pop();
   const [room, setRooms] = useState([]);
 
-console.log("room, roomid", room);
+console.log("room, roomid", rooms);
 
 
 
@@ -57,7 +57,8 @@ console.log("room, roomid", room);
                         name={room?.roomName ?? ""}
                         price={room.price ?? 0}
                         sqfeet={room.roomArea ?? 0}
-                        id={room.id}
+                        id={room._id}
+                        rooms={rooms}
                       />
                     );
                   })}
@@ -66,7 +67,7 @@ console.log("room, roomid", room);
             </Card>
           </Col>
 
-          <PriceSummery />
+          <PriceSummery  rooms={rooms}/>
         </Row>
       </Container>
     </section>

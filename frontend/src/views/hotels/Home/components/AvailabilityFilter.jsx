@@ -1,11 +1,17 @@
 import Flatpicker from '@/components/Flatpicker';
 import { SelectFormInput } from '@/components/form';
+import axios from 'axios';
 import { useState } from 'react';
 import { Button, Card, Col, Dropdown, DropdownDivider, DropdownMenu, DropdownToggle, FormLabel, Row } from 'react-bootstrap';
 import { BsCalendar, BsDashCircle, BsGeoAlt, BsPerson, BsPlusCircle, BsSearch } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
+import { useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
+
 const AvailabilityFilter = () => {
     const navigate = useNavigate();
+const [searchParams] = useSearchParams();
+
 
   const initialValue = {
     location: 'San Jacinto, USA',
@@ -16,7 +22,15 @@ const AvailabilityFilter = () => {
       children: 0
     }
   };
-  const [formValue, setFormValue] = useState(initialValue);
+  const [formValue, setFormValue] = useState(() => {
+    const stored = localStorage.getItem('searchData');
+    return stored ? JSON.parse(stored) : initialValue;
+  });
+
+useEffect(() => {
+  localStorage.setItem('searchData', JSON.stringify(formValue));
+}, [formValue]);
+
   const updateGuests = (type, increase = true) => {
     const val = formValue.guests[type];
     setFormValue({
@@ -41,9 +55,53 @@ const AvailabilityFilter = () => {
     }
     return value;
   };
+
+
+
+
+
+  const handleSearch = async (e) => {
+
+console.log("clicked");
+
+
+    e.preventDefault();
+
+    if (!formValue.location || formValue.location === "-1") {
+      alert("Please select a location");
+      return;
+    }
+    console.log("Selected location:", formValue.location);
+
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/v1/customer/search-location`,
+        {
+          params: {
+            location: formValue.location,
+          },
+        }
+      );
+
+      console.log("Search Result:", response.data);
+
+      navigate(`/hotels/grid?location=${formValue.location}`, {
+        state: { hotels: response.data.data },
+      });
+
+    } catch (error) {
+      console.error("Search error:", error);
+    }
+  };
+
+
+
+
+
+
   return <Row>
       <Col xl={10} className="position-relative mt-n3 mt-xl-n9">
-        <h6 className="d-none d-xl-block mb-3">Check Availability</h6>
+        <h6 className="d-none d-xl-block mb-3">Checks Availability</h6>
 
         <Card as="form" className="shadow rounded-3 position-relative p-4 pe-md-5 pb-5 pb-md-4">
           <Row className="g-4 align-items-center">
@@ -53,14 +111,21 @@ const AvailabilityFilter = () => {
 
                 <div className="flex-grow-1">
                   <FormLabel className="form-label">Location</FormLabel>
-                  <SelectFormInput>
-                    <option value={-1} disabled>
-                      Select location
-                    </option>
-                    <option value="1">San Jacinto, USA</option>
-                    <option value="2">North Dakota, Canada</option>
-                    <option value="3">West Virginia, Paris</option>
-                  </SelectFormInput>
+                 <SelectFormInput
+              value={formValue.location}
+              onChange={(value) =>
+                setFormValue({
+                  ...formValue,
+                  location: value,
+                })
+              }
+            >
+              <option value="">Select location</option>
+              <option value="San Jacinto, USA">San Jacinto, USA</option>
+              <option value="North Dakota, Canada">North Dakota, Canada</option>
+              <option value="West Virginia, Paris">West Virginia, Paris</option>
+              <option value="United States">United States</option>
+            </SelectFormInput>
                 </div>
               </div>
             </Col>
@@ -158,7 +223,7 @@ const AvailabilityFilter = () => {
           </Row>
 
           <div className="btn-position-md-middle">
-            <button type="submit" className="icon-lg btn btn-round btn-primary mb-0 flex-centered" onClick={()=> navigate('/hotels/grid')}>
+            <button type="submit" className="icon-lg btn btn-round btn-primary mb-0 flex-centered" onClick={handleSearch}>
               <BsSearch className=" fa-fw" />
             </button>
           </div>

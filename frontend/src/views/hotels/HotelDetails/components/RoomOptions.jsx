@@ -50,6 +50,7 @@ const RoomOptions = ({ rooms, features }) => {
                 price={room?.price ?? 0}
                 sale={room.isAvailable}
                 schemes={""}
+                rooms={rooms}
               />
             );
           })}
