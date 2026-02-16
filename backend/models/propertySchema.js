@@ -43,7 +43,7 @@ const PropertySchema = new mongoose.Schema(
     currency: { type: String, default: "USD" },
     basePrice: { type: Number, required: true },
     discount: { type: Number, default: 0 },
-    starRating: { type: Number, min: 1, max: 5 },
+    // starRating: { type: Number, min: 1, max: 5 },
 
     totalFloors: { type: Number },
     totalRooms: { type: Number },
