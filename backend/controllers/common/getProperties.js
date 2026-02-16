@@ -111,3 +111,40 @@ export const getProperties = async (req, res) => {
     });
   }
 };
+
+
+
+export const getPropertyById = async (req, res) => {
+  try {
+    const { propertyId } = req.params;
+
+    // 1️⃣ Validate ObjectId
+    if (!mongoose.Types.ObjectId.isValid(propertyId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid property ID",
+      });
+    }
+
+    const property = await Property.findById(propertyId)
+      .populate("owner", "name email");
+
+    if (!property) {
+      return res.status(404).json({
+        success: false,
+        message: "Property not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: property,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch property",
+      error: error.message,
+    });
+  }
+};

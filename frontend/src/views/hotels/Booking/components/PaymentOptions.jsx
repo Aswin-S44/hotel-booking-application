@@ -153,7 +153,7 @@ const PaymentOptions = () => {
                 />
 
                 <Col xs={12}>
-                  <Alert
+                  {/* <Alert
                     show={isOpen}
                     onClose={toggle}
                     variant="success"
@@ -183,7 +183,7 @@ const PaymentOptions = () => {
                       </Button>
                       <h6 className="mb-0">{currency}69 per person</h6>
                     </div>
-                  </Alert>
+                  </Alert> */}
                 </Col>
 
                 <Col xs={12}>

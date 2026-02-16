@@ -4,7 +4,8 @@ import { useNavigate, useParams } from "react-router-dom";
 const PriceSummery = ({rooms}) => {
   const { id: propertyId } = useParams();
 
-console.log("rooms,rooms,rooms", rooms[0].discount);
+console.log("rooms,rooms,rooms", rooms[0]?.property
+);
 
 
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ const serviceFee = 100; // keep it dynamic if needed
 const total = subtotal - discountAmount + serviceFee;
 
 
-  console.log("formValue +++++______++++=======", formValue);
+  console.log("property +++++______++++=======", formValue);
 
   return (
     <Col as={"aside"} xl={5} className="d-none d-xl-block">
@@ -84,7 +85,7 @@ const total = subtotal - discountAmount + serviceFee;
               className="mb-0"
               onClick={() =>
                 navigate(
-                  `/hotels/booking?property_id=${propertyId}&room_id=698f4c07d4d3d015936bb96d`
+                  `/hotels/booking?property_id=${rooms[0]?.property}&room_id=${rooms[0]?._id}`
                 )
               }
             >
