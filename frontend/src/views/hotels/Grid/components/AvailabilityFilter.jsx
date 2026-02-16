@@ -18,10 +18,19 @@ const AvailabilityFilter = () => {
       children: 0
     }
   };
-  const [formValue, setFormValue] = useState(initialValue);
+
   const [searchData, setSearchData] = useState();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const [formValue, setFormValue] = useState(() => {
+    const stored = localStorage.getItem('searchData');
+    return stored ? JSON.parse(stored) : initialValue;
+  });
+
+useEffect(() => {
+  localStorage.setItem('searchData', JSON.stringify(formValue));
+}, [formValue]);
+
 
 
 
@@ -91,10 +100,6 @@ const AvailabilityFilter = () => {
 
 useEffect(() => {
   const locationFromUrl = searchParams.get("location");
-
-console.log("locationFromUrl ******----",locationFromUrl);
-
-
   if (locationFromUrl) {
     setFormValue((prev) => ({
       ...prev,

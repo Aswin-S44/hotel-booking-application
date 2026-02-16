@@ -220,7 +220,7 @@ const AboutHotel = ({ hotelDetails }) => {
                 features={hotelDetails?.amenities ?? []}
               />
 
-              <CustomerReview />
+              <CustomerReview hotelDetails={hotelDetails} />
 
               <HotelPolicies />
             </div>

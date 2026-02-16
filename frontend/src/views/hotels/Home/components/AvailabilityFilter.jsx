@@ -22,7 +22,15 @@ const [searchParams] = useSearchParams();
       children: 0
     }
   };
-  const [formValue, setFormValue] = useState(initialValue);
+  const [formValue, setFormValue] = useState(() => {
+    const stored = localStorage.getItem('searchData');
+    return stored ? JSON.parse(stored) : initialValue;
+  });
+
+useEffect(() => {
+  localStorage.setItem('searchData', JSON.stringify(formValue));
+}, [formValue]);
+
   const updateGuests = (type, increase = true) => {
     const val = formValue.guests[type];
     setFormValue({

@@ -1,6 +1,11 @@
 import { currency } from '@/states';
 import { Card, CardBody, CardFooter, CardHeader, CardTitle } from 'react-bootstrap';
 const PriceSummary = () => {
+
+
+
+
+
   return <Card className="shadow rounded-2">
       <CardHeader className="border-bottom">
         <CardTitle as="h5" className="mb-0">

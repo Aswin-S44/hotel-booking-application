@@ -19,10 +19,14 @@ const reviewsSchema = new mongoose.Schema(
     },
     feedback: { type: String },
     rating: { type: Number },
+    reviewImages: [
+  {
+    type: String,
+  },
+], 
   },
   { timestamps: true }
 );
-
 
 const Rating = mongoose.model("Rating", reviewsSchema);
 

@@ -35,7 +35,7 @@ const SignIn = () => {
 
       const result = await response.json();
 
-      if (result.status === 200) {
+      if (result.status === 200) {  
         const sessionData = {
           ...result.user,
           token: result.token,

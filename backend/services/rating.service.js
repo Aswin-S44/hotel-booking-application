@@ -24,13 +24,13 @@ export const getReviewsByRoomAndPropertyService = async (
 };
 
 
-
 export const addReviewService = async ({
   fromId,
   propertyId,
   roomId,
   feedback,
   rating,
+  reviewImages,
 }) => {
   if (
     !mongoose.Types.ObjectId.isValid(fromId) ||
@@ -44,7 +44,6 @@ export const addReviewService = async ({
     throw new Error("Rating must be between 1 and 5");
   }
 
-  // Prevent duplicate review by same user for same room
   const existingReview = await Rating.findOne({
     fromId,
     propertyId,
@@ -61,7 +60,20 @@ export const addReviewService = async ({
     roomId,
     feedback,
     rating,
+    reviewImages,
   });
 
   return newReview;
+};
+
+
+
+export const getReviewsByPropertyService = async (propertyId) => {
+  if (!mongoose.Types.ObjectId.isValid(propertyId)) {
+    throw new Error("Invalid propertyId");
+  }
+
+  return await Rating.find({
+    propertyId: new mongoose.Types.ObjectId(propertyId),
+  }).sort({ createdAt: -1 });
 };

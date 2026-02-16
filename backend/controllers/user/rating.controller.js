@@ -1,12 +1,9 @@
 import mongoose from "mongoose";
-import { getReviewsByRoomAndPropertyService } from "../../services/rating.service.js";
+import { getReviewsByPropertyService, getReviewsByRoomAndPropertyService } from "../../services/rating.service.js";
 import { addReviewService } from "../../services/rating.service.js";
 
 
 export const addReview = async (req, res) => {
-
-
-
   try {
     const { fromId, propertyId, roomId, feedback, rating } = req.body;
 
@@ -17,12 +14,17 @@ export const addReview = async (req, res) => {
       });
     }
 
+    const reviewImages = req.files
+      ? req.files.map((file) => file.path)
+      : [];
+
     const review = await addReviewService({
       fromId,
       propertyId,
       roomId,
       feedback,
       rating,
+      reviewImages,
     });
 
     return res.status(201).json({
@@ -37,6 +39,7 @@ export const addReview = async (req, res) => {
     });
   }
 };
+
 
 export const getReviewsByRoomAndProperty = async (req, res) => {
    const { propertyId, roomId } = req.params;
@@ -89,6 +92,54 @@ console.log("+++",propertyId, roomId);
     console.error("Error fetching reviews:", error);
 
     // 5️⃣ Server error
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};
+
+
+export const getReviewsByProperty = async (req, res) => {
+  try {
+    const { propertyId } = req.params;
+
+    // 1️⃣ Check missing param
+    if (!propertyId) {
+      return res.status(400).json({
+        success: false,
+        message: "propertyId is required",
+      });
+    }
+
+    // 2️⃣ Validate ObjectId
+    if (!mongoose.Types.ObjectId.isValid(propertyId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid propertyId format",
+      });
+    }
+
+    const reviews = await getReviewsByPropertyService(propertyId);
+
+    // 3️⃣ No reviews
+    if (!reviews || reviews.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No reviews found for this property",
+      });
+    }
+
+    // 4️⃣ Success
+    return res.status(200).json({
+      success: true,
+      message: "Property reviews fetched successfully",
+      totalReviews: reviews.length,
+      data: reviews,
+    });
+
+  } catch (error) {
+    console.error("Error fetching property reviews:", error);
     return res.status(500).json({
       success: false,
       message: "Internal server error",
