@@ -90,9 +90,9 @@ const { user } = useAuthContext();
       <AddReviewModal
         show={showReview}
         handleClose={() => setShowReview(false)}
-      propertyId={hotelDetails.rooms[0].property}
-      roomId={hotelDetails.rooms[0]._id}
-      userId={user._id}
+      propertyId={hotelDetails?.rooms[0]?.property}
+      roomId={hotelDetails.rooms[0]?._id}
+      userId={user?._id}
       />
 
 
