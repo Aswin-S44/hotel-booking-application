@@ -106,15 +106,13 @@ const CustomerReview = ({ hotelDetails }) => {
           Post review <BsArrowRight className="ms-2" />
         </Button>
 
-        {hotelDetails?.rooms?.length > 0 && (
-          <AddReviewModal
-            show={showReview}
-            handleClose={() => setShowReview(false)}
-            propertyId={hotelDetails.rooms[0].property}
-            roomId={hotelDetails.rooms[0]._id}
-            userId={user._id}
-          />
-        )}
+        <AddReviewModal
+          show={showReview}
+          handleClose={() => setShowReview(false)}
+          propertyId={hotelDetails?.rooms[0]?.property}
+          roomId={hotelDetails.rooms[0]?._id}
+          userId={user?._id}
+        />
 
         <div className="d-md-flex my-4">
           <div className="avatar avatar-lg me-3 flex-shrink-0">
@@ -202,6 +200,104 @@ const CustomerReview = ({ hotelDetails }) => {
           <Button variant="primary-soft" className="mb-0">
             Load more
           </Button>
+
+          {hotelDetails?.rooms?.length > 0 && (
+            <AddReviewModal
+              show={showReview}
+              handleClose={() => setShowReview(false)}
+              propertyId={hotelDetails.rooms[0].property}
+              roomId={hotelDetails.rooms[0]._id}
+              userId={user._id}
+            />
+          )}
+
+          <div className="d-md-flex my-4">
+            <div className="avatar avatar-lg me-3 flex-shrink-0">
+              <Image
+                className="avatar-img rounded-circle"
+                src={avatar9}
+                alt="avatar"
+              />
+            </div>
+            <div>
+              <div className="d-flex justify-content-between mt-1 mt-md-0">
+                <div>
+                  <h6 className="me-3 mb-0">Jacqueline Miller</h6>
+                  <ul className="nav nav-divider small mb-2">
+                    <li className="nav-item">Stayed 13 Nov 2022</li>
+                    <li className="nav-item">4 Reviews written</li>
+                  </ul>
+                </div>
+                <div className="icon-md rounded text-bg-warning fs-6">4.5</div>
+              </div>
+              <p className="mb-2">
+                Handsome met debating sir dwelling age material. As style lived
+                he worse dried. Offered related so visitors we private removed.
+                Moderate do subjects to distance.{" "}
+              </p>
+              <Row className="g-4">
+                <Col xs={4} sm={3} lg={2}>
+                  <Image src={hotel7} className="rounded" />
+                </Col>
+                <Col xs={4} sm={3} lg={2}>
+                  <Image src={hotel8} className="rounded" />
+                </Col>
+                <Col xs={4} sm={3} lg={2}>
+                  <Image src={hotel5} className="rounded" />
+                </Col>
+              </Row>
+            </div>
+          </div>
+          <div className="my-4 ps-2 ps-md-3">
+            <div className="d-md-flex p-3 bg-light rounded-3">
+              <img
+                className="avatar avatar-sm rounded-circle me-3"
+                src={avatar2}
+                alt="avatar"
+              />
+              <div className="mt-2 mt-md-0">
+                <h6 className="mb-1">Manager</h6>
+                <p className="mb-0">
+                  But discretion frequently sir she instruments unaffected
+                  admiration everything.{" "}
+                </p>
+              </div>
+            </div>
+          </div>
+          <hr />
+          <div className="d-md-flex my-4">
+            <div className="avatar avatar-lg me-3 flex-shrink-0">
+              <Image
+                className="avatar-img rounded-circle"
+                src={avatar8}
+                alt="avatar"
+              />
+            </div>
+            <div>
+              <div className="d-flex justify-content-between mt-1 mt-md-0">
+                <div>
+                  <h6 className="me-3 mb-0">Dennis Barrett</h6>
+                  <ul className="nav nav-divider small mb-2">
+                    <li className="nav-item">Stayed 02 Nov 2022</li>
+                    <li className="nav-item">2 Reviews written</li>
+                  </ul>
+                </div>
+                <div className="icon-md rounded text-bg-warning fs-6">4.0</div>
+              </div>
+              <p className="mb-0">
+                Delivered dejection necessary objection do Mr prevailed. Mr
+                feeling does chiefly cordial in do. Water timed folly right
+                aware if oh truth. Large above be to means. Dashwood does
+                provide stronger is.
+              </p>
+            </div>
+          </div>
+          <hr />
+          <div className="text-center">
+            <Button variant="primary-soft" className="mb-0">
+              Load more
+            </Button>
+          </div>
         </div>
       </CardBody>
     </Card>

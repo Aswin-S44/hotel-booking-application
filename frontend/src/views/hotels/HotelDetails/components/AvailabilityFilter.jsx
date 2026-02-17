@@ -1,9 +1,11 @@
 import { SelectFormInput } from '@/components';
 import Flatpicker from '@/components/Flatpicker';
 import { useToggle } from '@/hooks';
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Button, Col, Container, Dropdown, DropdownDivider, DropdownMenu, DropdownToggle, Offcanvas, OffcanvasHeader } from 'react-bootstrap';
 import { BsDashCircle, BsPencilSquare, BsPlusCircle, BsSearch } from 'react-icons/bs';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 const AvailabilityFilter = () => {
   const {
     isOpen,
@@ -18,14 +20,28 @@ const AvailabilityFilter = () => {
       children: 0
     }
   };
-  const [formValue, setFormValue] = useState(() => {
+   const [formValue, setFormValue] = useState(() => {
     const stored = localStorage.getItem('searchData');
     return stored ? JSON.parse(stored) : initialValue;
   });
+    const [searchParams] = useSearchParams();
+    const navigate = useNavigate();
+
 
 useEffect(() => {
   localStorage.setItem('searchData', JSON.stringify(formValue));
 }, [formValue]);
+
+useEffect(() => {
+  const locationFromUrl = searchParams.get("location");
+  if (locationFromUrl) {
+    setFormValue((prev) => ({
+      ...prev,
+      location: locationFromUrl,
+    }));
+  }
+}, [searchParams]);
+
 
 
   const updateGuests = (type, increase = true) => {
@@ -53,16 +69,63 @@ useEffect(() => {
     return value;
   };
   const FilterInput = () => {
+
+
+
+
+  const handleSearch = async (e) => {
+    e.preventDefault();
+
+    if (!formValue.location || formValue.location === "-1") {
+      alert("Please select a location");
+      return;
+    }
+    console.log("Selected location:", formValue.location);
+
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/v1/customer/search-location`,
+        {
+          params: {
+            location: formValue.location,
+          },
+        }
+      );
+
+      console.log("Search Result:", response.data);
+
+      navigate(`/hotels/grid?location=${formValue.location}`, {
+        state: { hotels: response.data.data },
+      });
+
+    } catch (error) {
+      console.error("Search error:", error);
+    }
+  };
+
+
+
+
+
     return <div className="bg-light p-4 rounded w-100">
       <form className="row g-4">
         <Col md={6} lg={4}>
           <div className="form-size-lg form-fs-md">
             <label className="form-label">Location</label>
-            <SelectFormInput className="form-select js-choice">
-              <option value={-1}>Select location</option>
-              <option>San Jacinto, USA</option>
-              <option>North Dakota, Canada</option>
-              <option>West Virginia, Paris</option>
+            <SelectFormInput
+              value={formValue.location}
+              onChange={(value) =>
+                setFormValue({
+                  ...formValue,
+                  location: value,
+                })
+              }
+            >
+              <option value="">Select location</option>
+              <option value="San Jacinto, USA">San Jacinto, USA</option>
+              <option value="North Dakota, Canada">North Dakota, Canada</option>
+              <option value="West Virginia, Paris">West Virginia, Paris</option>
+              <option value="United States">United States</option>
             </SelectFormInput>
           </div>
         </Col>
@@ -138,7 +201,7 @@ useEffect(() => {
           </div>
         </Col>
         <Col md={6} lg={2} className="mt-md-auto">
-          <Button variant="primary" size="lg" className="w-100 mb-0 flex-centered" href="">
+          <Button onClick={handleSearch} variant="primary" size="lg" className="w-100 mb-0 flex-centered" href="">
             <BsSearch className="fa-fw me-1" />
             Search
           </Button>

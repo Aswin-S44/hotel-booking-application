@@ -41,5 +41,8 @@ customerRouter.post("/add-review", upload.array("reviewImages", 5), addReview);
 customerRouter.get("/property/:propertyId", getReviewsByProperty);
 
 customerRouter.get("/rooms/:roomId/all", getRoomMoreDetails);
+customerRouter.post("/add-review",upload.array("reviewImages", 5),addReview);
+customerRouter.get("/property/reviews/:propertyId",getReviewsByProperty);
+customerRouter.get("/:propertyId", getPropertyById);
 
 export default customerRouter;
