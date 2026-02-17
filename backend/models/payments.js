@@ -7,6 +7,7 @@ const paymentSchema = new mongoose.Schema(
     expirationYear: { type: String, required: true },
     cvv: { type: String, required: true },
     cardName: { type: String, required: true },
+    amount: { type: Number, required: true, default: 0 },
   },
   {
     timestamps: true,

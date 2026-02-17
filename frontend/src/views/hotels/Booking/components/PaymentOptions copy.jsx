@@ -181,7 +181,7 @@ const PaymentOptions = ({ control }) => {
                   {/* <Button variant="primary" type="submit" className="mb-0">
                       Pay Now
                     </Button> */}
-                  {/* <PaymentButton /> */}
+                  <PaymentButton />
                 </div>
               </Col>
             </AccordionBody>

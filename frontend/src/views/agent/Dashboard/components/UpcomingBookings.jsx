@@ -1,4 +1,3 @@
-import { SelectFormInput } from "@/components";
 import {
   Card,
   CardBody,
@@ -23,7 +22,7 @@ const UpcomingBookings = () => {
   const token = localStorage.getItem("token");
 
   const fetchBookings = useCallback(
-    async (page, search = "", sort = "") => {
+    async (page, search = "", sort = "", filter = "") => {
       try {
         setLoading(true);
         const queryParams = new URLSearchParams({
@@ -31,6 +30,7 @@ const UpcomingBookings = () => {
           limit: "10",
           search: search,
           sort: sort,
+          filter: filter,
         });
 
         const response = await fetch(
@@ -62,14 +62,14 @@ const UpcomingBookings = () => {
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
-      fetchBookings(1, searchTerm, sortBy);
+      fetchBookings(1, searchTerm, sortBy, "upcoming");
     }, 500);
 
     return () => clearTimeout(delayDebounceFn);
   }, [searchTerm, sortBy, fetchBookings]);
 
   useEffect(() => {
-    fetchBookings(currentPage, searchTerm, sortBy);
+    fetchBookings(currentPage, searchTerm, sortBy, "upcoming");
   }, [currentPage, fetchBookings]);
 
   const handlePageChange = (page) => {
@@ -176,7 +176,7 @@ const UpcomingBookings = () => {
               ) : bookings.length === 0 ? (
                 <tr>
                   <td colSpan="7" className="text-center">
-                    No bookings found
+                    No upcoming bookings found
                   </td>
                 </tr>
               ) : (
@@ -200,7 +200,7 @@ const UpcomingBookings = () => {
                       <div
                         className={clsx(
                           "badge",
-                          booking.status === "cancel"
+                          booking.status === "cancelled"
                             ? "bg-danger"
                             : booking.status === "booked"
                             ? "bg-success"
@@ -223,6 +223,12 @@ const UpcomingBookings = () => {
                       </div>
                     </td>
                     <td>
+                      {/* <Link
+                        to={`/agent/room-detail/${booking?.roomId}`}
+                        className="btn btn-sm btn-light mb-0"
+                      >
+                        View
+                      </Link> */}
                       <Link to="" className="btn btn-sm btn-light mb-0">
                         View
                       </Link>

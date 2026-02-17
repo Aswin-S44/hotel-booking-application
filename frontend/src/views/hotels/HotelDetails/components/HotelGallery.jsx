@@ -36,7 +36,6 @@ const HotelGallery = ({ hotelDetails, gallery }) => {
   const { isOpen, toggle } = useToggle();
   const { isOpen: alertVisible, hide: hideAlert } = useToggle(true);
 
-  console.log("gallery----------->", gallery ? gallery : "no gallery");
   return (
     <>
       <section className="py-0 pt-sm-5">
@@ -250,8 +249,7 @@ const HotelGallery = ({ hotelDetails, gallery }) => {
           </Row>
         </Container> */}
 
-<HotelMediaGallery gallery={gallery}/>
-
+        <HotelMediaGallery gallery={gallery} />
       </section>
 
       <Modal size="lg" centered show={isOpen} onHide={toggle} className="fade">

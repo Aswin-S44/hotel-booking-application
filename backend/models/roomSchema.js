@@ -16,6 +16,11 @@ const roomSchema = new mongoose.Schema(
     isAvailable: { type: Boolean, default: true },
 
     roomArea: { type: Number },
+    shop: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
   { timestamps: true }
 );

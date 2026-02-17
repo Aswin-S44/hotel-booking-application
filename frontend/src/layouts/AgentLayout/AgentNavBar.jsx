@@ -81,7 +81,6 @@ const AgentNavBar = () => {
   const { isOpen, toggle } = useToggle(false);
 
   const { user } = useAuthContext();
-  console.log("USER***************", user ? user : "no user");
 
   return (
     <section className="pt-4">

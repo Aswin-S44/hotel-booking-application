@@ -4,7 +4,7 @@ import { format } from "date-fns";
 export const getAllBookings = async (req, res) => {
   try {
     const shopId = req.userId;
-    const { page = 1, limit = 10, status, paymentStatus } = req.query;
+    const { page = 1, limit = 10, status, paymentStatus, filter } = req.query;
 
     const query = { shopId };
 
@@ -16,6 +16,10 @@ export const getAllBookings = async (req, res) => {
       query.paymentStatus = paymentStatus;
     }
 
+    if (filter === "upcoming") {
+      query.checkInDate = { $gte: new Date() };
+    }
+
     const total = await Bookings.countDocuments(query);
 
     const bookings = await Bookings.find(query)
@@ -24,7 +28,7 @@ export const getAllBookings = async (req, res) => {
         select: "roomName additionalInfo",
       })
       .select("checkInDate status paymentStatus roomId")
-      .sort({ createdAt: -1 })
+      .sort(filter === "upcoming" ? { checkInDate: 1 } : { createdAt: -1 })
       .limit(Number(limit))
       .skip((Number(page) - 1) * Number(limit))
       .lean();
@@ -32,6 +36,7 @@ export const getAllBookings = async (req, res) => {
     const data = bookings.map((booking) => ({
       _id: booking._id,
       roomName: booking.roomId?.roomName || null,
+      roomId: booking.roomId?._id || null,
       additionalInfo: booking.roomId?.additionalInfo || null,
       checkInDate: booking.checkInDate
         ? format(new Date(booking.checkInDate), "dd MMM yyyy")

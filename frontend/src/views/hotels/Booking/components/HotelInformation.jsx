@@ -1,28 +1,33 @@
-import { Button, Card, CardBody, CardHeader, Col, Image, Row } from 'react-bootstrap';
-import { FaHotel, FaStar } from 'react-icons/fa6';
-import hotel2 from '@/assets/images/category/hotel/4by3/02.jpg';
-import { Link } from 'react-router-dom';
-import { BsAlarm, BsBrightnessHigh, BsGeoAlt, BsPatchCheckFill } from 'react-icons/bs';
-import { FaStarHalfAlt } from 'react-icons/fa';
+import {
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Col,
+  Image,
+  Row,
+} from "react-bootstrap";
+import { FaHotel, FaStar } from "react-icons/fa6";
+import hotel2 from "@/assets/images/category/hotel/4by3/02.jpg";
+import { Link } from "react-router-dom";
+import {
+  BsAlarm,
+  BsBrightnessHigh,
+  BsGeoAlt,
+  BsPatchCheckFill,
+} from "react-icons/bs";
+import { FaStarHalfAlt } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 const HotelInformation = () => {
-
-
-const location = useLocation();
+  const location = useLocation();
   const [reviews, setReviews] = useState([]);
-
-console.log("reviews", reviews);
-
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const propertyId = params.get("property_id");
     const roomId = params.get("room_id");
-
-    console.log("Property ID:", propertyId);
-    console.log("Room ID:", roomId);
 
     if (propertyId && roomId) {
       fetchReviews(propertyId, roomId);
@@ -42,17 +47,18 @@ console.log("reviews", reviews);
   };
 
   const calculateAverage = (reviews) => {
-  if (!reviews || reviews.length === 0) return "0.0/5.0";
+    if (!reviews || reviews.length === 0) return "0.0/5.0";
 
-  const total = reviews.reduce((sum, review) => sum + review.rating, 0);
-  const average = total / reviews.length;
+    const total = reviews.reduce((sum, review) => sum + review.rating, 0);
+    const average = total / reviews.length;
 
-  return `${average.toFixed(1)}/5.0`;
-};
+    return `${average.toFixed(1)}/5.0`;
+  };
 
-const averageRating = calculateAverage(reviews);
+  const averageRating = calculateAverage(reviews);
 
-  return <Card className="shadow">
+  return (
+    <Card className="shadow">
       <CardHeader className="p-4 border-bottom">
         <h3 className="mb-0 items-center">
           <FaHotel className="me-2" />
@@ -75,13 +81,17 @@ const averageRating = calculateAverage(reviews);
                   5855 W Century Blvd, Los Angeles - 90045
                 </p>
                 <ul className="list-inline mb-0 items-center">
-                  {Array.from(new Array(4)).map((_val, idx) => <li key={idx} className="list-inline-item me-1 mb-1 small">
+                  {Array.from(new Array(4)).map((_val, idx) => (
+                    <li key={idx} className="list-inline-item me-1 mb-1 small">
                       <FaStar size={16} className="text-warning" />
-                    </li>)}
+                    </li>
+                  ))}
                   <li className="list-inline-item me-0 mb-1 small">
                     <FaStarHalfAlt size={16} className="text-warning" />
                   </li>
-                  <li className="list-inline-item ms-3 h6 small fw-bold mb-0">{averageRating}</li>
+                  <li className="list-inline-item ms-3 h6 small fw-bold mb-0">
+                    {averageRating}
+                  </li>
                 </ul>
               </CardBody>
             </Col>
@@ -148,6 +158,7 @@ const averageRating = calculateAverage(reviews);
           </CardBody>
         </Card>
       </CardBody>
-    </Card>;
+    </Card>
+  );
 };
 export default HotelInformation;

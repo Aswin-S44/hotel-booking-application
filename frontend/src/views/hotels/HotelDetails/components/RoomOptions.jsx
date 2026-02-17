@@ -3,7 +3,7 @@ import { Card, CardBody, CardHeader, Col } from "react-bootstrap";
 import RoomCard from "./RoomCard";
 import { hotelRooms } from "../data";
 const RoomOptions = ({ rooms, features }) => {
-  console.log("rooms-----------", rooms);
+  console.log("ROOMS**************", rooms);
   return (
     <Card className="bg-transparent" id="room-options">
       <CardHeader className="border-bottom bg-transparent px-0 pt-0">
@@ -37,7 +37,7 @@ const RoomOptions = ({ rooms, features }) => {
               />
             );
           })} */}
-          {console.log("rooms----------", rooms)}
+
           {rooms.map((room, idx) => {
             return (
               <RoomCard

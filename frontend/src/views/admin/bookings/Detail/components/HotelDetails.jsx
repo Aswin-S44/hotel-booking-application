@@ -11,7 +11,6 @@ import avatar9 from "@/assets/images/avatar/09.jpg";
 import { roomFeatures } from "../data";
 const roomImages = [room2, room3, room4, room5];
 const HotelDetails = () => {
-  console.log("111111111");
   return (
     <>
       <Row>

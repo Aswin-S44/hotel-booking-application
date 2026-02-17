@@ -16,17 +16,9 @@ import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 const RoomSelection = ({ rooms }) => {
-
-
-
-const location = useLocation();
-const roomId = location.pathname.split("/").pop();
+  const location = useLocation();
+  const roomId = location.pathname.split("/").pop();
   const [room, setRooms] = useState([]);
-
-console.log("room, roomid", rooms);
-
-
-
 
   return (
     <section className="pt-0">
@@ -67,7 +59,7 @@ console.log("room, roomid", rooms);
             </Card>
           </Col>
 
-          <PriceSummery  rooms={rooms}/>
+          <PriceSummery rooms={rooms} />
         </Row>
       </Container>
     </section>

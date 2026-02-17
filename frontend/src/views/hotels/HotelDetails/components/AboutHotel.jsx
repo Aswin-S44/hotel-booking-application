@@ -24,9 +24,9 @@ import HotelPolicies from "./HotelPolicies";
 import PriceOverView from "./PriceOverView";
 import RoomOptions from "./RoomOptions";
 import { amenities } from "../data";
-const AboutHotel = ({ hotelDetails }) => {
+const AboutHotel = ({ hotelDetails, shoRoomOptions = true }) => {
   const { isOpen, toggle } = useToggle();
-  console.log("++++++++++ -----> hotelDetails", hotelDetails);
+
   return (
     <section className="pt-0">
       <Container data-sticky-container>
@@ -62,143 +62,16 @@ const AboutHotel = ({ hotelDetails }) => {
                     </OverlayTrigger>
                   </div>
                   <p className="mb-3">{hotelDetails?.about}</p>
-                  {/* <p className="mb-0">
-                    Delivered dejection necessary objection do Mr prevailed. Mr
-                    feeling does chiefly cordial in do. Water timed folly right
-                    aware if oh truth. Large above be to means. Dashwood does
-                    provide stronger is.
-                  </p> */}
-                  {/* <Collapse in={isOpen}>
-                    <div>
-                      <p className="my-3">
-                        We focus a great deal on the understanding of behavioral
-                        psychology and influence triggers which are crucial for
-                        becoming a well rounded Digital Marketer. We understand
-                        that theory is important to build a solid foundation, we
-                        understand that theory alone isn't going to get the job
-                        done so that's why this rickets is packed with practical
-                        hands-on examples that you can follow step by step.
-                      </p>
-                      <p className="mb-0">
-                        Behavioral psychology and influence triggers which are
-                        crucial for becoming a well rounded Digital Marketer. We
-                        understand that theory is important to build a solid
-                        foundation, we understand that theory alone isn't going
-                        to get the job done so that's why this tickets is packed
-                        with practical hands-on examples that you can follow
-                        step by step.
-                      </p>
-                    </div>
-                  </Collapse> */}
-                  {/* <a
-                    onClick={toggle}
-                    className="p-0 mb-4 mt-2 btn-more d-flex align-items-center collapsed"
-                  >
-                    {!isOpen ? (
-                      <Fragment>
-                        <span className="see-more" role="button">
-                          See more
-                        </span>
-                        <FaAngleDown className="ms-2" />
-                      </Fragment>
-                    ) : (
-                      <Fragment>
-                        <span role="button">See less</span>
-                        <FaAngleUp className="ms-2" />
-                      </Fragment>
-                    )}
-                  </a> */}
+
                   <h5 className="fw-light mb-2">Advantages</h5>
-                  {/* <ul className="list-group list-group-borderless mb-0">
-                    <li className="list-group-item h6 fw-light d-flex mb-0 items-center">
-                      <BsPatchCheckFill className=" text-success me-2" />
-                      Every hotel staff to have Proper PPT kit for COVID-19
-                    </li>
-                    <li className="list-group-item h6 fw-light d-flex mb-0 items-center">
-                      <BsPatchCheckFill className=" text-success me-2" />
-                      Every staff member wears face masks and gloves at all
-                      service times.
-                    </li>
-                    <li className="list-group-item h6 fw-light d-flex mb-0 items-center">
-                      <BsPatchCheckFill className=" text-success me-2" />
-                      Hotel staff ensures to maintain social distancing at all
-                      times.
-                    </li>
-                    <li className="list-group-item h6 fw-light d-flex mb-0 items-center">
-                      <BsPatchCheckFill className=" text-success me-2" />
-                      The hotel has In-Room Dining options available{" "}
-                    </li>
-                  </ul> */}
                 </CardBody>
               </Card>
               <Card className="bg-transparent">
                 <CardHeader className="border-bottom bg-transparent px-0 pt-0">
                   <h3 className="card-title mb-0">Amenities</h3>
                 </CardHeader>
-                {/* <CardBody className="pt-4 p-0">
-                  <Row className="g-4">
-                    {amenities.map((item, idx) => {
-                      const Icon = item.icon;
-                      return (
-                        <Col sm={6} key={idx}>
-                          <h6>
-                            <Icon size={18} className="me-2" />
-                            {item.label}
-                          </h6>
-                          <ul className="list-group list-group-borderless mt-2 mb-0">
-                            {item.name.map((item, idx) => {
-                              return (
-                                <li
-                                  key={idx}
-                                  className="list-group-item pb-0 items-center"
-                                >
-                                  <FaCheckCircle className="text-success me-2" />
-                                  {item}
-                                </li>
-                              );
-                            })}
-                          </ul>
-                        </Col>
-                      );
-                    })}
-                    <div className="col-sm-6">
-                      <h6 className="items-center">
-                        <BsShieldFillCheck className=" me-2" />
-                        Safety &amp; Security
-                      </h6>
-                      <ul className="list-group list-group-borderless mt-2 mb-4 mb-sm-5">
-                        <li className="list-group-item pb-0 items-center">
-                          <FaCheckCircle className="text-success me-2" />
-                          Doctor on Call
-                        </li>
-                      </ul>
-                      <h6>
-                        <FaVolumeUp className="me-2" />
-                        Staff Language
-                      </h6>
-                      <ul className="list-group list-group-borderless mt-2 mb-0">
-                        <li className="list-group-item pb-0 items-center">
-                          <FaCheckCircle className="text-success me-2" />
-                          English
-                        </li>
-                        <li className="list-group-item pb-0 items-center">
-                          <FaCheckCircle className="text-success me-2" />
-                          Spanish
-                        </li>
-                        <li className="list-group-item pb-0 items-center">
-                          <FaCheckCircle className="text-success me-2" />
-                          Hindi
-                        </li>
-                      </ul>
-                    </div>
-                  </Row>
-                </CardBody> */}
 
                 <CardBody className="pt-4 p-0">
-                  {console.log(
-                    "hotelDetails?.amenities----------",
-                    hotelDetails
-                  )}
                   <Row className="g-4">
                     {hotelDetails?.amenities?.length > 0 &&
                       hotelDetails.amenities.map((amenity, idx) => (
@@ -215,10 +88,12 @@ const AboutHotel = ({ hotelDetails }) => {
                 </CardBody>
               </Card>
 
-              <RoomOptions
-                rooms={hotelDetails?.rooms}
-                features={hotelDetails?.amenities ?? []}
-              />
+              {shoRoomOptions && (
+                <RoomOptions
+                  rooms={hotelDetails?.rooms}
+                  features={hotelDetails?.amenities ?? []}
+                />
+              )}
 
               <CustomerReview hotelDetails={hotelDetails} />
 

@@ -4,7 +4,6 @@ import { hotelDetails } from "../../data";
 import { Fragment } from "react";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 const HotelDetail = () => {
-  console.log("2222222222");
   return (
     <Card className="border">
       <CardHeader className="border-bottom d-flex justify-content-between">

@@ -17,7 +17,8 @@ const Listings = () => {
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("token");
-  console.log("111111111");
+  const [statistics, setStatistics] = useState([]);
+
   useEffect(() => {
     const fetchRooms = async () => {
       try {
@@ -37,7 +38,7 @@ const Listings = () => {
 
         const data = await response.json();
         setLoading(false);
-        console.log(data);
+
         if (data && data.data) {
           setRooms(data.data);
         }
@@ -48,6 +49,65 @@ const Listings = () => {
 
     fetchRooms();
   }, []);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:5000/api/v1/shops/listings/count",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const result = await response.json();
+
+        if (result.success) {
+          const { availableRooms, earnings, bookedRooms, totalListings } =
+            result.data;
+
+          const formattedStats = [
+            {
+              title: "Earning",
+              state: `${earnings.toLocaleString()}`,
+              change: "0.00%", // Calculated if you have monthly data
+              changeLabel: "vs last month",
+              link: "View statement",
+              variant: "text-success",
+              tag: "After US royalty withholding tax",
+            },
+            {
+              title: "Booked Rooms",
+              state: bookedRooms.toString(),
+              change: totalListings.toString(),
+              changeLabel: "Total Rooms",
+              link: "View Bookings",
+              variant: "text-info",
+            },
+            {
+              title: "Available Rooms",
+              state: availableRooms.toString(),
+              change: totalListings.toString(),
+              changeLabel: "Total Rooms",
+              link: "View Rooms",
+              variant: "text-warning",
+            },
+          ];
+
+          setStatistics(formattedStats);
+        }
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+        setLoading(false);
+      }
+    };
+
+    if (token) fetchStats();
+  }, [token]);
 
   return (
     <>

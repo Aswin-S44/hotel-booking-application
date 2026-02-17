@@ -1,31 +1,36 @@
-import { GlightBox } from '@/components';
-import { currency } from '@/states';
-import { Button, Card, CardBody, Col, Image, Row } from 'react-bootstrap';
-import { BsArrowRight } from 'react-icons/bs';
-import { FaBed, FaSquare, FaTableCellsLarge } from 'react-icons/fa6';
-import { useNavigate } from 'react-router-dom';
-const RoomCard = ({
-  images,
-  name,
-  price,
-  sqfeet, rooms, id
-}) => {
+import { GlightBox } from "@/components";
+import { currency } from "@/states";
+import { Button, Card, CardBody, Col, Image, Row } from "react-bootstrap";
+import { BsArrowRight } from "react-icons/bs";
+import { FaBed, FaSquare, FaTableCellsLarge } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
+const RoomCard = ({ images, name, price, sqfeet, rooms, id }) => {
   const navigate = useNavigate();
 
-
-
-  return <Card className="border bg-transparent p-3">
+  return (
+    <Card className="border bg-transparent p-3">
       <Row className="g-3 g-md-4">
         <Col md={4}>
           <div className="position-relative">
             <Image src={images[0]} className="card-img" />
             <div className="card-img-overlay">
-              <GlightBox image={images[0]} className="badge bg-dark stretched-link" data-glightbox data-gallery="gallery">
+              <GlightBox
+                image={images[0]}
+                className="badge bg-dark stretched-link"
+                data-glightbox
+                data-gallery="gallery"
+              >
                 {images.length} Photos <BsArrowRight />
               </GlightBox>
             </div>
 
-            {(images ?? []).map((img, idx) => <GlightBox key={idx} image={img} className="stretched-link z-index-9" />)}
+            {(images ?? []).map((img, idx) => (
+              <GlightBox
+                key={idx}
+                image={img}
+                className="stretched-link z-index-9"
+              />
+            ))}
           </div>
         </Col>
         <Col md={8}>
@@ -53,17 +58,24 @@ const RoomCard = ({
                 </h6>
                 <span className="fw-light">/per night</span>
               </div>
-              <Button size="sm" variant="dark" href="" className="mb-0"  onClick={() =>
-              navigate(`/hotels/room-detail/${id}`, {
-                state: { rooms },
-              })
-            }>
-                Select room
+              <Button
+                size="sm"
+                variant="dark"
+                href=""
+                className="mb-0"
+                onClick={() =>
+                  navigate(`/hotels/room/${id}`, {
+                    state: { rooms },
+                  })
+                }
+              >
+                Select room1
               </Button>
             </div>
           </CardBody>
         </Col>
       </Row>
-    </Card>;
+    </Card>
+  );
 };
 export default RoomCard;

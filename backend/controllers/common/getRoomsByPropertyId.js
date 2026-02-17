@@ -3,7 +3,6 @@ import Room from "../../models/roomSchema.js";
 export const getRoomsByPropertyId = async (req, res) => {
   try {
     const { propertyId } = req.params;
-    console.log("propertyId-----------", propertyId);
 
     const rooms = await Room.find({
       property: propertyId,

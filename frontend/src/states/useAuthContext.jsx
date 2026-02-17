@@ -38,8 +38,6 @@ export function AuthProvider({ children }) {
     navigate("/auth/sign-in");
   };
 
-  console.log("user----------", user);
-
   return (
     <AuthContext.Provider
       value={{

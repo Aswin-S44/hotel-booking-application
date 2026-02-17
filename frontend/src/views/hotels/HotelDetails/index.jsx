@@ -5,7 +5,7 @@ import FooterWithLinks from "./components/FooterWithLinks";
 import HotelGallery from "./components/HotelGallery";
 import TopNavBar4 from "./components/TopNavBar4";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"; 
 const HotelDetails = () => {
   const { id } = useParams();
 
@@ -20,7 +20,7 @@ const HotelDetails = () => {
             `http://localhost:5000/api/v1/customer/property/${id}`
           );
           const result = await response.json();
-          console.log("result----------", result ? result : "no result");
+
           if (result && result.data) {
             setHotel(result.data);
           }

@@ -8,10 +8,6 @@ import Sticky from "react-sticky-el";
 import { useViewPort } from "@/hooks";
 import offerImg4 from "@/assets/images/offer/04.jpg";
 const PriceOverView = ({ rate, rating, rooms }) => {
-
-console.log("rooms 777777",rooms[0]?._id);
-
-
   const navigate = useNavigate();
   const { id } = useParams();
   const { width } = useViewPort();

@@ -142,6 +142,13 @@ export const AGENT_MENU_ITEMS = [
     parentKey: "acc-agent",
     icon: BsGear,
   },
+  {
+    key: "acc-agent-room-details",
+    label: "Room",
+    url: "/agent/room-detail/:id",
+    parentKey: "acc-agent",
+    icon: BsGear,
+  },
 ];
 export const ADMIN_MENU_ITEMS = [
   {

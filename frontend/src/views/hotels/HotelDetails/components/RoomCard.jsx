@@ -29,10 +29,18 @@ const amenities = [
   "Ac",
   "Slippers",
 ];
-const RoomCard = ({ features, images, room, id, name, price, sale, schemes, rooms }) => {
+const RoomCard = ({
+  features,
+  images,
+  room,
+  id,
+  name,
+  price,
+  sale,
+  schemes,
+  rooms,
+}) => {
   const navigate = useNavigate();
-
-console.log("room45", rooms);
 
   const { isOpen, toggle } = useToggle();
   const { dir } = useLayoutContext();
@@ -111,11 +119,16 @@ console.log("room45", rooms);
                 </span>
               </div>
               <div className="mt-3 mt-sm-0">
-                <Button variant="primary" size="sm" className="mb-0" onClick={() =>
-              navigate(`/hotels/room-detail/${id}`, {
-                state: { rooms },
-              })
-            }>
+                <Button
+                  variant="primary"
+                  size="sm"
+                  className="mb-0"
+                  onClick={() =>
+                    navigate(`/hotels/room-detail/${id}`, {
+                      state: { rooms },
+                    })
+                  }
+                >
                   Select Room
                 </Button>
               </div>

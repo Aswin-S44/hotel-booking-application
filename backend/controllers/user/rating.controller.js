@@ -1,7 +1,9 @@
 import mongoose from "mongoose";
-import { getReviewsByPropertyService, getReviewsByRoomAndPropertyService } from "../../services/rating.service.js";
+import {
+  getReviewsByPropertyService,
+  getReviewsByRoomAndPropertyService,
+} from "../../services/rating.service.js";
 import { addReviewService } from "../../services/rating.service.js";
-
 
 export const addReview = async (req, res) => {
   try {
@@ -14,9 +16,7 @@ export const addReview = async (req, res) => {
       });
     }
 
-    const reviewImages = req.files
-      ? req.files.map((file) => file.path)
-      : [];
+    const reviewImages = req.files ? req.files.map((file) => file.path) : [];
 
     const review = await addReviewService({
       fromId,
@@ -40,16 +40,12 @@ export const addReview = async (req, res) => {
   }
 };
 
-
 export const getReviewsByRoomAndProperty = async (req, res) => {
-   const { propertyId, roomId } = req.params;
-   console.log("+++***",req.params);
-console.log("+++",propertyId, roomId);
+  const { propertyId, roomId } = req.params;
 
   try {
     const { propertyId, roomId } = req.params;
-console.log("+++",propertyId, roomId);
-    // 1️⃣ Missing parameters
+
     if (!propertyId || !roomId) {
       return res.status(400).json({
         success: false,
@@ -99,7 +95,6 @@ console.log("+++",propertyId, roomId);
   }
 };
 
-
 export const getReviewsByProperty = async (req, res) => {
   try {
     const { propertyId } = req.params;
@@ -137,7 +132,6 @@ export const getReviewsByProperty = async (req, res) => {
       totalReviews: reviews.length,
       data: reviews,
     });
-
   } catch (error) {
     console.error("Error fetching property reviews:", error);
     return res.status(500).json({
