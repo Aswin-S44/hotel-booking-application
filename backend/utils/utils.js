@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import nodemailer from "nodemailer";
 
 const JWT_SECRET = process.env.JWT_SECRET || "secret_key";
 
