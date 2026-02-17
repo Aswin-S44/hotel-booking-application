@@ -16,6 +16,7 @@ export const getMe = async (req, res) => {
         return res.json({ status: false });
       } else {
         const user = await User.findById(data.id);
+        console.log("user------------", user);
 
         if (user)
           return res.json({

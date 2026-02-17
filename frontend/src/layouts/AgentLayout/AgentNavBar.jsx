@@ -46,7 +46,7 @@ const AgentMenu = () => {
         );
       })}
 
-      <Dropdown className="nav-item">
+      {/* <Dropdown className="nav-item">
         <DropdownToggle
           as={Link}
           to=""
@@ -73,7 +73,7 @@ const AgentMenu = () => {
             Item 2
           </DropdownItem>
         </DropdownMenu>
-      </Dropdown>
+      </Dropdown> */}
     </ul>
   );
 };

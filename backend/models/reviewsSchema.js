@@ -20,10 +20,10 @@ const reviewsSchema = new mongoose.Schema(
     feedback: { type: String },
     rating: { type: Number },
     reviewImages: [
-  {
-    type: String,
-  },
-], 
+      {
+        type: String,
+      },
+    ],
   },
   { timestamps: true }
 );

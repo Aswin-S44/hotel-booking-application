@@ -30,6 +30,9 @@ const userSchema = new mongoose.Schema(
     googleId: { type: String },
     avatar: { type: String },
     isBlocked: { type: Boolean, default: false },
+    contactNumber: { type: String },
+    location: { type: String },
+    birthday: { type: Date },
   },
   {
     timestamps: true,

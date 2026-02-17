@@ -1,12 +1,24 @@
-import { Col, Container, Nav, NavItem, NavLink, Row, TabContainer, TabContent, TabPane } from 'react-bootstrap';
-import { BsGear } from 'react-icons/bs';
-import { FaBell, FaCog, FaUserCircle } from 'react-icons/fa';
-import EditProfile from './components/EditProfile';
-import NotificationSettings from './components/NotificationSettings';
-import AccountSettings from './components/AccountSettings';
-import { PageMetaData } from '@/components';
+import {
+  Col,
+  Container,
+  Nav,
+  NavItem,
+  NavLink,
+  Row,
+  TabContainer,
+  TabContent,
+  TabPane,
+} from "react-bootstrap";
+import { BsGear } from "react-icons/bs";
+import { FaBell, FaCog, FaUserCircle } from "react-icons/fa";
+import EditProfile from "./components/EditProfile";
+import NotificationSettings from "./components/NotificationSettings";
+import AccountSettings from "./components/AccountSettings";
+import { PageMetaData } from "@/components";
+import { useAuthContext } from "../../../states/useAuthContext";
 const Settings = () => {
-  return <>
+  return (
+    <>
       <PageMetaData title="Agent Settings" />
 
       <section className="pt-0">
@@ -23,27 +35,30 @@ const Settings = () => {
             <Row className="g-4">
               <Col xs={12}>
                 <div className="bg-light pb-0 px-2 px-lg-0 rounded-top">
-                  <Nav className="nav nav-tabs nav-bottom-line nav-responsive border-0 nav-justified" role="tablist">
+                  <Nav
+                    className="nav nav-tabs nav-bottom-line nav-responsive border-0 nav-justified"
+                    role="tablist"
+                  >
                     <NavItem>
-                      {' '}
+                      {" "}
                       <NavLink eventKey="1" className="mb-0 flex-centered">
                         <FaCog className="fa-fw me-2" />
                         Edit Profile
-                      </NavLink>{' '}
+                      </NavLink>{" "}
                     </NavItem>
                     <NavItem>
-                      {' '}
+                      {" "}
                       <NavLink eventKey="2" className="mb-0 flex-centered">
                         <FaBell className="fa-fw me-2" />
                         Notification Settings
-                      </NavLink>{' '}
+                      </NavLink>{" "}
                     </NavItem>
                     <NavItem>
-                      {' '}
+                      {" "}
                       <NavLink eventKey="3" className="mb-0 flex-centered">
                         <FaUserCircle className="fa-fw me-2" />
                         Account Settings
-                      </NavLink>{' '}
+                      </NavLink>{" "}
                     </NavItem>
                   </Nav>
                 </div>
@@ -69,6 +84,7 @@ const Settings = () => {
           </TabContainer>
         </Container>
       </section>
-    </>;
+    </>
+  );
 };
 export default Settings;

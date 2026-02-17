@@ -1,11 +1,12 @@
-import { Col, Container, Row } from 'react-bootstrap';
-import { BsGraphUpArrow } from 'react-icons/bs';
-import EarningChart from './components/EarningChart';
-import EarningStatistics from './components/EarningStatistics';
-import InvoiceHistory from './components/InvoiceHistory';
-import { PageMetaData } from '@/components';
+import { Col, Container, Row } from "react-bootstrap";
+import { BsGraphUpArrow } from "react-icons/bs";
+import EarningChart from "./components/EarningChart";
+import EarningStatistics from "./components/EarningStatistics";
+import InvoiceHistory from "./components/InvoiceHistory";
+import { PageMetaData } from "@/components";
 const Earnings = () => {
-  return <>
+  return (
+    <>
       <PageMetaData title="Agent Earnings" />
 
       <section className="pt-0">
@@ -34,6 +35,7 @@ const Earnings = () => {
           </Row>
         </Container>
       </section>
-    </>;
+    </>
+  );
 };
 export default Earnings;
