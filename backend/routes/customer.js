@@ -17,11 +17,16 @@ import {
 } from "../controllers/user/searchController.js";
 import { upload } from "../middleware/upload.js";
 import { getRoomMoreDetails } from "../controllers/common/getRoomMoreDetails.js";
+import { getUserProfile, updateUserProfile } from "../controllers/user/userProfileController.js";
+import { userVerification } from "../middleware/authMiddleware.js";
 
 const customerRouter = express.Router();
 customerRouter.get("/", (req, res) => {
   res.json({ message: "Customer route" });
 });
+
+
+customerRouter.get("/:propertyId", getPropertyById);
 
 customerRouter.post("/signup", signUp);
 customerRouter.get("/property/:propertyId", getPropertyById);
@@ -41,8 +46,12 @@ customerRouter.post("/add-review", upload.array("reviewImages", 5), addReview);
 customerRouter.get("/property/:propertyId", getReviewsByProperty);
 
 customerRouter.get("/rooms/:roomId/all", getRoomMoreDetails);
-customerRouter.post("/add-review",upload.array("reviewImages", 5),addReview);
+// customerRouter.post("/add-review",upload.array("reviewImages", 5),addReview);
 customerRouter.get("/property/reviews/:propertyId",getReviewsByProperty);
-customerRouter.get("/:propertyId", getPropertyById);
+
+customerRouter.put("/update-profile",userVerification, upload.single("profileImage"),updateUserProfile);
+customerRouter.get("/profile/details", userVerification, getUserProfile);
+
+
 
 export default customerRouter;
