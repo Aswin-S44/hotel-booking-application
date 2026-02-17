@@ -13,6 +13,8 @@ import clsx from "clsx";
 import { BsBookmarkHeart } from "react-icons/bs";
 import { FaSearch } from "react-icons/fa";
 import { useEffect, useState, useCallback } from "react";
+import { Modal, Button } from "react-bootstrap";
+
 
 const Bookings = () => {
   const [bookings, setBookings] = useState([]);
@@ -21,6 +23,15 @@ const Bookings = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const token = localStorage.getItem("token");
+  const [showModal, setShowModal] = useState(false);
+const [selectedBooking, setSelectedBooking] = useState(null);
+
+
+const handleView = (booking) => {
+  setSelectedBooking(booking);
+  setShowModal(true);
+};
+
 
   const fetchBookings = useCallback(
     async (page) => {
@@ -220,6 +231,7 @@ const Bookings = () => {
                               </td>
                               <td>
                                 <Link
+                                onClick={() => handleView(booking)}
                                   to=""
                                   className="btn btn-sm btn-light mb-0"
                                 >
@@ -278,6 +290,29 @@ const Bookings = () => {
           </Row>
         </Container>
       </section>
+
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+  <Modal.Header closeButton>
+    <Modal.Title>Booking Details</Modal.Title>
+  </Modal.Header>
+  <Modal.Body>
+    {selectedBooking && (
+      <>
+        <p style={{color:"black"}}><strong>Room:</strong> {selectedBooking.roomName}</p>
+        <p style={{color:"black"}}><strong>Check In:</strong> {selectedBooking.checkInDate}</p>
+        <p style={{color:"black"}}><strong>Status:</strong> {selectedBooking.status == "booked" ? <span style={{color:"green"}}> Booked </span> : <span style={{color:"red"}}>Cancelled</span>}</p>
+        <p style={{color:"black"}}><strong>Payment:</strong> {selectedBooking.paymentStatus == "paid" ? <span style={{color:"green"}}> paid </span> : <span style={{color:"red"}}>Not Paid</span>}</p>
+        <p style={{color:"black"}}><strong>Requirements:</strong> {selectedBooking.additionalInfo || "N/A"}</p>
+      </>
+    )}
+  </Modal.Body>
+  <Modal.Footer>
+    <Button variant="secondary" onClick={() => setShowModal(false)}>
+      Close
+    </Button>
+  </Modal.Footer>
+</Modal>
+
     </>
   );
 };

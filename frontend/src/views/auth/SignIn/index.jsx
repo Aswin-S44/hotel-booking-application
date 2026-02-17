@@ -6,6 +6,8 @@ import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
 import signInImg from "@/assets/images/element/signin.svg";
 import logoIcon from "@/assets/images/logo-icon.svg";
+import logo from '../../../assets/images/logo.png'
+
 import { developedByLink, currentYear } from "@/states";
 import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
@@ -75,6 +77,7 @@ const handleGoogleLogin = async () => {
     setLoading(true);
 
     const idToken = await signInWithGoogle();
+console.log("idtoken",idToken);
 
     const res = await axios.post(
       "http://localhost:5000/api/v1/auth/google-login",
@@ -122,7 +125,7 @@ const handleGoogleLogin = async () => {
       <Col lg={6} className="order-1">
         <div className="p-4 p-sm-7">
           <Link to="/">
-            <img className="h-50px mb-4" src={logoIcon} alt="logo" />
+            <img className="h-50px mb-4" src={logo} alt="logo" />
           </Link>
 
           <h1 className="mb-2 h3">Welcome back</h1>

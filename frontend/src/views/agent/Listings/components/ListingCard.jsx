@@ -10,6 +10,7 @@ import {
   Image,
   Row,
 } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import {
   BsGeoAlt,
   BsInfoCircle,
@@ -18,10 +19,50 @@ import {
   BsThreeDotsVertical,
   BsTrash3,
 } from "react-icons/bs";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { currency } from "@/states";
-const ListingCard = ({ roomListCard }) => {
+import { useState } from "react";
+import axios from "axios";
+const ListingCard = ({ roomListCard, setRooms }) => {
   const { location, thumbnail, listingName, basePrice } = roomListCard;
+
+  const [show, setShow] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+
+  console.log("token>>>>>>>>>>>>>", show);
+
+
+const handleDelete = async () => {
+  try {
+    setLoading(true);
+
+    const token = localStorage.getItem("token");
+
+    await axios.delete(
+      `http://localhost:5000/api/v1/shops/rooms/${roomListCard?._id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+
+    setRooms(prevRooms =>
+      prevRooms.filter(room => room._id !== roomListCard._id)
+    );
+
+    setLoading(false);
+    setShow(false);
+
+  } catch (error) {
+    console.log(error);
+    setLoading(false);
+  }
+};
+
   return (
     <Card className="border p-2">
       <Row className="g-4">
@@ -91,14 +132,41 @@ const ListingCard = ({ roomListCard }) => {
                   <BsPencilSquare className=" fa-fw me-1" />
                   Edit
                 </Button>
-                <Button
+                <Button onClick={() => setShow(true)}
                   variant="danger"
                   size="sm"
                   className="mb-0 items-center"
                 >
-                  <BsTrash3 className=" fa-fw me-1" />
+                  <BsTrash3 className=" fa-fw me-1"  />
                   Delete
                 </Button>
+
+
+
+                <Modal show={show} onHide={() => setShow(false)} centered>
+                  <Modal.Header closeButton>
+                    <Modal.Title>Confirm Delete</Modal.Title>
+                  </Modal.Header>
+
+                  <Modal.Body>
+                    Are you sure you want to delete all rooms of this property?
+                  </Modal.Body>
+
+                  <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setShow(false)}>
+                      Cancel
+                    </Button>
+
+                    <Button
+                      variant="danger"
+                      onClick={handleDelete}
+                      disabled={loading}
+                    >
+                      {loading ? "Deleting..." : "Yes, Delete"}
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
+
               </div>
             </div>
           </CardBody>

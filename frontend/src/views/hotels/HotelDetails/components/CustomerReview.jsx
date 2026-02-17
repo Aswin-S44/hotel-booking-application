@@ -25,7 +25,7 @@ import hotel8 from "@/assets/images/category/hotel/4by3/08.jpg";
 import AddReviewModal from "./AddReviewModal";
 import { useAuthContext } from "@/states/useAuthContext";
 
-const CustomerReview = ({ hotelDetails }) => {
+const CustomerReview = ({ hotelDetails, propertyId }) => {
   const reviewSchema = yup.object({
     review: yup.string().required("Please enter your review"),
   });
@@ -109,9 +109,10 @@ const CustomerReview = ({ hotelDetails }) => {
         <AddReviewModal
           show={showReview}
           handleClose={() => setShowReview(false)}
-          propertyId={hotelDetails?.rooms[0]?.property}
-          roomId={hotelDetails.rooms[0]?._id}
+          
+          roomId={hotelDetails?.rooms[0]?._id}
           userId={user?._id}
+          propertyId={propertyId}
         />
 
         <div className="d-md-flex my-4">
@@ -206,8 +207,8 @@ const CustomerReview = ({ hotelDetails }) => {
               show={showReview}
               handleClose={() => setShowReview(false)}
               propertyId={hotelDetails.rooms[0].property}
-              roomId={hotelDetails.rooms[0]._id}
-              userId={user._id}
+              roomId={hotelDetails?.rooms[0]?._id}
+              userId={user?._id}
             />
           )}
 

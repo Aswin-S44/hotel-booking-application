@@ -24,8 +24,9 @@ import HotelPolicies from "./HotelPolicies";
 import PriceOverView from "./PriceOverView";
 import RoomOptions from "./RoomOptions";
 import { amenities } from "../data";
-const AboutHotel = ({ hotelDetails, shoRoomOptions = true }) => {
+const AboutHotel = ({ hotelDetails, shoRoomOptions = true , propertyId}) => {
   const { isOpen, toggle } = useToggle();
+console.log("hotelDetails",hotelDetails);
 
   return (
     <section className="pt-0">
@@ -95,7 +96,7 @@ const AboutHotel = ({ hotelDetails, shoRoomOptions = true }) => {
                 />
               )}
 
-              <CustomerReview hotelDetails={hotelDetails} />
+              <CustomerReview hotelDetails={hotelDetails} propertyId={propertyId} />
 
               <HotelPolicies />
             </div>

@@ -9,6 +9,7 @@ import { getStats } from "../controllers/shops/getStats.js";
 import { getPropertyById } from "../controllers/common/getPropertyById.js";
 import { getListingsCount } from "../controllers/shops/getListingsCount.js";
 import { getGraphStats } from "../controllers/shops/getGraphStats.js";
+import { deleteActivity, deleteAllActivities, getUserActivities } from "../controllers/shops/activityController.js";
 
 const shopsRouter = express.Router();
 
@@ -26,5 +27,8 @@ shopsRouter.get("/stats", userVerification, getStats);
 shopsRouter.post("/listing", userVerification);
 shopsRouter.get("/listings/count", userVerification, getListingsCount);
 shopsRouter.get("/stats/graph", userVerification, getGraphStats);
+shopsRouter.get("/activity", userVerification, getUserActivities);
+shopsRouter.delete("/activity/:activityId", userVerification, deleteActivity);
+shopsRouter.delete("/activity", userVerification, deleteAllActivities);
 
 export default shopsRouter;
