@@ -112,8 +112,6 @@ export const getProperties = async (req, res) => {
   }
 };
 
-
-
 export const getPropertyById = async (req, res) => {
   try {
     const { propertyId } = req.params;
@@ -126,8 +124,10 @@ export const getPropertyById = async (req, res) => {
       });
     }
 
-    const property = await Property.findById(propertyId)
-      .populate("owner", "name email");
+    const property = await Property.findById(propertyId).populate(
+      "owner",
+      "name email"
+    );
 
     if (!property) {
       return res.status(404).json({

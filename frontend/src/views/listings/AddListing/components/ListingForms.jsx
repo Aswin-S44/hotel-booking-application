@@ -62,15 +62,67 @@ const Header = () => {
 const ListingForms = () => {
   const { user } = useAuthContext();
   const navigate = useNavigate();
+
   const listingSchema = yup.object({
-    listingName: yup.string().required("Please enter your listing name"),
-    listingType: yup.string().required("Please select usage type"),
-    shortDescription: yup.string().required("Please enter a short description"),
-    thumbnail: yup.mixed().required("Thumbnail Image is required"),
+    listingName: yup.string().required("Listing name is required"),
+    listingType: yup.string().required("Listing type is required"),
+    listingUse: yup.string().required("Usage type is required"),
+    shortDescription: yup.string().required("Short description is required"),
+    country: yup.string().required("Country is required"),
+    state: yup.string().required("State is required"),
+    city: yup.string().required("City is required"),
+    postalCode: yup.string().required("Postal code is required"),
+    street: yup.string().required("Street is required"),
+    latitude: yup
+      .number()
+      .typeError("Must be a number")
+      .required("Latitude is required"),
+    longitude: yup
+      .number()
+      .typeError("Must be a number")
+      .required("Longitude is required"),
+    thumbnail: yup.mixed().required("Thumbnail is required"),
+    gallery: yup.array().min(1, "At least one gallery image is required"),
+    amenities: yup.array().min(1, "Select at least one amenity"),
+    description: yup.string().required("Description is required"),
+    totalFloors: yup
+      .number()
+      .typeError("Must be a number")
+      .required("Required"),
+    totalRooms: yup.number().typeError("Must be a number").required("Required"),
+    propertyArea: yup
+      .number()
+      .typeError("Must be a number")
+      .required("Required"),
+    rooms: yup.array().of(
+      yup.object({
+        roomName: yup.string().required("Room name required"),
+        price: yup
+          .number()
+          .typeError("Must be a number")
+          .required("Price required"),
+        discount: yup.number().typeError("Must be a number").default(0),
+        roomThumbnail: yup.mixed().required("Room image required"),
+      })
+    ),
+    currency: yup.string().required("Currency is required"),
+    basePrice: yup
+      .number()
+      .typeError("Must be a number")
+      .required("Base price is required"),
+    discount3: yup.number().typeError("Must be a number").default(0),
+    listingPolicyDescription: yup
+      .string()
+      .required("Policy description is required"),
+    charges: yup
+      .number()
+      .typeError("Must be a number")
+      .required("Charges are required"),
   });
 
   const methods = useForm({
     resolver: yupResolver(listingSchema),
+    mode: "onChange",
     defaultValues: {
       listingType: "",
       listingName: "",
@@ -104,54 +156,48 @@ const ListingForms = () => {
     if (user && user._id && formData) {
       const transformedData = {
         owner: user._id,
-        listingName: formData?.listingName ?? "",
-        listingType: formData?.listingType ?? "",
-        listingUse: formData?.listingUse ?? "",
-        shortDescription: formData?.shortDescription ?? "",
+        listingName: formData.listingName,
+        listingType: formData.listingType,
+        listingUse: formData.listingUse,
+        shortDescription: formData.shortDescription,
         location: {
-          country: formData?.country ?? "",
-          state: formData?.state ?? "",
-          city: formData?.city ?? "",
-          street: formData?.street ?? "",
-          postalCode: formData?.postalCode ?? "",
+          country: formData.country,
+          state: formData.state,
+          city: formData.city,
+          street: formData.street,
+          postalCode: formData.postalCode,
           coordinates: {
             type: "Point",
             coordinates: [
-              formData?.longitude ? parseFloat(formData.longitude) : 0,
-              formData?.latitude ? parseFloat(formData.latitude) : 0,
+              parseFloat(formData.longitude),
+              parseFloat(formData.latitude),
             ],
           },
         },
-        amenities: formData?.amenities ?? [],
-        description: formData?.description ?? "",
-        thumbnail: formData?.thumbnail?.base64 ?? "",
-        gallery: Array.isArray(formData?.gallery)
-          ? formData.gallery.map((img) => img?.base64 ?? "")
-          : [],
+        amenities: formData.amenities,
+        description: formData.description,
+        thumbnail: formData.thumbnail?.base64 ?? "",
+        gallery: formData.gallery.map((img) => img?.base64 ?? ""),
         policy: {
-          description: formData?.listingPolicyDescription ?? "",
+          description: formData.listingPolicyDescription,
           cancellationOption: "Flexible",
-          extraCharges: formData?.charges ? parseFloat(formData.charges) : 0,
+          extraCharges: parseFloat(formData.charges),
         },
-        currency: formData?.currency ?? "INR",
-        basePrice: formData?.basePrice ? parseFloat(formData.basePrice) : 0,
-        discount: formData?.discount3 ? parseFloat(formData.discount3) : 0,
+        currency: formData.currency,
+        basePrice: parseFloat(formData.basePrice),
+        discount: parseFloat(formData.discount3),
         starRating: 5,
-        totalFloors: formData?.totalFloors ? parseInt(formData.totalFloors) : 0,
-        totalRooms: formData?.totalRooms ? parseInt(formData.totalRooms) : 0,
-        propertyArea: formData?.propertyArea
-          ? parseInt(formData.propertyArea)
-          : 0,
-        rooms: Array.isArray(formData?.rooms)
-          ? formData.rooms.map((room) => ({
-              roomName: room?.roomName ?? "",
-              roomThumbnail: room?.roomThumbnail?.base64 ?? "",
-              price: room?.price ? parseFloat(room.price) : 0,
-              discount: room?.discount ? parseFloat(room.discount) : 0,
-              additionalInfo: "",
-              roomArea: 0,
-            }))
-          : [],
+        totalFloors: parseInt(formData.totalFloors),
+        totalRooms: parseInt(formData.totalRooms),
+        propertyArea: parseInt(formData.propertyArea),
+        rooms: formData.rooms.map((room) => ({
+          roomName: room.roomName,
+          roomThumbnail: room.roomThumbnail?.base64 ?? "",
+          price: parseFloat(room.price),
+          discount: parseFloat(room.discount),
+          additionalInfo: "",
+          roomArea: 0,
+        })),
       };
 
       try {
@@ -166,13 +212,11 @@ const ListingForms = () => {
             body: JSON.stringify(transformedData),
           }
         );
-
         const result = await response.json();
-
         if (result && result.success) {
           Swal.fire({
             title: "Good job!",
-            text: "You property is added!",
+            text: "Property added!",
             icon: "success",
           });
           navigate("/agent/dashboard");
@@ -190,9 +234,9 @@ const ListingForms = () => {
           <FormProvider {...methods}>
             <form onSubmit={methods.handleSubmit(onSubmit)}>
               <Wizard header={<Header />}>
-                <Step1 control={methods.control} />
-                <Step2 control={methods.control} />
-                <Step3 control={methods.control} />
+                <Step1 />
+                <Step2 />
+                <Step3 />
               </Wizard>
             </form>
           </FormProvider>
