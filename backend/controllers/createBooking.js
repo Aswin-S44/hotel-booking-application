@@ -3,6 +3,8 @@ import Bookings from "../models/bookings.js";
 import Guests from "../models/guests.js";
 import Payment from "../models/payments.js";
 import Property from "../models/propertySchema.js";
+import Activity from "../models/activitySchema.js";
+
 import Room from "../models/roomSchema.js";
 import Stats from "../models/statsSchema.js";
 
@@ -71,6 +73,17 @@ export const createBooking = async (req, res) => {
     };
 
     const createdBooking = await Bookings.create(bookingData);
+
+    // Create activity for property owner
+    await Activity.create({
+      userId: propertyId, // property owner receives notification
+      actorId: req.userId, // user who booked
+      type: "BOOKING",
+      title: "New Booking",
+      description: `${req.user.name} booked your room at ${room.name}`,
+      relatedId: createdBooking._id,
+    });
+
 
     if (!createdBooking) {
       return res.status(400).send({ message: "Error while create booking" });

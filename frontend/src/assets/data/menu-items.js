@@ -14,26 +14,31 @@ import {
   BsWallet,
 } from "react-icons/bs";
 import { FaCar, FaEarthAmericas, FaHotel, FaPlane } from "react-icons/fa6";
+import { IoMdContact } from "react-icons/io";
 import { CgProfile } from "react-icons/cg";
+import { TbMailFilled } from "react-icons/tb";
+import { IoNewspaper } from "react-icons/io5";
+import { IoMailOpenOutline } from "react-icons/io5";
 export const bookingHomeMenuItems = [
   {
     key: "hotel-home",
     label: "Hotel",
-    url: "/hotels/home",
+    url: "/hotels/grid",
     icon: FaHotel,
   },
   {
-    key: "flight-home",
-    label: "Flight",
-    url: "/flights/home",
-    icon: FaPlane,
+    key: "Contact-home",
+    label: "Contact",
+    url: "/pages/contact",
+    icon: IoMailOpenOutline,
   },
   {
-    key: "tour-home",
-    label: "Tour",
-    url: "/tours/home",
-    icon: FaEarthAmericas,
+    key: "Blog-home",
+    label: "Blogs",
+    url: "/blogs/blog",
+    icon: IoNewspaper,
   },
+  
   {
     key: "sign-in",
     label: "Sign in",
@@ -56,13 +61,13 @@ export const USER_PROFILE_MENU_ITEMS = [
     parentKey: "acc-user",
     icon: BsTicketPerforated,
   },
-  {
-    key: "acc-user-travelers",
-    label: "Travelers",
-    url: "/user/travelers",
-    parentKey: "acc-user",
-    icon: BsPeople,
-  },
+  // {
+  //   key: "acc-user-travelers",
+  //   label: "Travelers",
+  //   url: "/user/travelers",
+  //   parentKey: "acc-user",
+  //   icon: BsPeople,
+  // },
   {
     key: "acc-user-payment-details",
     label: "Payment Details",
@@ -84,14 +89,80 @@ export const USER_PROFILE_MENU_ITEMS = [
     parentKey: "acc-user",
     icon: BsGear,
   },
-  {
-    key: "acc-user-delete",
-    label: "Delete Profile",
-    url: "/user/delete-profile",
-    parentKey: "acc-user",
-    icon: BsTrash,
-  },
+  // {
+  //   key: "acc-user-delete",
+  //   label: "Delete Profile",
+  //   url: "/user/delete-profile",
+  //   parentKey: "acc-user",
+  //   icon: BsTrash,
+  // },
 ];
+
+
+
+// export const APP_MENU_ITEMS = [
+//   {
+//     key: "Home",
+//     label: "Home",
+//     children: [
+//       {
+//         key: "pages-about",
+//         label: "About Us",
+//         url: "/pages/about",
+//       },
+//       {
+//         key: "pages-our-team",
+//         label: "Our Team",
+//         url: "/pages/our-team",
+//       },
+//       {
+//         key: "pricing",
+//         label: "Pricing",
+//         url: "/pricing",
+//       },
+//     ],
+//   },
+//   {
+//     key: "support",
+//     label: "Support",
+//     children: [
+//       {
+//         key: "pages-contact",
+//         label: "Contact",
+//         url: "/pages/contact",
+//       },
+//       {
+//         key: "faqs",
+//         label: "FAQs",
+//         url: "/faqs",
+//       },
+//       {
+//         key: "helps-center",
+//         label: "Help Center",
+//         url: "/help/center",
+//       },
+//     ],
+//   },
+//   {
+//     key: "legal",
+//     label: "Legal",
+//     children: [
+//       {
+//         key: "privacy-policy",
+//         label: "Privacy Policy",
+//         url: "/help/privacy-policy",
+//       },
+//       {
+//         key: "terms-service",
+//         label: "Terms Of Service",
+//         url: "/help/service",
+//       },
+//     ],
+//   },
+// ];
+
+
+
 export const AGENT_MENU_ITEMS = [
   {
     key: "acc--dashboard",
@@ -301,6 +372,8 @@ export const HELP_MENU_ITEMS = [
     isTitle: true,
   },
 ];
+
+
 export const APP_MENU_ITEMS = [
   {
     key: "listings",
@@ -720,3 +793,8 @@ export const APP_MENU_ITEMS = [
     ],
   },
 ];
+
+
+
+
+

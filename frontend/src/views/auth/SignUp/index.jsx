@@ -85,16 +85,10 @@ const SignUp = () => {
         <div className="vr opacity-1 d-none d-lg-block" />
       </Col>
 
-      <Col lg={6} className="order-1">
-        <div className="p-4 p-sm-6">
-          <Link to="/">
-            <img className="h-50px mb-4" src={logoIcon} alt="logo" />
-          </Link>
+        <form onSubmit={onSubmit} className="mt-4 text-start">
+          <TextFormInput name="email" containerClass="mb-3" label="Enter email id" type="email" control={control} />
 
-          <h1 className="mb-2 h3">Create new account</h1>
-          <p className="mb-0">
-            Already a member?<Link to="/auth/sign-in"> Log in</Link>
-          </p>
+          <PasswordFormInput name="password" containerClass="mb-3" label="Enter password" control={control} />
 
           {error && (
             <Alert variant="danger" className="mt-3">

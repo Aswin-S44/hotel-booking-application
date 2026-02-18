@@ -12,6 +12,9 @@ const HotelDetails = () => {
   const [hotel, setHotel] = useState(null);
   const [loading, setLoading] = useState(true);
 
+console.log("hotel",hotel);
+
+
   useEffect(() => {
     if (id) {
       const fetchHotelDetails = async () => {
@@ -67,6 +70,7 @@ const HotelDetails = () => {
                 totalRooms: hotel?.rooms?.length ?? 0,
                 rooms: hotel?.rooms,
               }}
+              propertyId={hotel?.id}
             />
           </>
         )}

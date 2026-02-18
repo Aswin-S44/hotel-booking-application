@@ -18,6 +18,8 @@ const Listings = () => {
   const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("token");
   const [statistics, setStatistics] = useState([]);
+const [trigger, setTrigger] = useState(false);
+
 
   useEffect(() => {
     const fetchRooms = async () => {
@@ -48,7 +50,7 @@ const Listings = () => {
     };
 
     fetchRooms();
-  }, []);
+  }, [trigger]);
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -109,6 +111,9 @@ const Listings = () => {
     if (token) fetchStats();
   }, [token]);
 
+console.log("rooms========>>>>>>>>>>>",rooms);
+
+
   return (
     <>
       <PageMetaData title="Agent Listings" />
@@ -150,7 +155,7 @@ const Listings = () => {
                     <>No rooms available</>
                   ) : (
                     rooms.map((room, idx) => (
-                      <ListingCard key={idx} roomListCard={room} />
+                      <ListingCard key={idx} roomListCard={room} setRooms={setRooms}/>
                     ))
                   )}
                   {/* {roomBookingList.map((room, idx) => (

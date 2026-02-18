@@ -12,6 +12,7 @@ import { getGraphStats } from "../controllers/shops/getGraphStats.js";
 import { getReviews } from "../controllers/shops/getReviews.js";
 import { getInvoiceHistory } from "../controllers/shops/getInvoiceHistory.js";
 import { getEarningStats } from "../controllers/shops/getEarningStats.js";
+import { deleteActivity, deleteAllActivities, getUserActivities } from "../controllers/shops/activityController.js";
 
 const shopsRouter = express.Router();
 
@@ -32,5 +33,8 @@ shopsRouter.get("/stats/graph", userVerification, getGraphStats);
 shopsRouter.get("/reviews", userVerification, getReviews);
 shopsRouter.get("/invoices", userVerification, getInvoiceHistory);
 shopsRouter.get("/earning-statuses", userVerification, getEarningStats);
+shopsRouter.get("/activity", userVerification, getUserActivities);
+shopsRouter.delete("/activity/:activityId", userVerification, deleteActivity);
+shopsRouter.delete("/activity", userVerification, deleteAllActivities);
 
 export default shopsRouter;
