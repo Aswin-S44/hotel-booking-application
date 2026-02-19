@@ -59,7 +59,7 @@ const EarningStatistics = () => {
 
   return (
     <Row className="g-4">
-      <Col md={6} lg={3}>
+      <Col md={6} lg={6}>
         <Card className="card-body border p-4 h-100">
           <h6 className="mb-0">Sales this month</h6>
           <h3 className="mb-2 mt-2">{earningStatus.salesThisMonth}</h3>
@@ -69,7 +69,7 @@ const EarningStatistics = () => {
         </Card>
       </Col>
 
-      <Col md={6} lg={3}>
+      <Col md={6} lg={6}>
         <Card className="card-body border p-4 h-100">
           <h6 className="mb-0">Earnings this month</h6>
           <h3 className="mb-2 mt-2">
@@ -107,7 +107,7 @@ const EarningStatistics = () => {
       </Col> 
       */}
 
-      <Col lg={6}>
+      {/* <Col lg={6}>
         <Card className="bg-primary p-4">
           <div className="d-flex justify-content-between align-items-start text-white">
             <Image className="w-40px" src={visa} />
@@ -175,7 +175,7 @@ const EarningStatistics = () => {
             <span>CVV: ***</span>
           </div>
         </Card>
-      </Col>
+      </Col> */}
     </Row>
   );
 };

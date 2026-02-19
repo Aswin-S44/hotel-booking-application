@@ -24,8 +24,8 @@ import { currency } from "@/states";
 import { useState } from "react";
 import axios from "axios";
 const ListingCard = ({ roomListCard, setRooms }) => {
-  const { location, thumbnail, listingName, basePrice } = roomListCard;
-
+  const { location, roomThumbnail, listingName, price } = roomListCard;
+  console.log("roomListCard-----------", roomListCard);
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -34,41 +34,39 @@ const ListingCard = ({ roomListCard, setRooms }) => {
 
   console.log("token>>>>>>>>>>>>>", show);
 
+  const handleDelete = async () => {
+    try {
+      setLoading(true);
 
-const handleDelete = async () => {
-  try {
-    setLoading(true);
+      const token = localStorage.getItem("token");
 
-    const token = localStorage.getItem("token");
-
-    await axios.delete(
-      `http://localhost:5000/api/v1/shops/rooms/${roomListCard?._id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`
+      await axios.delete(
+        `http://localhost:5000/api/v1/shops/rooms/${roomListCard?._id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      }
-    );
+      );
 
-    setRooms(prevRooms =>
-      prevRooms.filter(room => room._id !== roomListCard._id)
-    );
+      setRooms((prevRooms) =>
+        prevRooms.filter((room) => room._id !== roomListCard._id)
+      );
 
-    setLoading(false);
-    setShow(false);
-
-  } catch (error) {
-    console.log(error);
-    setLoading(false);
-  }
-};
+      setLoading(false);
+      setShow(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
 
   return (
     <Card className="border p-2">
       <Row className="g-4">
         <Col md={3} lg={2}>
           <Image
-            src={thumbnail}
+            src={roomThumbnail}
             className="card-img rounded-2"
             alt="Card image"
           />
@@ -100,7 +98,7 @@ const handleDelete = async () => {
               </DropdownMenu>
             </Dropdown>
             <h5 className="card-title mb-0 me-5">
-              <Link to="/hotels/detail">{listingName}</Link>
+              <Link to={`/hotel/room/${roomListCard?._id}`}>{listingName}</Link>
             </h5>
             <small>
               <BsGeoAlt className="me-2" />
@@ -119,7 +117,7 @@ const handleDelete = async () => {
               <div className="d-flex align-items-center">
                 <h5 className="fw-bold mb-0 me-1">
                   {currency}
-                  {basePrice}
+                  {price}
                 </h5>
                 <span className="mb-0 me-2">/day</span>
               </div>
@@ -128,20 +126,22 @@ const handleDelete = async () => {
                   variant="primary"
                   size="sm"
                   className="mb-0 items-center"
+                  onClick={() => {
+                    navigate(`/listings/${roomListCard?.property}/edit`);
+                  }}
                 >
                   <BsPencilSquare className=" fa-fw me-1" />
                   Edit
                 </Button>
-                <Button onClick={() => setShow(true)}
+                <Button
+                  onClick={() => setShow(true)}
                   variant="danger"
                   size="sm"
                   className="mb-0 items-center"
                 >
-                  <BsTrash3 className=" fa-fw me-1"  />
+                  <BsTrash3 className=" fa-fw me-1" />
                   Delete
                 </Button>
-
-
 
                 <Modal show={show} onHide={() => setShow(false)} centered>
                   <Modal.Header closeButton>
@@ -166,7 +166,6 @@ const handleDelete = async () => {
                     </Button>
                   </Modal.Footer>
                 </Modal>
-
               </div>
             </div>
           </CardBody>

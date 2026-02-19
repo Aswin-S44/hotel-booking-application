@@ -10,6 +10,7 @@ import Stats from "../models/statsSchema.js";
 
 export const createBooking = async (req, res) => {
   try {
+    console.log("---------------");
     const { currency, checkInDate, checkOutDate } = req.body;
     const { propertyId, roomId } = req.params;
 
@@ -80,10 +81,11 @@ export const createBooking = async (req, res) => {
       actorId: req.userId, // user who booked
       type: "BOOKING",
       title: "New Booking",
-      description: `${req.user.name} booked your room at ${room.name}`,
+      description: `${req.user.name} booked your room at ${
+        room?.roomName ?? "UNavailable"
+      }`,
       relatedId: createdBooking._id,
     });
-
 
     if (!createdBooking) {
       return res.status(400).send({ message: "Error while create booking" });

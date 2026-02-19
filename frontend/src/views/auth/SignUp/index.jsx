@@ -85,7 +85,7 @@ const SignUp = () => {
         <div className="vr opacity-1 d-none d-lg-block" />
       </Col>
 
-      <form onSubmit={onSubmit} className="mt-4 text-start">
+      <form onSubmit={() => {}} className="mt-4 text-start">
         <TextFormInput
           name="email"
           containerClass="mb-3"

@@ -4,7 +4,7 @@ import ReactQuill from "react-quill-new";
 import { Card, CardBody, CardHeader, Col, Row, Button } from "react-bootstrap";
 import { useWizard } from "react-use-wizard";
 
-const Step3 = () => {
+const Step3 = ({ isEdit }) => {
   const { control } = useFormContext();
   const { previousStep } = useWizard();
 
@@ -29,6 +29,7 @@ const Step3 = () => {
                       className="form-select js-choice border-0 z-index-9 bg-transparent"
                     >
                       <option value="USD">USD</option>
+                      <option value="INR">INR</option>
                       <option value="EURO">EURO</option>
                     </SelectFormInput>
                     {error && (
@@ -101,8 +102,12 @@ const Step3 = () => {
         >
           Previous
         </button>
-        <Button type="submit" variant="success" className="mb-0">
-          Add Listing
+        <Button
+          type="submit"
+          variant={isEdit ? "primary" : "success"}
+          className="mb-0"
+        >
+          {isEdit ? "Update Listing" : "Add Listing"}
         </Button>
       </div>
     </div>

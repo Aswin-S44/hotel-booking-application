@@ -1,6 +1,7 @@
 import { lazy } from "react";
 import { Navigate } from "react-router-dom";
 import RoomExtraDetails from "../views/hotels/roomDetails";
+import HotelRoomDetails from "../views/hotels/HotelRoomDetails";
 const HotelsHome = lazy(() => import("@/views/hotels/Home"));
 const HotelsChain = lazy(() => import("@/views/hotels/Chain"));
 const HotelsResort = lazy(() => import("@/views/hotels/Resort"));
@@ -230,6 +231,16 @@ const listingRoutes = [
     path: "/listings/added",
     name: "listings.added",
     element: <ListingAdded />,
+  },
+  {
+    path: "/listings/:id/edit",
+    name: "listings.edit",
+    element: <ListingsAdd />,
+  },
+  {
+    path: "/hotel/room/:id",
+    name: "listings.edit",
+    element: <HotelRoomDetails />,
   },
 ];
 const heroRoutes = [

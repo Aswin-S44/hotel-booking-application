@@ -1,5 +1,7 @@
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Container } from "react-bootstrap";
+import { Container, Spinner } from "react-bootstrap";
 import { useForm, FormProvider } from "react-hook-form";
 import * as yup from "yup";
 import Step1 from "./Step1";
@@ -8,7 +10,6 @@ import Step3 from "./Step3";
 import { Wizard, useWizard } from "react-use-wizard";
 import { useAuthContext } from "../../../../states/useAuthContext";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const { goToStep, activeStep } = useWizard();
@@ -62,6 +63,8 @@ const Header = () => {
 const ListingForms = () => {
   const { user } = useAuthContext();
   const navigate = useNavigate();
+  const { id } = useParams();
+  const [loading, setLoading] = useState(false);
 
   const listingSchema = yup.object({
     listingName: yup.string().required("Listing name is required"),
@@ -150,82 +153,146 @@ const ListingForms = () => {
     },
   });
 
+  const { reset } = methods;
   const token = localStorage.getItem("token");
 
-  const onSubmit = async (formData) => {
-    if (user && user._id && formData) {
-      const transformedData = {
-        owner: user._id,
-        listingName: formData.listingName,
-        listingType: formData.listingType,
-        listingUse: formData.listingUse,
-        shortDescription: formData.shortDescription,
-        location: {
-          country: formData.country,
-          state: formData.state,
-          city: formData.city,
-          street: formData.street,
-          postalCode: formData.postalCode,
-          coordinates: {
-            type: "Point",
-            coordinates: [
-              parseFloat(formData.longitude),
-              parseFloat(formData.latitude),
-            ],
-          },
-        },
-        amenities: formData.amenities,
-        description: formData.description,
-        thumbnail: formData.thumbnail?.base64 ?? "",
-        gallery: formData.gallery.map((img) => img?.base64 ?? ""),
-        policy: {
-          description: formData.listingPolicyDescription,
-          cancellationOption: "Flexible",
-          extraCharges: parseFloat(formData.charges),
-        },
-        currency: formData.currency,
-        basePrice: parseFloat(formData.basePrice),
-        discount: parseFloat(formData.discount3),
-        starRating: 5,
-        totalFloors: parseInt(formData.totalFloors),
-        totalRooms: parseInt(formData.totalRooms),
-        propertyArea: parseInt(formData.propertyArea),
-        rooms: formData.rooms.map((room) => ({
-          roomName: room.roomName,
-          roomThumbnail: room.roomThumbnail?.base64 ?? "",
-          price: parseFloat(room.price),
-          discount: parseFloat(room.discount),
-          additionalInfo: "",
-          roomArea: 0,
-        })),
-      };
-
-      try {
-        const response = await fetch(
-          "http://localhost:5000/api/v1/shops/property",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(transformedData),
+  useEffect(() => {
+    if (id) {
+      const fetchProperty = async () => {
+        setLoading(true);
+        try {
+          const response = await fetch(
+            `http://localhost:5000/api/v1/shops/property/${id}`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+          const result = await response.json();
+          if (result.success) {
+            const item = result.data;
+            reset({
+              listingName: item.listingName,
+              listingType: item.listingType,
+              listingUse: item.listingUse,
+              shortDescription: item.shortDescription,
+              country: item.location.country,
+              state: item.location.state,
+              city: item.location.city,
+              postalCode: item.location.postalCode,
+              street: item.location.street,
+              longitude: item.location.coordinates.coordinates[0],
+              latitude: item.location.coordinates.coordinates[1],
+              amenities: item.amenities,
+              description: item.description,
+              thumbnail: item.thumbnail,
+              gallery: item.gallery,
+              totalFloors: item.totalFloors,
+              totalRooms: item.totalRooms,
+              propertyArea: item.propertyArea,
+              currency: item.currency,
+              basePrice: item.basePrice,
+              discount3: item.discount,
+              listingPolicyDescription: item.policy.description,
+              charges: item.policy.extraCharges,
+              rooms: item.rooms.map((r) => ({
+                roomName: r.roomName,
+                price: r.price,
+                discount: r.discount,
+                roomThumbnail: r.roomThumbnail,
+              })),
+            });
           }
-        );
-        const result = await response.json();
-        if (result && result.success) {
-          Swal.fire({
-            title: "Good job!",
-            text: "Property added!",
-            icon: "success",
-          });
-          navigate("/agent/dashboard");
+        } catch (error) {
+          console.error("Fetch Error:", error);
+        } finally {
+          setLoading(false);
         }
-      } catch (error) {
-        console.error("Submission Error:", error);
+      };
+      fetchProperty();
+    }
+  }, [id, reset, token]);
+
+  const onSubmit = async (formData) => {
+    const transformedData = {
+      owner: user._id,
+      listingName: formData.listingName,
+      listingType: formData.listingType,
+      listingUse: formData.listingUse,
+      shortDescription: formData.shortDescription,
+      location: {
+        country: formData.country,
+        state: formData.state,
+        city: formData.city,
+        street: formData.street,
+        postalCode: formData.postalCode,
+        coordinates: {
+          type: "Point",
+          coordinates: [
+            parseFloat(formData.longitude),
+            parseFloat(formData.latitude),
+          ],
+        },
+      },
+      amenities: formData.amenities,
+      description: formData.description,
+      thumbnail: formData.thumbnail?.base64 || formData.thumbnail,
+      gallery: formData.gallery.map((img) => img?.base64 || img),
+      policy: {
+        description: formData.listingPolicyDescription,
+        cancellationOption: "Flexible",
+        extraCharges: parseFloat(formData.charges),
+      },
+      currency: formData.currency,
+      basePrice: parseFloat(formData.basePrice),
+      discount: parseFloat(formData.discount3),
+      starRating: 5,
+      totalFloors: parseInt(formData.totalFloors),
+      totalRooms: parseInt(formData.totalRooms),
+      propertyArea: parseInt(formData.propertyArea),
+      rooms: formData.rooms.map((room) => ({
+        roomName: room.roomName,
+        roomThumbnail: room.roomThumbnail?.base64 || room.roomThumbnail,
+        price: parseFloat(room.price),
+        discount: parseFloat(room.discount),
+        additionalInfo: "",
+        roomArea: 0,
+      })),
+    };
+
+    try {
+      const url = id
+        ? `http://localhost:5000/api/v1/shops/property/${id}`
+        : "http://localhost:5000/api/v1/shops/property";
+      const method = id ? "PATCH" : "POST";
+
+      const response = await fetch(url, {
+        method: method,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(transformedData),
+      });
+      const result = await response.json();
+      if (result.success) {
+        Swal.fire({
+          title: "Success!",
+          text: id ? "Property updated!" : "Property added!",
+          icon: "success",
+        });
+        navigate("/agent/dashboard");
       }
+    } catch (error) {
+      console.error("Submission Error:", error);
     }
   };
+
+  if (loading)
+    return (
+      <div className="text-center p-5">
+        <Spinner animation="border" />
+      </div>
+    );
 
   return (
     <section>
@@ -236,7 +303,7 @@ const ListingForms = () => {
               <Wizard header={<Header />}>
                 <Step1 />
                 <Step2 />
-                <Step3 />
+                <Step3 isEdit={!!id} />
               </Wizard>
             </form>
           </FormProvider>

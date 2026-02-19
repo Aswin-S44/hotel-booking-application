@@ -6,7 +6,7 @@ import { FaPaperPlane, FaStar, FaStarHalfAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { DEFAULT_AVATAR_IMAGE } from "../../../../constants/images";
 import { format } from "date-fns";
-const ReviewCard = ({ review = [] }) => {
+const ReviewCard = ({ review = [] }) => { 
   console.log("review---------------", review);
   const { isOpen, toggle } = useToggle();
   const formattedDate = review?.createdAt

@@ -1,14 +1,21 @@
+import mongoose from "mongoose";
 import Property from "../../models/propertySchema.js";
 import Room from "../../models/roomSchema.js";
 
 export const getPropertyById = async (req, res) => {
   try {
     const { propertyId } = req.params;
+    console.log("1111111111");
 
-    const property = await Property.findOne({
-      _id: propertyId,
-      // owner: req.userId,
-    }).lean();
+    // Validate ObjectId
+    if (!mongoose.Types.ObjectId.isValid(propertyId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid property ID",
+      });
+    }
+
+    const property = await Property.findById(propertyId).lean();
 
     if (!property) {
       return res.status(404).json({
@@ -23,11 +30,11 @@ export const getPropertyById = async (req, res) => {
       success: true,
       data: {
         ...property,
-        rooms: rooms,
+        rooms,
       },
     });
   } catch (error) {
-    return res.status(500).send({
+    return res.status(500).json({
       success: false,
       message: error.message || "Internal server error",
     });

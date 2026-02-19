@@ -1,6 +1,6 @@
 import { useFileUploader } from "@/hooks";
 import { useEffect, useRef } from "react";
-import { Col, FormLabel, FormText } from "react-bootstrap";
+import { Col, FormLabel } from "react-bootstrap";
 import Dropzone from "react-dropzone";
 import { BsUpload } from "react-icons/bs";
 import { FaTimes } from "react-icons/fa";
@@ -11,7 +11,6 @@ const DropzoneFormInput = ({ label, onFileUpload, value, showPreview }) => {
 
   const isInitialized = useRef(false);
 
-  // Persistence: When navigating back, hydrate state from form Base64 strings
   useEffect(() => {
     if (
       value &&
@@ -19,12 +18,17 @@ const DropzoneFormInput = ({ label, onFileUpload, value, showPreview }) => {
       value.length > 0 &&
       !isInitialized.current
     ) {
-      setSelectedFiles(value);
+      const formattedFiles = value.map((file) => {
+        if (typeof file === "string") {
+          return { preview: file, base64: file, name: "Existing Image" };
+        }
+        return file;
+      });
+      setSelectedFiles(formattedFiles);
       isInitialized.current = true;
     }
   }, [value, setSelectedFiles]);
 
-  // Sync state to Wizard
   useEffect(() => {
     if (isInitialized.current || selectedFiles.length > 0) {
       onFileUpload(selectedFiles);
@@ -54,15 +58,11 @@ const DropzoneFormInput = ({ label, onFileUpload, value, showPreview }) => {
                 {selectedFiles.map((file, idx) => (
                   <Col xl={2} md={4} sm={6} key={idx}>
                     <div className="card p-2 shadow-none border position-relative h-100">
-                      {/* Use the base64 preview directly */}
                       <img
-                        src={file.preview}
+                        src={file.preview || file}
                         alt="preview"
                         className="rounded img-fluid"
                       />
-                      <div className="mt-2 small text-truncate fw-bold">
-                        {file.name}
-                      </div>
                       <button
                         type="button"
                         className="btn btn-danger btn-sm position-absolute top-0 end-0 m-1 rounded-circle p-0"

@@ -115,7 +115,7 @@ export const getProperties = async (req, res) => {
 export const getPropertyById = async (req, res) => {
   try {
     const { propertyId } = req.params;
-
+    console.log("22222222222");
     // 1️⃣ Validate ObjectId
     if (!mongoose.Types.ObjectId.isValid(propertyId)) {
       return res.status(400).json({

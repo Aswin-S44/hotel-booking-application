@@ -28,7 +28,7 @@ customerRouter.get("/", (req, res) => {
   res.json({ message: "Customer route" });
 });
 
-customerRouter.get("/:propertyId", getPropertyById);
+// customerRouter.get("/:propertyId", getPropertyById);
 
 customerRouter.post("/signup", signUp);
 customerRouter.get("/property/:propertyId", getPropertyById);
@@ -36,7 +36,11 @@ customerRouter.get("/properties", getProperties);
 customerRouter.get("/rooms/:roomId", getRoomById);
 customerRouter.get("/rooms/property/:propertyId", getRoomsByPropertyId);
 customerRouter.post("/create-order", createOrder);
-customerRouter.post("/booking/:propertyId/:roomId", createBooking);
+customerRouter.post(
+  "/booking/:propertyId/:roomId",
+  userVerification,
+  createBooking
+);
 customerRouter.get(
   "/property/:propertyId/review/:roomId",
   getReviewsByRoomAndProperty

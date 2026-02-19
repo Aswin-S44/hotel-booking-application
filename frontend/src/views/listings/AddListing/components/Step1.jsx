@@ -255,7 +255,6 @@ const Step1 = () => {
           </Row>
         </CardBody>
       </Card>
-
       <div className="text-end">
         <Button
           onClick={handleNext}

@@ -1,29 +1,26 @@
-import Property from "../../models/propertySchema.js";
 import Room from "../../models/roomSchema.js";
 
-export const deleteProperty = async (req, res) => {
+export const deleteRoomById = async (req, res) => {
   try {
-    const { propertyId } = req.params;
+    const { roomId } = req.params;
 
-    const property = await Property.findOne({
-      _id: propertyId,
+    const room = await Room.findOne({
+      _id: roomId,
       owner: req.userId,
     });
 
-    if (!property) {
+    if (!room) {
       return res.status(404).json({
         success: false,
-        message: "Property not found or unauthorized",
+        message: "Room not found ",
       });
     }
 
-    await Room.deleteMany({ property: propertyId });
-
-    await Property.findByIdAndDelete(propertyId);
+    await Room.deleteMany({ _id: roomId });
 
     return res.status(200).json({
       success: true,
-      message: "Property and associated rooms deleted successfully",
+      message: "Rooms deleted successfully",
     });
   } catch (error) {
     return res.status(500).send({
