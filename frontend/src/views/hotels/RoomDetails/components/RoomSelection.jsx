@@ -58,8 +58,8 @@ const RoomSelection = ({ rooms }) => {
               </CardBody>
             </Card>
           </Col>
-
-          <PriceSummery rooms={rooms} />
+          {/* 
+          <PriceSummery rooms={rooms} /> */}
         </Row>
       </Container>
     </section>

@@ -4,62 +4,65 @@ import Guests from "../models/guests.js";
 import Payment from "../models/payments.js";
 import Property from "../models/propertySchema.js";
 import Activity from "../models/activitySchema.js";
-
 import Room from "../models/roomSchema.js";
 import Stats from "../models/statsSchema.js";
+import crypto from "crypto";
 
 export const createBooking = async (req, res) => {
   try {
     console.log("---------------");
-    const { currency, checkInDate, checkOutDate } = req.body;
+    const {
+      currency,
+      checkInDate,
+      checkOutDate,
+      razorpay_payment_id,
+      razorpay_order_id,
+      razorpay_signature,
+      paymentMethod,
+    } = req.body;
+
     const { propertyId, roomId } = req.params;
+
+    // Verify Payment Signature if it's an online payment
+    if (paymentMethod === "online") {
+      const body = razorpay_order_id + "|" + razorpay_payment_id;
+      const expectedSignature = crypto
+        .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+        .update(body.toString())
+        .digest("hex");
+
+      if (expectedSignature !== razorpay_signature) {
+        return res.status(400).send({ message: "Invalid payment signature" });
+      }
+    }
 
     const shopOwner = await Property.findOne({ _id: propertyId }).select({
       owner: 1,
     });
-
     const shopId = shopOwner.owner;
-
     if (!shopOwner) {
       return res.status(404).send({ message: "Shop not found" });
     }
 
     const room = await Room.findOne({ _id: roomId, isAvailable: true });
-
     if (!room) {
       return res.status(404).send({ message: "Room not found" });
     }
 
     const checkIn = new Date(checkInDate);
     const checkOut = new Date(checkOutDate);
-
     const diffInMs = checkOut - checkIn;
-
     const nights = diffInMs / (1000 * 60 * 60 * 24);
-
     const earnings = nights * room.price;
 
-    const options = {
-      amount: earnings,
-      currency: currency || "INR",
-    };
-
-    // const order = await razorpayInstance.orders.create(options); // Need to undo this
-
     const paymentData = {
-      cardNumber: req.body.cardNumber,
-      expirationDate: req.body.expirationDate,
-      expirationYear: req.body.expirationYear,
-      cvv: req.body.cvv,
-      cardName: req.body.cardName,
+      razorpay_payment_id: razorpay_payment_id || "offline",
+      razorpay_order_id: razorpay_order_id || "offline",
       amount: earnings,
+      method: paymentMethod,
     };
 
     const paymentDetails = await Payment.create(paymentData);
-
-    if (!paymentDetails) {
-      return res.status(400).send({ message: "Payment failed" });
-    }
 
     const bookingData = {
       shopId: shopOwner.owner,
@@ -68,7 +71,7 @@ export const createBooking = async (req, res) => {
       checkInDate: req.body.checkInDate,
       checkOutDate: req.body.checkOutDate,
       totalAmount: req.body.totalAmount,
-      paymentStatus: "paid",
+      paymentStatus: paymentMethod === "online" ? "paid" : "unpaid",
       status: "booked",
       paymentId: paymentDetails._id,
     };
@@ -81,28 +84,15 @@ export const createBooking = async (req, res) => {
       actorId: req.userId, // user who booked
       type: "BOOKING",
       title: "New Booking",
-      description: `${req.user.name} booked your room at ${
+      description: `${req.user?.name || "Guest"} booked your room at ${
         room?.roomName ?? "UNavailable"
       }`,
       relatedId: createdBooking._id,
     });
 
-    if (!createdBooking) {
-      return res.status(400).send({ message: "Error while create booking" });
-    }
-
-    const stats = await Stats.findOne({ shopId: req.userId });
-
+    const stats = await Stats.findOne({ shopId: shopId });
     if (stats) {
-      await Stats.updateOne(
-        { shopId },
-        {
-          $inc: {
-            earnings,
-            visitors: 1,
-          },
-        }
-      );
+      await Stats.updateOne({ shopId }, { $inc: { earnings, visitors: 1 } });
     } else {
       await Stats.create({
         shopId,
@@ -127,10 +117,9 @@ export const createBooking = async (req, res) => {
       selectedPaymentTypeId: req.body.selectedPaymentTypeId,
       bookingId: createdBooking._id,
     };
-
     await Guests.create(guestUserData);
 
-    res.status(200).send({ message: "Booking created" });
+    res.status(200).send({ success: true, message: "Booking created" });
   } catch (error) {
     return res.status(500).send({
       success: false,

@@ -637,6 +637,42 @@
   resolved "https://registry.npmjs.org/@firebase/webchannel-wrapper/-/webchannel-wrapper-1.0.5.tgz"
   integrity sha512-+uGNN7rkfn41HLO0vekTFhTxk61eKa8mTpRGLO0QSqlQdKvIoGAvLp3ppdVIWbTGYJWM6Kp0iN+PjMIOcnVqTw==
 
+"@floating-ui/core@^1.7.4":
+  version "1.7.4"
+  resolved "https://registry.npmjs.org/@floating-ui/core/-/core-1.7.4.tgz"
+  integrity sha512-C3HlIdsBxszvm5McXlB8PeOEWfBhcGBTZGkGlWc2U0KFY5IwG5OQEuQ8rq52DZmcHDlPLd+YFBK+cZcytwIFWg==
+  dependencies:
+    "@floating-ui/utils" "^0.2.10"
+
+"@floating-ui/dom@^1.7.5":
+  version "1.7.5"
+  resolved "https://registry.npmjs.org/@floating-ui/dom/-/dom-1.7.5.tgz"
+  integrity sha512-N0bD2kIPInNHUHehXhMke1rBGs1dwqvC9O9KYMyyjK7iXt7GAhnro7UlcuYcGdS/yYOlq0MAVgrow8IbWJwyqg==
+  dependencies:
+    "@floating-ui/core" "^1.7.4"
+    "@floating-ui/utils" "^0.2.10"
+
+"@floating-ui/react-dom@^2.1.7":
+  version "2.1.7"
+  resolved "https://registry.npmjs.org/@floating-ui/react-dom/-/react-dom-2.1.7.tgz"
+  integrity sha512-0tLRojf/1Go2JgEVm+3Frg9A3IW8bJgKgdO0BN5RkF//ufuz2joZM63Npau2ff3J6lUVYgDSNzNkR+aH3IVfjg==
+  dependencies:
+    "@floating-ui/dom" "^1.7.5"
+
+"@floating-ui/react@^0.27.15":
+  version "0.27.18"
+  resolved "https://registry.npmjs.org/@floating-ui/react/-/react-0.27.18.tgz"
+  integrity sha512-xJWJxvmy3a05j643gQt+pRbht5XnTlGpsEsAPnMi5F5YTOEEJymA90uZKBD8OvIv5XvZ1qi4GcccSlqT3Bq44Q==
+  dependencies:
+    "@floating-ui/react-dom" "^2.1.7"
+    "@floating-ui/utils" "^0.2.10"
+    tabbable "^6.0.0"
+
+"@floating-ui/utils@^0.2.10":
+  version "0.2.10"
+  resolved "https://registry.npmjs.org/@floating-ui/utils/-/utils-0.2.10.tgz"
+  integrity sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ==
+
 "@grpc/grpc-js@~1.9.0":
   version "1.9.15"
   resolved "https://registry.npmjs.org/@grpc/grpc-js/-/grpc-js-1.9.15.tgz"
@@ -2351,7 +2387,16 @@ react-cookie@^8.0.1:
     hoist-non-react-statics "^3.3.2"
     universal-cookie "^8.0.0"
 
-"react-dom@^16 || ^17 || ^18 || ^19", "react-dom@^18 || ^19", react-dom@>=16, react-dom@>=16.14.0, react-dom@>=16.3.0, react-dom@>=16.6.0, react-dom@>=16.8.0, react-dom@>=18, react-dom@19.2.3:
+react-datepicker@^9.1.0:
+  version "9.1.0"
+  resolved "https://registry.npmjs.org/react-datepicker/-/react-datepicker-9.1.0.tgz"
+  integrity sha512-lOp+m5bc+ttgtB5MHEjwiVu4nlp4CvJLS/PG1OiOe5pmg9kV73pEqO8H0Geqvg2E8gjqTaL9eRhSe+ZpeKP3nA==
+  dependencies:
+    "@floating-ui/react" "^0.27.15"
+    clsx "^2.1.1"
+    date-fns "^4.1.0"
+
+"react-dom@^16 || ^17 || ^18 || ^19", "react-dom@^16.9.0 || ^17 || ^18 || ^19 || ^19.0.0-rc", "react-dom@^18 || ^19", react-dom@>=16, react-dom@>=16.14.0, react-dom@>=16.3.0, react-dom@>=16.6.0, react-dom@>=16.8.0, react-dom@>=17.0.0, react-dom@>=18, react-dom@19.2.3:
   version "19.2.3"
   resolved "https://registry.npmjs.org/react-dom/-/react-dom-19.2.3.tgz"
   integrity sha512-yELu4WmLPw5Mr/lmeEpox5rw3RETacE++JgHqQzd2dg+YbJuat3jH4ingc+WPZhxaoFzdv9y33G+F7Nl5O0GBg==
@@ -2452,7 +2497,7 @@ react-use-wizard@^2.3.0:
   resolved "https://registry.npmjs.org/react-use-wizard/-/react-use-wizard-2.3.0.tgz"
   integrity sha512-z06pQNZ18FvoK+ZDW50hOf0uOySo0Hhd7H4y0MLyk/tBCwpUKGBeULosORBVhipUaWihNLpLJxwH5f+85Qt5XA==
 
-react@*, "react@^16 || ^17 || ^18 || ^19", "react@^16.8.0 || ^17 || ^18 || ^19", "react@^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1", "react@^18 || ^19", react@^19.2.3, "react@>= 16.3.0", "react@>= 16.8 || 18.0.0", "react@>= 16.8.x", react@>=0.14.0, react@>=15.0.0, react@>=16, react@>=16.14.0, react@>=16.3.0, react@>=16.6.0, react@>=16.8.0, react@>=18, react@19.2.3:
+react@*, "react@^16 || ^17 || ^18 || ^19", "react@^16.8.0 || ^17 || ^18 || ^19", "react@^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1", "react@^16.9.0 || ^17 || ^18 || ^19 || ^19.0.0-rc", "react@^18 || ^19", react@^19.2.3, "react@>= 16.3.0", "react@>= 16.8 || 18.0.0", "react@>= 16.8.x", react@>=0.14.0, react@>=15.0.0, react@>=16, react@>=16.14.0, react@>=16.3.0, react@>=16.6.0, react@>=16.8.0, react@>=17.0.0, react@>=18, react@19.2.3:
   version "19.2.3"
   resolved "https://registry.npmjs.org/react/-/react-19.2.3.tgz"
   integrity sha512-Ku/hhYbVjOQnXDZFv2+RibmLFGwFdeeKHFcOTlrt7xplBnya5OGn/hIRDsqDiSUcfORsDC7MPxwork8jBwsIWA==
@@ -2641,6 +2686,11 @@ sweetalert2@^11.26.18:
   version "11.26.18"
   resolved "https://registry.npmjs.org/sweetalert2/-/sweetalert2-11.26.18.tgz"
   integrity sha512-3O5feBqV+hTIOwCRKGuZGHosjiuBAKP/vpBl6vKFZeVYfCUGdXqXuuidn6YXHan3f6e62UdmnjwJBt8UtDVBhg==
+
+tabbable@^6.0.0:
+  version "6.4.0"
+  resolved "https://registry.npmjs.org/tabbable/-/tabbable-6.4.0.tgz"
+  integrity sha512-05PUHKSNE8ou2dwIxTngl4EzcnsCDZGJ/iCLtDflR/SHB/ny14rXc+qU5P4mG9JkusiV7EivzY9Mhm55AzAvCg==
 
 text-segmentation@^1.0.3:
   version "1.0.3"

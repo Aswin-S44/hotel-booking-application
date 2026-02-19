@@ -3,13 +3,13 @@ import Room from "../../models/roomSchema.js";
 export const getRoomMoreDetails = async (req, res) => {
   try {
     const { roomId } = req.params;
-    console.log("==================");
+
     const room = await Room.findById(roomId)
       .populate({
         path: "property",
       })
       .populate("shop");
-    console.log("roomId-----------", roomId);
+
     if (!room) {
       return res.status(404).json({
         success: false,

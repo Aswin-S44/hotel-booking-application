@@ -21,7 +21,7 @@ import {
   getUserProfile,
   updateUserProfile,
 } from "../controllers/user/userProfileController.js";
-import { userVerification } from "../middleware/authMiddleware.js";
+import { userVerification } from "../middleware/AuthMiddleware.js";
 
 const customerRouter = express.Router();
 customerRouter.get("/", (req, res) => {

@@ -103,7 +103,7 @@ const GuestDetails = ({ control }) => {
           </Link>{" "}
           to prefill all details and get access to secret deals
         </Alert>
-        <Card className="border mt-4">
+        {/* <Card className="border mt-4">
           <CardHeader className="border-bottom">
             <h5 className="card-title mb-0">Special request</h5>
           </CardHeader>
@@ -124,7 +124,7 @@ const GuestDetails = ({ control }) => {
               })}
             </div>
           </CardBody>
-        </Card>
+        </Card> */}
       </CardBody>
     </Card>
   );
