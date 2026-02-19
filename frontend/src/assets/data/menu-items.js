@@ -19,18 +19,35 @@ import { CgProfile } from "react-icons/cg";
 import { TbMailFilled } from "react-icons/tb";
 import { IoNewspaper } from "react-icons/io5";
 import { IoMailOpenOutline } from "react-icons/io5";
+import { FaHome } from "react-icons/fa";
+import { IoPeopleSharp } from "react-icons/io5";
+import { FaHandsHelping } from "react-icons/fa";
+import { LuMessageCircleQuestion } from "react-icons/lu";
+
 export const bookingHomeMenuItems = [
   {
     key: "hotel-home",
-    label: "Hotel",
-    url: "/hotels/grid",
-    icon: FaHotel,
+    label: "Home",
+    url: "/hotels/home",
+    icon: FaHome,
   },
   {
-    key: "Contact-home",
-    label: "Contact",
-    url: "/pages/contact",
-    icon: IoMailOpenOutline,
+    key: "About",
+    label: "About Us",
+    url: "/pages/about",
+    icon: IoPeopleSharp,
+  },
+  {
+    key: "Help",
+    label: "Help",
+    url: "/help/center",
+    icon: FaHandsHelping,
+  },
+  {
+    key: "FAQ",
+    label: "FAQs",
+    url: "/faqs",
+    icon: LuMessageCircleQuestion,
   },
   {
     key: "Blog-home",

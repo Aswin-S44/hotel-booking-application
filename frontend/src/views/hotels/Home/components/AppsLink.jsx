@@ -7,7 +7,7 @@ const AppsLink = () => {
   return <section className="bg-light">
       <Container>
         <Row className="g-4">
-          <Col md={6} xxl={4}>
+          <Col md={6} xxl={6}>
             <div className="bg-body d-flex rounded-3 h-100 p-4">
               <h3 className="d-flex align-items-center">
                 <FaHandHoldingHeart size={42} />
@@ -19,7 +19,7 @@ const AppsLink = () => {
             </div>
           </Col>
 
-          <Col md={6} xxl={4}>
+          <Col md={6} xxl={6}>
             <div className="bg-body d-flex rounded-3 h-100 p-4">
               <h3 className="d-flex align-items-center">
                 <FaHandHoldingDollar size={42} />
@@ -31,7 +31,7 @@ const AppsLink = () => {
             </div>
           </Col>
 
-          <Col lg={6} xl={5} xxl={3} className="ms-xxl-auto">
+          <Col style={{display:"none"}} lg={6} xl={5} xxl={3} className="ms-xxl-auto">
             <h5 className="mb-4">Download app</h5>
             <Row className="g-3">
               <Col xs={6} sm={4} md={3} lg={6}>

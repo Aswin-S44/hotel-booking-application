@@ -7,6 +7,7 @@ import { useLocation, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import HotelMediaGallery from "../HotelDetails/components/HotelMediaGallery";
 import axios from "axios";
+import TopNavBar from "../Home/components/TopNavBar";
 
 const RoomDetails = () => {
   const location = useLocation();
@@ -78,7 +79,7 @@ const RoomDetails = () => {
   return (
     <>
       <PageMetaData title="Hotel - Room Details" />
-      <TopNavBar4 />
+      <TopNavBar />
       <main>
         {/* <RoomGallery images={images ?? []} /> */}
         <HotelMediaGallery gallery={passignData} />

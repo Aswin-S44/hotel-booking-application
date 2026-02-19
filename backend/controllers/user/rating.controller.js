@@ -29,24 +29,24 @@ export const addReview = async (req, res) => {
       reviewImages,
     });
 
-// Get property details to know owner
-const property = await Property.findById(propertyId).select("owner listingName");
+    // Get property details to know owner
+    const property = await Property.findById(propertyId).select("owner listingName");
 
-if (!property) {
-  return res.status(404).json({
-    success: false,
-    message: "Property not found",
-  });
-}
+    if (!property) {
+      return res.status(404).json({
+        success: false,
+        message: "Property not found",
+      });
+    }
 
-// Create activity for property owner
+    // Create activity for property owner
     await Activity.create({
-        userId: property.owner, // property owner receives notification
-  actorId: fromId, // reviewer
-  type: "REVIEW",
-  title: "New Review",
-  description: `Someone left a review on ${property.listingName}`,
-  relatedId: review._id,
+      userId: property.owner, // property owner receives notification
+      actorId: fromId, // reviewer
+      type: "REVIEW",
+      title: "New Review",
+      description: `Someone left a review on ${property.listingName}`,
+      relatedId: review._id,
     });
 
 

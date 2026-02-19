@@ -27,6 +27,7 @@ import CustomerReview from "./HotelDetails/components/CustomerReview";
 import HotelPolicies from "./HotelDetails/components/HotelPolicies";
 import PriceOverView from "./HotelDetails/components/PriceOverView";
 import FooterWithLinks from "../../layouts/HelpLayout/FooterWithLinks";
+import TopNavBar from "./Home/components/TopNavBar";
 
 const RoomExtraDetails = () => {
   const { id } = useParams();
@@ -102,7 +103,7 @@ const RoomExtraDetails = () => {
     <>
       <PageMetaData title="Hotel - Details" />
 
-      <TopNavBar4 />
+      <TopNavBar />
 
       <main>
         {loading ? (

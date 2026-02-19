@@ -68,7 +68,7 @@ const PriceOverView = ({ rate, rating, rooms }) => {
               })
             }
           >
-            View 10 Rooms Options
+            Continue to Booking
           </Button>
         </div>
       </Card>

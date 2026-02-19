@@ -61,16 +61,23 @@ export const createBooking = async (req, res) => {
     }
 
     const bookingData = {
-      shopId: shopOwner.owner,
-      propertyId,
-      roomId,
-      checkInDate: req.body.checkInDate,
-      checkOutDate: req.body.checkOutDate,
-      totalAmount: req.body.totalAmount,
-      paymentStatus: "paid",
-      status: "booked",
-      paymentId: paymentDetails._id,
-    };
+  shopId,
+  propertyId,
+  roomId,
+  checkInDate,
+  checkOutDate,
+  totalAmount: earnings,
+  paymentStatus: "paid",
+  status: "booked",
+  paymentId: paymentDetails._id,
+  trafficSource: req.body.trafficSource || "organic",
+  utm: {
+    source: req.body.utm_source,
+    medium: req.body.utm_medium,
+    campaign: req.body.utm_campaign,
+  },
+};
+
 
     const createdBooking = await Bookings.create(bookingData);
 

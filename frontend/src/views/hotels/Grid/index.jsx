@@ -4,6 +4,7 @@ import Hero from './components/Hero';
 import HotelGridLayout from './components/HotelGridLayout';
 import HotelListFilter from './components/HotelListFilter';
 import TopNavBar4 from './components/TopNavBar4';
+import TopNavBar from '../Home/components/TopNavBar';
 const HotelsGrid = () => {
 
 
@@ -11,21 +12,20 @@ const HotelsGrid = () => {
 
 
 
-  
+
   return <>
-      <PageMetaData title="Hotel - Grid" />
+    <PageMetaData title="Hotel - Grid" />
 
-      <TopNavBar4 />
+    <TopNavBar />
+    <main>
+      <Hero />
 
-      <main>
-        <Hero />
+      <HotelListFilter />
 
-        <HotelListFilter />
+      <HotelGridLayout />
+    </main>
 
-        <HotelGridLayout />
-      </main>
-
-      <FooterWithLinks />
-    </>;
+    <FooterWithLinks />
+  </>;
 };
 export default HotelsGrid;

@@ -70,7 +70,7 @@ const TopBar = ({
             </button>
 
             <Collapse in={searchOpen}>
-              <div className="navbar-collapse w-100 z-index-1">
+              <div className="navbar-collapse w-100 z-index-1 ">
                 <div className='nav-item w-100'>
                   <div className='nav my-3 my-xl-0 flex-nowrap align-items-center'>
                     <form className="position-relative w-100">

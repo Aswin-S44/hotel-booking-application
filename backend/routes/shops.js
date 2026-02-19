@@ -10,6 +10,7 @@ import { getPropertyById } from "../controllers/common/getPropertyById.js";
 import { getListingsCount } from "../controllers/shops/getListingsCount.js";
 import { getGraphStats } from "../controllers/shops/getGraphStats.js";
 import { deleteActivity, deleteAllActivities, getUserActivities } from "../controllers/shops/activityController.js";
+import { getTrafficStats } from "../controllers/trafficController.js";
 
 const shopsRouter = express.Router();
 
@@ -30,5 +31,6 @@ shopsRouter.get("/stats/graph", userVerification, getGraphStats);
 shopsRouter.get("/activity", userVerification, getUserActivities);
 shopsRouter.delete("/activity/:activityId", userVerification, deleteActivity);
 shopsRouter.delete("/activity", userVerification, deleteAllActivities);
+shopsRouter.get("/traffic/:shopId", getTrafficStats);
 
 export default shopsRouter;

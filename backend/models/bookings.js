@@ -59,10 +59,34 @@ const bookingsSchema = new mongoose.Schema(
       ref: "Payment",
       required: true,
     },
+    trafficSource: {
+  type: String,
+  enum: ["organic", "google", "social_media", "referral"],
+  default: "organic",
+},
+
+utm: {
+  source: String,
+  medium: String,
+  campaign: String,
+},
+guestDetails: {
+  name: { type: String },
+  email: { type: String },
+  phone: { type: String },
+  adults: { type: Number, default: 1 },
+  children: { type: Number, default: 0 },
+},
+
+    
   },
   {
     timestamps: true,
   }
+  
+
+
+  
 );
 
 const Bookings = mongoose.model("Bookings", bookingsSchema);

@@ -1,4 +1,8 @@
 import { FaCar, FaEarthAmericas, FaHotel, FaPlane } from 'react-icons/fa6';
+import { IoMailOpenOutline } from "react-icons/io5";
+import { IoNewspaper } from "react-icons/io5";
+import { CgProfile } from "react-icons/cg";
+
 const footerLinks = [{
   title: 'Page',
   items: [{
@@ -54,17 +58,17 @@ const footerLinks = [{
     icon: FaHotel,
     link: '/hotels/home'
   }, {
-    name: 'Flight',
-    icon: FaPlane,
-    link: '/flights/home'
+    name: 'Contact',
+    icon: IoMailOpenOutline,
+    link: '/pages/contact'
   }, {
-    name: 'Tour',
-    icon: FaEarthAmericas,
-    link: '/tours/home'
+    name: 'Blogs',
+    icon: IoNewspaper,
+    link: '/blogs/blog'
   }, {
-    name: 'Cabs',
-    icon: FaCar,
-    link: '/cabs/home'
+    name: 'Sign in',
+    icon: CgProfile,
+    link: '/auth/sign-in'
   }]
 }];
 const topLinks = [{

@@ -19,6 +19,7 @@ import { upload } from "../middleware/upload.js";
 import { getRoomMoreDetails } from "../controllers/common/getRoomMoreDetails.js";
 import { getUserProfile, updateUserProfile } from "../controllers/user/userProfileController.js";
 import { userVerification } from "../middleware/authMiddleware.js";
+import { getNearbyProperties } from "../controllers/user/getNearbyPropertiesController.js";
 
 const customerRouter = express.Router();
 customerRouter.get("/", (req, res) => {
@@ -26,7 +27,6 @@ customerRouter.get("/", (req, res) => {
 });
 
 
-customerRouter.get("/:propertyId", getPropertyById);
 
 customerRouter.post("/signup", signUp);
 customerRouter.get("/property/:propertyId", getPropertyById);
@@ -41,7 +41,7 @@ customerRouter.get(
 );
 customerRouter.post("/review", addReview);
 customerRouter.get("/search-location", searchByLocation);
-customerRouter.get("/properties", getAllProperties);
+customerRouter.get("/all/properties", getAllProperties);
 customerRouter.post("/add-review", upload.array("reviewImages", 5), addReview);
 customerRouter.get("/property/:propertyId", getReviewsByProperty);
 
@@ -51,6 +51,11 @@ customerRouter.get("/property/reviews/:propertyId",getReviewsByProperty);
 
 customerRouter.put("/update-profile",userVerification, upload.single("profileImage"),updateUserProfile);
 customerRouter.get("/profile/details", userVerification, getUserProfile);
+customerRouter.get("/nearby", getNearbyProperties);
+
+
+
+customerRouter.get("/:propertyId", getPropertyById);
 
 
 
