@@ -47,6 +47,7 @@
     "react-quill-new": "^3.4.6",
     "react-router-dom": "^7.4.1",
     "react-sticky-el": "^2.1.1",
+    "react-toastify": "^11.0.5",
     "react-use-wizard": "^2.3.0",
     "sweetalert2": "^11.26.18",
     "tiny-slider": "^2.9.4",

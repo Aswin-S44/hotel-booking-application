@@ -21,6 +21,7 @@ const roomSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    isDisabled: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

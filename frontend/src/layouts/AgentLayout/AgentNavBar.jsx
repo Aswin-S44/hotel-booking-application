@@ -20,9 +20,11 @@ import { Link, useLocation } from "react-router-dom";
 import { useToggle } from "@/hooks";
 import avatar1 from "@/assets/images/avatar/01.jpg";
 import { useAuthContext } from "../../states/useAuthContext";
+import { DEFAULT_AVATAR_IMAGE } from "../../constants/images";
 const AgentMenu = () => {
   const { pathname } = useLocation();
   const menuItems = getAgentMenuItems();
+
   return (
     <ul className="navbar-nav navbar-offcanvas-menu">
       {menuItems.map((item, idx) => {
@@ -82,13 +84,18 @@ const AgentNavBar = () => {
 
   const { user } = useAuthContext();
 
+  console.log("user-------------", user);
+
   return (
     <section className="pt-4">
       <Container>
         <Card className="rounded-3 border p-3 pb-2">
           <div className="d-sm-flex align-items-center">
             <div className="avatar avatar-xl mb-2 mb-sm-0">
-              <Image className="avatar-img rounded-circle" src={avatar1} />
+              <Image
+                className="avatar-img rounded-circle"
+                src={user?.avatar ?? DEFAULT_AVATAR_IMAGE}
+              />
             </div>
             <h4 className="mb-2 mb-sm-0 ms-sm-3">
               <span className="fw-light">Hi</span> {user?.name ?? "Unavailable"}

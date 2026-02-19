@@ -46,20 +46,20 @@ const Settings = () => {
                         Edit Profile
                       </NavLink>{" "}
                     </NavItem>
-                    <NavItem>
+                    {/* <NavItem>
                       {" "}
                       <NavLink eventKey="2" className="mb-0 flex-centered">
                         <FaBell className="fa-fw me-2" />
                         Notification Settings
                       </NavLink>{" "}
-                    </NavItem>
-                    <NavItem>
+                    </NavItem> */}
+                    {/* <NavItem>
                       {" "}
                       <NavLink eventKey="3" className="mb-0 flex-centered">
                         <FaUserCircle className="fa-fw me-2" />
                         Account Settings
                       </NavLink>{" "}
-                    </NavItem>
+                    </NavItem> */}
                   </Nav>
                 </div>
               </Col>

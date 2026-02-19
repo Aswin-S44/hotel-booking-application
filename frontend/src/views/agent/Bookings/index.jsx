@@ -14,7 +14,7 @@ import { BsBookmarkHeart } from "react-icons/bs";
 import { FaSearch } from "react-icons/fa";
 import { useEffect, useState, useCallback } from "react";
 import { Modal, Button } from "react-bootstrap";
-
+import NotFound from "../../../components/NotFound/NotFound";
 
 const Bookings = () => {
   const [bookings, setBookings] = useState([]);
@@ -24,14 +24,12 @@ const Bookings = () => {
   const [totalPages, setTotalPages] = useState(1);
   const token = localStorage.getItem("token");
   const [showModal, setShowModal] = useState(false);
-const [selectedBooking, setSelectedBooking] = useState(null);
+  const [selectedBooking, setSelectedBooking] = useState(null);
 
-
-const handleView = (booking) => {
-  setSelectedBooking(booking);
-  setShowModal(true);
-};
-
+  const handleView = (booking) => {
+    setSelectedBooking(booking);
+    setShowModal(true);
+  };
 
   const fetchBookings = useCallback(
     async (page) => {
@@ -93,6 +91,15 @@ const handleView = (booking) => {
 
   const startEntry = bookings.length > 0 ? (currentPage - 1) * 10 + 1 : 0;
   const endEntry = Math.min(currentPage * 10, totalBooking);
+
+  if (!loading && bookings.length == 0) {
+    return (
+      <NotFound
+        title={"No Bookings found!"}
+        description={"You dont have any bookings yet!"}
+      />
+    );
+  }
 
   return (
     <>
@@ -231,7 +238,7 @@ const handleView = (booking) => {
                               </td>
                               <td>
                                 <Link
-                                onClick={() => handleView(booking)}
+                                  onClick={() => handleView(booking)}
                                   to=""
                                   className="btn btn-sm btn-light mb-0"
                                 >
@@ -292,27 +299,47 @@ const handleView = (booking) => {
       </section>
 
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
-  <Modal.Header closeButton>
-    <Modal.Title>Booking Details</Modal.Title>
-  </Modal.Header>
-  <Modal.Body>
-    {selectedBooking && (
-      <>
-        <p style={{color:"black"}}><strong>Room:</strong> {selectedBooking.roomName}</p>
-        <p style={{color:"black"}}><strong>Check In:</strong> {selectedBooking.checkInDate}</p>
-        <p style={{color:"black"}}><strong>Status:</strong> {selectedBooking.status == "booked" ? <span style={{color:"green"}}> Booked </span> : <span style={{color:"red"}}>Cancelled</span>}</p>
-        <p style={{color:"black"}}><strong>Payment:</strong> {selectedBooking.paymentStatus == "paid" ? <span style={{color:"green"}}> paid </span> : <span style={{color:"red"}}>Not Paid</span>}</p>
-        <p style={{color:"black"}}><strong>Requirements:</strong> {selectedBooking.additionalInfo || "N/A"}</p>
-      </>
-    )}
-  </Modal.Body>
-  <Modal.Footer>
-    <Button variant="secondary" onClick={() => setShowModal(false)}>
-      Close
-    </Button>
-  </Modal.Footer>
-</Modal>
-
+        <Modal.Header closeButton>
+          <Modal.Title>Booking Details</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {selectedBooking && (
+            <>
+              <p style={{ color: "black" }}>
+                <strong>Room:</strong> {selectedBooking.roomName}
+              </p>
+              <p style={{ color: "black" }}>
+                <strong>Check In:</strong> {selectedBooking.checkInDate}
+              </p>
+              <p style={{ color: "black" }}>
+                <strong>Status:</strong>{" "}
+                {selectedBooking.status == "booked" ? (
+                  <span style={{ color: "green" }}> Booked </span>
+                ) : (
+                  <span style={{ color: "red" }}>Cancelled</span>
+                )}
+              </p>
+              <p style={{ color: "black" }}>
+                <strong>Payment:</strong>{" "}
+                {selectedBooking.paymentStatus == "paid" ? (
+                  <span style={{ color: "green" }}> paid </span>
+                ) : (
+                  <span style={{ color: "red" }}>Not Paid</span>
+                )}
+              </p>
+              <p style={{ color: "black" }}>
+                <strong>Requirements:</strong>{" "}
+                {selectedBooking.additionalInfo || "N/A"}
+              </p>
+            </>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };

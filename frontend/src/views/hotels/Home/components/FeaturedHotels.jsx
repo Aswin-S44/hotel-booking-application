@@ -33,13 +33,22 @@ const FeaturedHotels = () => {
   return (
     <section>
       <Container>
-        <Row className="mb-4">
-          <Col xs={12} className="text-center">
+        <Row className="mb-4 align-items-center">
+          <Col
+            xs={12}
+            className="d-flex justify-content-between align-items-end"
+          >
             <h2 className="mb-0">Featured Hotels</h2>
+            <Link
+              to="/hotels/grid"
+              className="btn btn-link p-0 text-primary text-decoration-none"
+            >
+              View all
+            </Link>
           </Col>
         </Row>
         <Row className="g-4">
-          {featuredHotels.map((hotel, idx) => (
+          {featuredHotels.slice(0, 4).map((hotel, idx) => (
             <Col key={hotel._id || idx} sm={6} xl={3}>
               <Card className="card-img-scale overflow-hidden bg-transparent">
                 <div className="card-img-scale-wrapper rounded-3">

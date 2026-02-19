@@ -14,6 +14,7 @@ import StatisticWidget from "./components/StatisticWidget";
 import ListingCard from "./components/ListingCard";
 import { PageMetaData } from "@/components";
 import { useEffect, useState, useCallback } from "react";
+import NotFound from "../../../components/NotFound/NotFound";
 
 const Listings = () => {
   const [rooms, setRooms] = useState([]);
@@ -219,7 +220,14 @@ const Listings = () => {
               )}
 
               {!loading && rooms.length === 0 ? (
-                <div className="text-center p-4">No listings found.</div>
+                <div className="text-center p-4">
+                  <NotFound
+                    title={"No listings found!"}
+                    description={
+                      "No rooms available at the moment. Please add your room"
+                    }
+                  />
+                </div>
               ) : (
                 <>
                   {rooms.map((room, idx) => (

@@ -25,7 +25,7 @@ const HotelHome = () => {
 
         <FeaturedHotels />
 
-        <Clients />
+        {/* <Clients /> */}
 
         <TestimonialsSlider />
 

@@ -12,7 +12,7 @@ const AgentLayout = ({
       </Suspense>
 
       <main>
-        <Suspense>
+        <Suspense> 
           <AgentNavBar />
         </Suspense>
 

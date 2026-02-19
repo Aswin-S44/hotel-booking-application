@@ -9,37 +9,36 @@ import {
   DropdownToggle,
   Image,
   Row,
+  Badge,
 } from "react-bootstrap";
 import { Modal } from "react-bootstrap";
 import {
   BsGeoAlt,
-  BsInfoCircle,
   BsPencilSquare,
   BsSlashCircle,
   BsThreeDotsVertical,
   BsTrash3,
+  BsCheckCircle,
 } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
 import { currency } from "@/states";
 import { useState } from "react";
 import axios from "axios";
+
+import { ToastContainer, toast } from "react-toastify";
+
 const ListingCard = ({ roomListCard, setRooms }) => {
-  const { location, roomThumbnail, listingName, price } = roomListCard;
-  console.log("roomListCard-----------", roomListCard);
+  const { location, roomThumbnail, listingName, price, isDisabled } =
+    roomListCard;
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const token = localStorage.getItem("token");
   const navigate = useNavigate();
-
-  console.log("token>>>>>>>>>>>>>", show);
+  const token = localStorage.getItem("token");
 
   const handleDelete = async () => {
     try {
       setLoading(true);
-
-      const token = localStorage.getItem("token");
-
       await axios.delete(
         `http://localhost:5000/api/v1/shops/rooms/${roomListCard?._id}`,
         {
@@ -52,11 +51,48 @@ const ListingCard = ({ roomListCard, setRooms }) => {
       setRooms((prevRooms) =>
         prevRooms.filter((room) => room._id !== roomListCard._id)
       );
-
+      toast.success("Room deleted successfully");
       setLoading(false);
       setShow(false);
     } catch (error) {
-      console.log(error);
+      toast.error("Failed to delete room");
+      setLoading(false);
+    }
+  };
+
+  const handleToggleStatus = async () => {
+    try {
+      setLoading(true);
+      const newStatus = !isDisabled;
+
+      await axios.patch(
+        `http://localhost:5000/api/v1/shops/room/${roomListCard._id}`,
+        {
+          isDisabled: newStatus,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setRooms((prevRooms) =>
+        prevRooms.map((room) =>
+          room._id === roomListCard._id
+            ? { ...room, isDisabled: newStatus }
+            : room
+        )
+      );
+
+      toast.success(
+        newStatus
+          ? "Room disabled successfully"
+          : "Room reactivated successfully"
+      );
+      setLoading(false);
+    } catch (error) {
+      toast.error("Failed to update room status");
       setLoading(false);
     }
   };
@@ -64,12 +100,17 @@ const ListingCard = ({ roomListCard, setRooms }) => {
   return (
     <Card className="border p-2">
       <Row className="g-4">
-        <Col md={3} lg={2}>
+        <Col md={3} lg={2} className="position-relative">
           <Image
             src={roomThumbnail}
             className="card-img rounded-2"
             alt="Card image"
           />
+          {isDisabled && (
+            <Badge bg="danger" className="position-absolute top-0 start-0 m-2">
+              Disabled
+            </Badge>
+          )}
         </Col>
         <Col md={9} lg={10}>
           <CardBody className="position-relative d-flex flex-column p-0 h-100">
@@ -86,19 +127,31 @@ const ListingCard = ({ roomListCard, setRooms }) => {
                 className="min-w-auto shadow rounded"
                 aria-labelledby="dropdownAction2"
               >
-                <DropdownItem className="items-center">
-                  <BsInfoCircle className="me-1" />
-                  Report
-                </DropdownItem>
-
-                <DropdownItem className="items-center">
-                  <BsSlashCircle className="me-1" />
-                  Disable
+                <DropdownItem
+                  className="items-center"
+                  onClick={handleToggleStatus}
+                >
+                  {isDisabled ? (
+                    <>
+                      <BsCheckCircle className="me-1" />
+                      Reactivate
+                    </>
+                  ) : (
+                    <>
+                      <BsSlashCircle className="me-1" />
+                      Disable
+                    </>
+                  )}
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>
             <h5 className="card-title mb-0 me-5">
               <Link to={`/hotel/room/${roomListCard?._id}`}>{listingName}</Link>
+              {isDisabled && (
+                <Badge bg="secondary" className="ms-2 fs-6 fw-light">
+                  Disabled
+                </Badge>
+              )}
             </h5>
             <small>
               <BsGeoAlt className="me-2" />
@@ -170,8 +223,10 @@ const ListingCard = ({ roomListCard, setRooms }) => {
             </div>
           </CardBody>
         </Col>
+        <ToastContainer />
       </Row>
     </Card>
   );
 };
+
 export default ListingCard;

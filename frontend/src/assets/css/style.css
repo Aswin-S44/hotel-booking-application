@@ -17459,7 +17459,8 @@ a.badge:hover {
 .card.card-img-scale img {
     transition: all 0.5s ease;
     transform: scale(1.001);
-    max-height: 150px;
+    /* max-height: 150px; */
+    height: auto;
     object-fit: cover;
 }
 

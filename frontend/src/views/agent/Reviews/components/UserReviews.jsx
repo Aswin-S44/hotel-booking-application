@@ -1,16 +1,9 @@
-import {
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Form,
-  Row,
-  Col,
-} from "react-bootstrap";
+import { Card, CardBody, CardFooter, CardHeader, Form } from "react-bootstrap";
 import ReviewCard from "./ReviewCard";
 import { Fragment, useEffect, useState, useCallback } from "react";
-import { Link } from "react-router-dom";
 import axios from "axios";
+import NotFound from "../../../../components/NotFound/NotFound";
+import { ToastContainer, toast } from "react-toastify";
 
 const UserReviews = () => {
   const [reviews, setReviews] = useState([]);
@@ -50,6 +43,42 @@ const UserReviews = () => {
     fetchReviews(pagination.currentPage, ratingFilter);
   }, [pagination.currentPage, ratingFilter, fetchReviews]);
 
+  const handleDeleteReview = async (reviewId) => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.delete(
+        `http://localhost:5000/api/v1/shops/reviews/${reviewId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      toast.success("Review deleted successfully");
+      setReviews((prev) => prev.filter((r) => r._id !== reviewId));
+    } catch (error) {
+      toast.error("Failed to delete review");
+    }
+  };
+
+  const handleReplyReview = async (reviewId, replyText) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.patch(
+        `http://localhost:5000/api/v1/shops/reviews/${reviewId}/reply`,
+        { reply: replyText },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      if (response.data.success) {
+        toast.success("Reply submitted");
+        setReviews((prev) =>
+          prev.map((r) => (r._id === reviewId ? { ...r, reply: replyText } : r))
+        );
+      }
+    } catch (error) {
+      toast.error("Failed to submit reply");
+    }
+  };
+
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= pagination.totalPages) {
       setPagination((prev) => ({ ...prev, currentPage: newPage }));
@@ -58,26 +87,35 @@ const UserReviews = () => {
 
   const handleFilterChange = (e) => {
     setRatingFilter(e.target.value);
-    setPagination((prev) => ({ ...prev, currentPage: 1 })); // Reset to page 1 on filter
+    setPagination((prev) => ({ ...prev, currentPage: 1 }));
   };
+
+  if (!loading && reviews.length === 0) {
+    return (
+      <NotFound
+        title={"No Reviews found!"}
+        description={"No reviews available."}
+      />
+    );
+  }
 
   return (
     <Card className="border rounded-3">
       <CardHeader className="border-bottom d-flex justify-content-between align-items-center">
         <h5 className="card-header-title">User Reviews</h5>
         <div className="d-flex align-items-center">
-          <span className="me-2 small text-nowrap">Filter by Rating:</span>
+          <span className="me-2 small text-nowrap">Filter:</span>
           <Form.Select
             size="sm"
             value={ratingFilter}
             onChange={handleFilterChange}
           >
             <option value="">All Stars</option>
-            <option value="5">5 Stars</option>
-            <option value="4">4 Stars</option>
-            <option value="3">3 Stars</option>
-            <option value="2">2 Stars</option>
-            <option value="1">1 Star</option>
+            {[5, 4, 3, 2, 1].map((num) => (
+              <option key={num} value={num}>
+                {num} Stars
+              </option>
+            ))}
           </Form.Select>
         </div>
       </CardHeader>
@@ -85,15 +123,17 @@ const UserReviews = () => {
       <CardBody>
         {loading ? (
           <div className="text-center p-4">Loading...</div>
-        ) : reviews.length > 0 ? (
+        ) : (
           reviews.map((review, idx) => (
             <Fragment key={review._id}>
-              <ReviewCard review={review} />
+              <ReviewCard
+                review={review}
+                onDelete={handleDeleteReview}
+                onReply={handleReplyReview}
+              />
               {reviews.length - 1 !== idx && <hr />}
             </Fragment>
           ))
-        ) : (
-          <div className="text-center p-4 text-muted">No reviews found.</div>
         )}
       </CardBody>
 
@@ -109,10 +149,7 @@ const UserReviews = () => {
           </p>
 
           {pagination.totalPages > 1 && (
-            <nav
-              className="mb-sm-0 d-flex justify-content-center"
-              aria-label="navigation"
-            >
+            <nav className="mb-sm-0 d-flex justify-content-center">
               <ul className="pagination pagination-sm pagination-primary-soft mb-0">
                 <li
                   className={`page-item ${
@@ -126,7 +163,6 @@ const UserReviews = () => {
                     Prev
                   </button>
                 </li>
-
                 {[...Array(pagination.totalPages)].map((_, i) => (
                   <li
                     key={i}
@@ -142,7 +178,6 @@ const UserReviews = () => {
                     </button>
                   </li>
                 ))}
-
                 <li
                   className={`page-item ${
                     pagination.currentPage === pagination.totalPages
@@ -162,6 +197,7 @@ const UserReviews = () => {
           )}
         </div>
       </CardFooter>
+      <ToastContainer />
     </Card>
   );
 };

@@ -1,6 +1,6 @@
 import express from "express";
 import { createProperty } from "../controllers/shops/createProperty.js";
-import { userVerification } from "../middleware/authMiddleware.js";
+
 import { getProperties } from "../controllers/shops/getProperties.js";
 import { updateProperty } from "../controllers/shops/updateProperty.js";
 import { deleteRoomById } from "../controllers/shops/deleteProperty.js";
@@ -17,6 +17,11 @@ import {
   deleteAllActivities,
   getUserActivities,
 } from "../controllers/shops/activityController.js";
+import { updateProfile } from "../controllers/shops/updateProfile.js";
+import { userVerification } from "../middleware/AuthMiddleware.js";
+import { updateRoomById } from "../controllers/shops/updateRoomById.js";
+import { deleteReviewById } from "../controllers/shops/deleteReviewById.js";
+import { replyToReview } from "../controllers/shops/replyToReview.js";
 
 const shopsRouter = express.Router();
 
@@ -40,5 +45,8 @@ shopsRouter.get("/earning-statuses", userVerification, getEarningStats);
 shopsRouter.get("/activity", userVerification, getUserActivities);
 shopsRouter.delete("/activity/:activityId", userVerification, deleteActivity);
 shopsRouter.delete("/activity", userVerification, deleteAllActivities);
-
+shopsRouter.patch("/profile", userVerification, updateProfile);
+shopsRouter.patch("/room/:roomId", userVerification, updateRoomById);
+shopsRouter.delete("/reviews/:id", userVerification, deleteReviewById);
+shopsRouter.patch("/reviews/:id/reply", userVerification, replyToReview);
 export default shopsRouter;

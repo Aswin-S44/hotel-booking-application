@@ -152,11 +152,11 @@ const TopNavBar = () => {
                 </li>
               </DropdownMenu>
             </Dropdown>
-            <li className="nav-item ms-3 d-none d-sm-block">
+            {/* <li className="nav-item ms-3 d-none d-sm-block">
               <Button variant="primary-soft" size="sm" className="mb-0" href="">
                 <BsLightningCharge /> Upgrade now
               </Button>
-            </li>
+            </li> */}
           </ul>
         </Container>
       </Navbar>
