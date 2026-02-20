@@ -36,7 +36,7 @@ const SignIn = () => {
       });
 
       const result = await response.json();
-
+      console.log("result-----------", result?.user?.role);
       if (result.status === 200) {
         const sessionData = {
           ...result.user,
@@ -53,7 +53,15 @@ const SignIn = () => {
           showConfirmButton: false,
         });
 
-        navigate("/agent/dashboard");
+        if (result?.user?.role === "customer") {
+          navigate("/");
+        } else if (result?.user?.role === "admin") {
+          navigate("/agent/dashboard");
+        } else {
+          navigate("/auth/sign-in");
+        }
+
+        // navigate("/agent/dashboard");
       } else {
         Swal.fire({
           icon: "error",
@@ -83,22 +91,22 @@ const SignIn = () => {
         { idToken },
         { withCredentials: true }
       );
+      console.log("RES----------", res ? res : "no res");
+      // if (res.status === 200) {
+      //   saveSession({
+      //     ...res.data.user,
+      //     token: res.data.token,
+      //   });
 
-      if (res.status === 200) {
-        saveSession({
-          ...res.data.user,
-          token: res.data.token,
-        });
+      //   Swal.fire({
+      //     icon: "success",
+      //     title: "Login Successful",
+      //     timer: 1500,
+      //     showConfirmButton: false,
+      //   });
 
-        Swal.fire({
-          icon: "success",
-          title: "Login Successful",
-          timer: 1500,
-          showConfirmButton: false,
-        });
-
-        navigate("/agent/dashboard");
-      }
+      //   navigate("/agent/dashboard");
+      // }
     } catch (error) {
       console.error("Google login failed:", error);
 

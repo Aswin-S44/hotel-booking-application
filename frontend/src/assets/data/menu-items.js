@@ -67,7 +67,7 @@ export const USER_PROFILE_MENU_ITEMS = [
   {
     key: "acc-user-profile",
     label: "My Profile",
-    url: "/user/profile",
+    url: "/customer/profile",
     parentKey: "acc-user",
     icon: BsPerson,
   },

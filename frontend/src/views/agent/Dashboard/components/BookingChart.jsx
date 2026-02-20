@@ -6,7 +6,7 @@ import axios from "axios";
 const BookingChart = () => {
   const [chartData, setChartData] = useState([
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  ]);
+  ]); 
 
   const token = localStorage.getItem("token");
 

@@ -7,7 +7,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import nodemailer from "nodemailer";
 
-const transporter = nodemailer.createTransport({
+export const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
     user: process.env.EMAIL_USER,
@@ -111,5 +111,37 @@ export const verifyOTPAndSignUp = async (req, res) => {
     return res.status(201).json(successResponse({ user }));
   } catch (error) {
     return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const sendEmailOTP = async (req, res) => {
+  try {
+    const { newEmail } = req.body;
+    const userId = req.userId;
+
+    const existingUser = await User.findOne({ email: newEmail });
+    if (existingUser) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Email already in use" });
+    }
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const otpExpires = Date.now() + 10 * 60 * 1000;
+
+    await User.findByIdAndUpdate(userId, { otp, otpExpires });
+
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: newEmail,
+      subject: "Email Verification OTP",
+      html: `<h1>Verification Code</h1><p>Your OTP to update your email is: <b>${otp}</b>. It expires in 10 minutes.</p>`,
+    });
+
+    res
+      .status(200)
+      .json({ success: true, message: "OTP sent to your new email" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
   }
 };

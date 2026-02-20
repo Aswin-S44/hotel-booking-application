@@ -1,11 +1,22 @@
-import { Card, CardBody, CardHeader, Nav, NavItem, NavLink, TabContainer, TabContent, TabPane } from 'react-bootstrap';
-import { BsBriefcaseFill, BsPatchCheck, BsXOctagon } from 'react-icons/bs';
-import UpcomingBooking from './components/UpcomingBooking';
-import CancelledBooking from './components/CancelledBooking';
-import CompletedBooking from './components/CompletedBooking';
-import { PageMetaData } from '@/components';
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  Nav,
+  NavItem,
+  NavLink,
+  TabContainer,
+  TabContent,
+  TabPane,
+} from "react-bootstrap";
+import { BsBriefcaseFill, BsPatchCheck, BsXOctagon } from "react-icons/bs";
+import UpcomingBooking from "./components/UpcomingBooking";
+import CancelledBooking from "./components/CancelledBooking";
+import CompletedBooking from "./components/CompletedBooking";
+import { PageMetaData } from "@/components";
 const Bookings = () => {
-  return <>
+  return (
+    <>
       <PageMetaData title="User Bookings" />
 
       <Card className="border bg-transparent">
@@ -52,6 +63,7 @@ const Bookings = () => {
           </TabContainer>
         </CardBody>
       </Card>
-    </>;
+    </>
+  );
 };
 export default Bookings;

@@ -6,6 +6,7 @@ import customerRouter from "./routes/customer.js";
 import authRouter from "./routes/auth.js";
 import cookieParser from "cookie-parser";
 import shopsRouter from "./routes/shops.js";
+import seedAdmin from "./seed.js";
 
 const app = express();
 
@@ -39,6 +40,8 @@ app.use((err, req, res, next) => {
   console.error("Error:", err);
   res.status(500).json({ error: err.message });
 });
+
+seedAdmin();
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);

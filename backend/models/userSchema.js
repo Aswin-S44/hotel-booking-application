@@ -33,6 +33,17 @@ const userSchema = new mongoose.Schema(
     contactNumber: { type: String },
     location: { type: String },
     birthday: { type: Date },
+    pendingEmail: {
+      type: String,
+      lowercase: true,
+      trim: true,
+    },
+    otp: {
+      type: String,
+    },
+    otpExpires: {
+      type: Date,
+    },
   },
   {
     timestamps: true,

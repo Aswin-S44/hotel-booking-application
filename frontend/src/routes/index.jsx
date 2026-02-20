@@ -2,6 +2,7 @@ import { lazy } from "react";
 import { Navigate } from "react-router-dom";
 import RoomExtraDetails from "../views/hotels/roomDetails";
 import HotelRoomDetails from "../views/hotels/HotelRoomDetails";
+import CustomerProfile from "../views/user/Profile/customerProfile";
 const HotelsHome = lazy(() => import("@/views/hotels/Home"));
 const HotelsChain = lazy(() => import("@/views/hotels/Chain"));
 const HotelsResort = lazy(() => import("@/views/hotels/Resort"));
@@ -397,6 +398,11 @@ export const userRoutes = [
     path: "/user/delete-profile",
     name: "account.user.delete-profile",
     element: <UserDeleteProfile />,
+  },
+  {
+    path: "/customer/profile",
+    name: "account.user.profile",
+    element: <CustomerProfile />,
   },
 ];
 export const agentRoutes = [

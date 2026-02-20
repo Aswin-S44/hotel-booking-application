@@ -62,6 +62,21 @@ const BookingDetails = () => {
 
   const onSubmit = async (data) => {
     try {
+      console.log("data----------", data);
+
+      if (
+        data.guests &&
+        data.guests.length == 1 &&
+        data.guests[0].firstName?.trim() == ""
+      ) {
+        Swal.fire({
+          icon: "error",
+          title: "Guest details are missing",
+          text: "Please add guest details",
+        });
+        return;
+      }
+
       if (data.paymentMethod === "online") {
         const resScript = await loadRazorpayScript();
 
