@@ -31,7 +31,7 @@ const AboutHotel = ({ hotelDetails, shoRoomOptions = true, propertyId }) => {
   const { id } = useParams();
   const [reviewsData, setReviewsData] = useState(null);
   const [loading, setLoading] = useState(false);
-  console.log("heyyyyyy");
+
   const fetchReviews = async () => {
     try {
       setLoading(true);
@@ -45,8 +45,7 @@ const AboutHotel = ({ hotelDetails, shoRoomOptions = true, propertyId }) => {
       setLoading(false);
     }
   };
-  console.log("propertyId---------", propertyId);
-  console.log("ID-------------", id);
+
   useEffect(() => {
     if (id) {
       fetchReviews();

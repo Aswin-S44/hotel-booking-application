@@ -69,7 +69,6 @@ const RoomExtraDetails = () => {
   const [checkIn, setCheckIn] = useState(null);
   const [checkOut, setCheckOut] = useState(null);
 
-  console.log("222222222");
   useEffect(() => {
     const savedFilter = localStorage.getItem("searchData");
     if (savedFilter) {
@@ -122,9 +121,6 @@ const RoomExtraDetails = () => {
   const subtotal = roomPrice * nights;
   const total = subtotal + serviceFee;
   const currency = room?.property?.currency ?? "Rs";
-
-  console.log("room?.property?.currency------------", room?.property?.currency);
-  console.log("Selected Dates:", { checkIn, checkOut });
 
   const handleBookNow = () => {
     if (!user) {

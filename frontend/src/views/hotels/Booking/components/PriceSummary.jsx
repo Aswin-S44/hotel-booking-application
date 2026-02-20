@@ -9,8 +9,6 @@ import {
   CardTitle,
 } from "react-bootstrap";
 const PriceSummary = ({ total, discount }) => {
-  console.log("TOTAL : ", total);
-  console.log("DISCOUNT ; ", discount);
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -24,7 +22,7 @@ const PriceSummary = ({ total, discount }) => {
             `http://localhost:5000/api/v1/customer/rooms/${roomId}`
           );
           const result = await response.json();
-          console.log("result----------------", result);
+
           if (result && result.data) {
             setData(result.data);
           }

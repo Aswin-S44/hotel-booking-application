@@ -20,7 +20,7 @@ const SignIn = () => {
   const { saveSession } = useAuthContext();
   const [loading, setLoading] = useState(false);
   const { control, handleSubmit } = useForm();
- 
+
   const onSubmit = async (data) => {
     setLoading(true);
     try {
@@ -36,7 +36,7 @@ const SignIn = () => {
       });
 
       const result = await response.json();
-      console.log("result-----------", result?.user?.role);
+
       if (result.status === 200) {
         const sessionData = {
           ...result.user,
@@ -91,7 +91,7 @@ const SignIn = () => {
         { idToken },
         { withCredentials: true }
       );
-      console.log("RES----------", res ? res : "no res");
+
       // if (res.status === 200) {
       //   saveSession({
       //     ...res.data.user,

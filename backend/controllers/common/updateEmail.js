@@ -6,7 +6,7 @@ export const updateEmail = async (req, res) => {
     const userId = req.userId;
 
     const user = await User.findById(userId);
-    console.log("USER----------------", user);
+
     if (!user || user.otp !== otp || user.otpExpires < Date.now()) {
       return res
         .status(400)

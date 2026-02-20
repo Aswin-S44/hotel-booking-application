@@ -5,7 +5,6 @@ import RoomCard from "./RoomCard";
 import { hotelRooms } from "../data";
 
 const RoomOptions = ({ rooms, features }) => {
-  console.log("rooms------------", rooms);
   const [sortBy, setSortBy] = useState("-1");
 
   const sortedRooms = useMemo(() => {

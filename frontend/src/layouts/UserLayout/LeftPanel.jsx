@@ -36,7 +36,7 @@ const LeftPanel = () => {
           }
         );
         const data = await response.json();
-        console.log("data-------------", data);
+
         if (data) {
           setProfile(data);
           setPreview(data.avatar || DEFAULT_AVATAR_IMAGE);

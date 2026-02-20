@@ -9,8 +9,6 @@ export const updateProfile = async (req, res) => {
       return res.status(404).send({ message: "User not found" });
     }
 
-    console.log("BODY------------", req.body);
-
     const updateData = {
       name: req.body.name,
       contactNumber: req.body.contactNumber,

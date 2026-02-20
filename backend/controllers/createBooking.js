@@ -21,8 +21,6 @@ export const createBooking = async (req, res) => {
       guests,
     } = req.body;
 
-    console.log("BODY-----------------", req.body);
-
     const { propertyId, roomId } = req.params;
 
     // Verify Payment Signature if it's an online payment

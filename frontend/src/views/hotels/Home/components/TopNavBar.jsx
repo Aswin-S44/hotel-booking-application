@@ -73,7 +73,7 @@ const TopNavBar = () => {
 
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  console.log("USER-----------", user);
+
   const menuItems = user
     ? bookingHomeMenuItems.filter((item) => item.key !== "sign-in")
     : bookingHomeMenuItems;

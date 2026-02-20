@@ -120,7 +120,6 @@ const CustomerInformation = () => {
         icon: "success",
       });
     } catch (error) {
-      console.log("error----------", error);
       Swal.fire({
         icon: "error",
         title: "Oops...",

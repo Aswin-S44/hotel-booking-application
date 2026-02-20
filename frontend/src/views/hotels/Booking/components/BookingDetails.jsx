@@ -8,7 +8,7 @@ import LoginAdvantages from "./LoginAdvantages";
 import OfferAndDiscounts from "./OfferAndDiscounts";
 import PaymentOptions from "./PaymentOptions";
 import PriceSummary from "./PriceSummary";
- 
+
 const BookingDetails = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -62,8 +62,6 @@ const BookingDetails = () => {
 
   const onSubmit = async (data) => {
     try {
-      console.log("data----------", data);
-
       if (
         data.guests &&
         data.guests.length == 1 &&
@@ -199,7 +197,7 @@ const BookingDetails = () => {
           <Container>
             <Row className="g-4 g-lg-5">
               <Col xl={8}>
-                <div className="vstack gap-5"> 
+                <div className="vstack gap-5">
                   <HotelInformation />
                   <GuestDetails control={methods.control} />
 

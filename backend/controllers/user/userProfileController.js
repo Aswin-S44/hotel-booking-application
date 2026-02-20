@@ -52,8 +52,8 @@ export const updateUserProfile = async (req, res) => {
 
 export const getUserProfile = async (req, res) => {
   try {
-    const userId = req.user.id; // from auth middleware
-    console.log("userId----------", userId);
+    const userId = req.user.id;
+
     const profile = await User.findOne({ _id: userId });
 
     if (!profile) {
