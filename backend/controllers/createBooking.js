@@ -77,6 +77,12 @@ export const createBooking = async (req, res) => {
       paymentStatus: paymentMethod === "online" ? "paid" : "pay_at_hotel",
       status: "booked",
       paymentId: paymentDetails._id,
+      trafficSource: req.body.trafficSource || "organic",
+      utm: {
+        source: req.body.utm_source,
+        medium: req.body.utm_medium,
+        campaign: req.body.utm_campaign,
+      },
     };
 
     const createdBooking = await Bookings.create(bookingData);

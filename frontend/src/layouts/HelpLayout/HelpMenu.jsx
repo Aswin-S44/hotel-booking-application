@@ -69,7 +69,7 @@ const HelpMenu = ({
   useEffect(() => {
     activeMenu();
   }, [activeMenu, menuItems]);
-  return <Collapse in={mobileMenuOpen} className="navbar-collapse">
+  return <Collapse in={mobileMenuOpen} className="navbar-collapse ">
       <div>
         <ul className={clsx('navbar-nav navbar-nav-scroll ms-auto', menuClassName)}>
           {(menuItems ?? []).map((item, idx) => {

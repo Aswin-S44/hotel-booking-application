@@ -31,6 +31,7 @@ import CustomerReview from "./HotelDetails/components/CustomerReview";
 import HotelPolicies from "./HotelDetails/components/HotelPolicies";
 import FooterWithLinks from "../../layouts/HelpLayout/FooterWithLinks";
 import axios from "axios";
+import TopNavBar from "./Home/components/TopNavBar";
 
 const RoomExtraDetails = () => {
   const { id } = useParams();
@@ -156,7 +157,9 @@ const RoomExtraDetails = () => {
   return (
     <>
       <PageMetaData title="Hotel - Details" />
-      <TopNavBar4 />
+
+      <TopNavBar />
+
       <main>
         {!room ? (
           <Container className="py-5 text-center">No details found</Container>

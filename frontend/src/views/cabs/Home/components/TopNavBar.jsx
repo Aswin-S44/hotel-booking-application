@@ -49,7 +49,7 @@ const TopNavBar = () => {
         <Container>
           <LogoBox />
 
-          <button onClick={menuToggle} className="navbar-toggler ms-auto ms-sm-0 p-0 p-sm-2" type="button" aria-controls="navbarCollapse" aria-expanded={menuIsOpen} data-bs-toggle="collapse" aria-label="Toggle navigation">
+          <button onClick={menuToggle} className="navbar-toggler ms-auto ms-sm-0 p-0 p-sm-2 " type="button" aria-controls="navbarCollapse" aria-expanded={menuIsOpen} data-bs-toggle="collapse" aria-label="Toggle navigation">
             <span className="navbar-toggler-animation">
               <span />
               <span />

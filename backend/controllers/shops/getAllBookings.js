@@ -27,7 +27,15 @@ export const getAllBookings = async (req, res) => {
         path: "roomId",
         select: "roomName additionalInfo",
       })
-      .select("checkInDate status paymentStatus roomId")
+      .populate({
+        path: "propertyId",
+        select: "propertyName address",
+      })
+      .populate({
+        path: "paymentId",
+        select: "paymentMethod transactionId",
+      })
+      .select("checkInDate checkOutDate status paymentStatus roomId totalAmount propertyId paymentId trafficSource utm")
       .sort(filter === "upcoming" ? { checkInDate: 1 } : { createdAt: -1 })
       .limit(Number(limit))
       .skip((Number(page) - 1) * Number(limit))
@@ -35,15 +43,33 @@ export const getAllBookings = async (req, res) => {
 
     const data = bookings.map((booking) => ({
       _id: booking._id,
+
+      propertyName: booking.propertyId?.propertyName || null,
+      propertyId: booking.propertyId?._id || null,
+
       roomName: booking.roomId?.roomName || null,
       roomId: booking.roomId?._id || null,
       additionalInfo: booking.roomId?.additionalInfo || null,
+
       checkInDate: booking.checkInDate
         ? format(new Date(booking.checkInDate), "dd MMM yyyy")
         : null,
+
+      checkOutDate: booking.checkOutDate
+        ? format(new Date(booking.checkOutDate), "dd MMM yyyy")
+        : null,
+
+      totalAmount: booking.totalAmount,
+
       status: booking.status,
       paymentStatus: booking.paymentStatus,
+
+      paymentDetails: booking.paymentId || null,
+
+      trafficSource: booking.trafficSource,
+      utm: booking.utm || null,
     }));
+
 
     return res.status(200).json({
       success: true,

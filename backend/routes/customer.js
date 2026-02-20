@@ -24,6 +24,9 @@ import {
 import { userVerification } from "../middleware/AuthMiddleware.js";
 import { getReviewsByPropertyId } from "../controllers/getReviewsByPropertyId.js";
 import { getReviewsByRoomId } from "../controllers/getReviewsByRoomId.js";
+// import { getUserProfile, updateUserProfile } from "../controllers/user/userProfileController.js";
+
+import { getNearbyProperties } from "../controllers/user/getNearbyPropertiesController.js";
 
 const customerRouter = express.Router();
 customerRouter.get("/", (req, res) => {
@@ -50,6 +53,7 @@ customerRouter.get(
 customerRouter.post("/review", addReview);
 customerRouter.get("/search-location", searchByLocation);
 customerRouter.get("/properties/all", getAllProperties);
+customerRouter.get("/all/properties", getAllProperties);
 customerRouter.post("/add-review", upload.array("reviewImages", 5), addReview);
 customerRouter.get("/property/:propertyId", getReviewsByProperty);
 
@@ -66,5 +70,8 @@ customerRouter.put(
 customerRouter.get("/profile/details", userVerification, getUserProfile);
 customerRouter.get("/reviews-by-property-id/:id", getReviewsByPropertyId);
 customerRouter.get("/reviews-by-room-id/:id", getReviewsByRoomId);
+customerRouter.get("/nearby", getNearbyProperties);
+
+customerRouter.get("/:propertyId", getPropertyById);
 
 export default customerRouter;

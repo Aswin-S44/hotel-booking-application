@@ -16,8 +16,13 @@ import { useEffect, useState } from "react";
 const Dashboard = () => {
   const [statistics, setStatistics] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [shopID, setshopID] = useState(true);
+
   const token = localStorage.getItem("token");
- 
+
+
+
+
   useEffect(() => {
     const fetchStats = async () => {
       try {
@@ -32,6 +37,8 @@ const Dashboard = () => {
           }
         );
         const result = await response.json();
+        setshopID(result?.data?.shopId)
+
 
         if (result.success) {
           const { listings, earnings, visitors, reviews } = result.data;
@@ -111,7 +118,7 @@ const Dashboard = () => {
             </Col>
 
             <Col lg={5} xl={4}>
-              <BookingTrafficChart />
+              <BookingTrafficChart shopID={shopID} />
             </Col>
           </Row>
 

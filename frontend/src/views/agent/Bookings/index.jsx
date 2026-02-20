@@ -298,44 +298,109 @@ const Bookings = () => {
         </Container>
       </section>
 
-      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Booking Details</Modal.Title>
+      <Modal
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        centered
+        size="lg"
+      >
+        <Modal.Header closeButton className="border-0 pb-0">
+          {/* <Modal.Title className="fw-bold">Booking Details</Modal.Title> */}
         </Modal.Header>
+
         <Modal.Body>
           {selectedBooking && (
-            <>
-              <p style={{ color: "black" }}>
-                <strong>Room:</strong> {selectedBooking.roomName}
-              </p>
-              <p style={{ color: "black" }}>
-                <strong>Check In:</strong> {selectedBooking.checkInDate}
-              </p>
-              <p style={{ color: "black" }}>
-                <strong>Status:</strong>{" "}
-                {selectedBooking.status == "booked" ? (
-                  <span style={{ color: "green" }}> Booked </span>
-                ) : (
-                  <span style={{ color: "red" }}>Cancelled</span>
-                )}
-              </p>
-              <p style={{ color: "black" }}>
-                <strong>Payment:</strong>{" "}
-                {selectedBooking.paymentStatus == "paid" ? (
-                  <span style={{ color: "green" }}> paid </span>
-                ) : (
-                  <span style={{ color: "red" }}>Not Paid</span>
-                )}
-              </p>
-              <p style={{ color: "black" }}>
-                <strong>Requirements:</strong>{" "}
-                {selectedBooking.additionalInfo || "N/A"}
-              </p>
-            </>
+            <div className="p-2">
+              {/* Room Header */}
+              <div className="mb-4">
+                <h4 className="fw-bold mb-1">{selectedBooking.roomName}</h4>
+              </div>
+
+              {/* Status + Payment Row */}
+              <div className="d-flex gap-3 mb-4 flex-wrap">
+                <span
+                  className={`badge px-3 py-2 ${
+                    selectedBooking.status === "booked"
+                      ? "bg-success"
+                      : "bg-danger"
+                  }`}
+                >
+                  {selectedBooking.status.toUpperCase()}
+                </span>
+
+                <span
+                  className={`badge px-3 py-2 ${
+                    selectedBooking.paymentStatus === "paid"
+                      ? "bg-primary"
+                      : "bg-warning text-dark"
+                  }`}
+                >
+                  {selectedBooking.paymentStatus.toUpperCase()}
+                </span>
+              </div>
+
+              {/* Booking Info Card */}
+              <div className="card border-0 shadow-sm mb-3">
+                <div className="card-body">
+                  <div className="row mb-2">
+                    <div className="col-6 ">Booking ID</div>
+                    <div className="col-6 text-end fw-semibold">
+                      #{selectedBooking._id.slice(-6)}
+                    </div>
+                  </div>
+                  <div className="row mb-2">
+                    <div className="col-6 ">Check In - Out</div>
+                    <div className="col-6 text-end fw-semibold">
+                      {selectedBooking.checkInDate} →{" "}
+                      {selectedBooking.checkOutDate}
+                    </div>
+                  </div>
+
+                  <div className="row mb-2">
+                    <div className="col-6 ">Room Requirements</div>
+                    <div className="col-6 text-end">
+                      {selectedBooking.additionalInfo || "N/A"}
+                    </div>
+                  </div>
+
+                  <div className="row mb-2">
+                    <div className="col-6 ">Total Amount</div>
+                    <div className="col-6 text-end fw-bold text-success">
+                      ₹ {selectedBooking.totalAmount}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Payment Info */}
+              <div className="card border-0 shadow-sm mb-3">
+                <div className="card-body">
+                  <h6 className="fw-bold mb-3">Payment Details</h6>
+
+                  <div className="row mb-2">
+                    <div className="col-6 ">Payment ID</div>
+                    <div className="col-6 text-end">
+                      #{selectedBooking.paymentDetails?._id.slice(-6) || "N/A"}
+                    </div>
+                  </div>
+
+                  <div className="row">
+                    <div className="col-6 ">Source</div>
+                    <div className="col-6 text-end">
+                      {selectedBooking.utm?.source || "Organic"}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           )}
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>
+
+        <Modal.Footer className="border-0">
+          <Button
+            variant="outline-secondary"
+            onClick={() => setShowModal(false)}
+          >
             Close
           </Button>
         </Modal.Footer>

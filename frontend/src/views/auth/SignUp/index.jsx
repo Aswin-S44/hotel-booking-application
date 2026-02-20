@@ -197,13 +197,13 @@ const SignUp = () => {
                     <FcGoogle size={16} className="fab fa-fw me-2" />
                     Continue with Google
                   </button>
-                  <button type="button" className="btn btn-light mb-0">
+                  {/* <button type="button" className="btn btn-light mb-0">
                     <FaFacebookF
                       size={16}
                       className="fab fa-fw text-facebook me-2"
                     />
                     Continue with Facebook
-                  </button>
+                  </button> */}
                 </div>
               </>
             )}

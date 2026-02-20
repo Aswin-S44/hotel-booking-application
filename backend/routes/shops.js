@@ -12,16 +12,18 @@ import { getGraphStats } from "../controllers/shops/getGraphStats.js";
 import { getReviews } from "../controllers/shops/getReviews.js";
 import { getInvoiceHistory } from "../controllers/shops/getInvoiceHistory.js";
 import { getEarningStats } from "../controllers/shops/getEarningStats.js";
-import {
-  deleteActivity,
-  deleteAllActivities,
-  getUserActivities,
-} from "../controllers/shops/activityController.js";
+
 import { updateProfile } from "../controllers/shops/updateProfile.js";
 import { userVerification } from "../middleware/AuthMiddleware.js";
 import { updateRoomById } from "../controllers/shops/updateRoomById.js";
 import { deleteReviewById } from "../controllers/shops/deleteReviewById.js";
 import { replyToReview } from "../controllers/shops/replyToReview.js";
+import {
+  deleteActivity,
+  deleteAllActivities,
+  getUserActivities,
+} from "../controllers/shops/activityController.js";
+import { getTrafficStats } from "../controllers/trafficController.js";
 
 const shopsRouter = express.Router();
 
@@ -49,4 +51,6 @@ shopsRouter.patch("/profile", userVerification, updateProfile);
 shopsRouter.patch("/room/:roomId", userVerification, updateRoomById);
 shopsRouter.delete("/reviews/:id", userVerification, deleteReviewById);
 shopsRouter.patch("/reviews/:id/reply", userVerification, replyToReview);
+shopsRouter.get("/traffic/:shopId", getTrafficStats);
+
 export default shopsRouter;

@@ -64,6 +64,17 @@ const bookingsSchema = new mongoose.Schema(
       enum: ["online", "pay_at_hotel"],
       default: "online",
     },
+    trafficSource: {
+      type: String,
+      enum: ["organic", "google", "social_media", "referral"],
+      default: "organic",
+    },
+
+    utm: {
+      source: String,
+      medium: String,
+      campaign: String,
+    },
   },
   {
     timestamps: true,
