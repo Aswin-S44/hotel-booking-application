@@ -85,13 +85,13 @@ export const USER_PROFILE_MENU_ITEMS = [
   //   parentKey: "acc-user",
   //   icon: BsPeople,
   // },
-  {
-    key: "acc-user-payment-details",
-    label: "Payment Details",
-    url: "/user/payment-details",
-    parentKey: "acc-user",
-    icon: BsWallet,
-  },
+  // {
+  //   key: "acc-user-payment-details",
+  //   label: "Payment Details",
+  //   url: "/user/payment-details",
+  //   parentKey: "acc-user",
+  //   icon: BsWallet,
+  // },
   {
     key: "acc-user-wishlist",
     label: "Wishlist",

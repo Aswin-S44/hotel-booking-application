@@ -15,6 +15,6 @@ const HotelBooking = () => {
       </main>
 
       <Footer />
-    </>;
+    </>; 
 };
 export default HotelBooking;

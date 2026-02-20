@@ -6,7 +6,6 @@ import AvailabilityFilter from "./Grid/components/AvailabilityFilter";
 import HotelGallery from "./HotelDetails/components/HotelGallery";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/flatpickr.css";
-import Swal from "sweetalert2";
 
 import {
   Button,
@@ -32,10 +31,14 @@ import HotelPolicies from "./HotelDetails/components/HotelPolicies";
 import FooterWithLinks from "../../layouts/HelpLayout/FooterWithLinks";
 import axios from "axios";
 import TopNavBar from "./Home/components/TopNavBar";
+import { useAuthContext } from "../../states/useAuthContext";
+import Swal from "sweetalert2";
 
 const RoomExtraDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+
+  const { user } = useAuthContext();
 
   const [reviewsData, setReviewsData] = useState(null);
 
@@ -124,6 +127,23 @@ const RoomExtraDetails = () => {
   console.log("Selected Dates:", { checkIn, checkOut });
 
   const handleBookNow = () => {
+    if (!user) {
+      Swal.fire({
+        title: "Please Signin",
+        text: "You need to create account , inorder to continue with booking",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sign-In",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/auth/sign-in");
+        }
+      });
+      return;
+    }
+
     // Check if dates are missing
     if (!checkIn || !checkOut) {
       Swal.fire({

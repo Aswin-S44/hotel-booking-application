@@ -4,7 +4,6 @@ import { createSecretToken } from "../utils/utils.js";
 
 export const sigIn = async (req, res) => {
   try {
-    console.log("1211111111111");
     const { email, password } = req.body;
     if (!email || !password) {
       return res.json({ message: "All fields are required" });

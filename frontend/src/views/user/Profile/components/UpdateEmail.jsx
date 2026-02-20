@@ -147,7 +147,7 @@ const UpdateEmail = () => {
                     Resend OTP in{" "}
                     <span className="fw-bold">{resendTimer}s</span>
                   </small>
-                ) : (
+                ) : ( 
                   <button
                     type="button"
                     className="btn btn-link p-0 text-decoration-none small"
