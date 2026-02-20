@@ -75,6 +75,12 @@ const bookingsSchema = new mongoose.Schema(
       medium: String,
       campaign: String,
     },
+
+    bookedUserId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
   {
     timestamps: true,

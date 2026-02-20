@@ -43,7 +43,7 @@ customerRouter.get("/rooms/property/:propertyId", getRoomsByPropertyId);
 customerRouter.post("/create-order", createOrder);
 customerRouter.post(
   "/booking/:propertyId/:roomId",
-  // userVerification,
+  userVerification,
   createBooking
 );
 customerRouter.get(

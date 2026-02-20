@@ -17,7 +17,8 @@ const BookingDetails = () => {
   const roomId = searchParams.get("room_id");
 
   const bookingData = location.state || {};
-
+  const token = localStorage.getItem("token");
+  console.log("tokem-----------", token);
   const methods = useForm({
     defaultValues: {
       guests: [
@@ -97,7 +98,7 @@ const BookingDetails = () => {
         );
 
         const orderData = await orderRes.json();
-
+        console.log("token------------", token);
         // 2. Open Razorpay Checkout
         const options = {
           key: import.meta.env.VITE_RAZORPAY_KEY_ID,
@@ -112,7 +113,10 @@ const BookingDetails = () => {
               `http://localhost:5000/api/v1/customer/booking/${propertyId}/${roomId}`,
               {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${token}`,
+                },
                 body: JSON.stringify({
                   ...data,
                   razorpay_payment_id: response.razorpay_payment_id,
@@ -146,7 +150,10 @@ const BookingDetails = () => {
           `http://localhost:5000/api/v1/customer/booking/${propertyId}/${roomId}`,
           {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
             body: JSON.stringify(data),
           }
         );

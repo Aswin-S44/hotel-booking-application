@@ -10,6 +10,8 @@ export const userVerification = async (req, res, next) => {
     return res.json({ status: 403, message: "Forebidden" });
   }
 
+  console.log("token---------", token);
+
   jwt.verify(token, process.env.JWT_SECRET, async (err, data) => {
     if (err) {
       return res.json({ status: false });

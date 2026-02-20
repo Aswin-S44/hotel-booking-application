@@ -22,6 +22,12 @@ export const createBooking = async (req, res) => {
     } = req.body;
 
     const { propertyId, roomId } = req.params;
+    const userId = req.userId;
+    console.log("userId---------", userId);
+
+    if (!userId) {
+      return res.status(404).send({ message: "User not loggedin" });
+    }
 
     // Verify Payment Signature if it's an online payment
 
@@ -81,6 +87,7 @@ export const createBooking = async (req, res) => {
         medium: req.body.utm_medium,
         campaign: req.body.utm_campaign,
       },
+      bookedUserId: userId,
     };
 
     const createdBooking = await Bookings.create(bookingData);
