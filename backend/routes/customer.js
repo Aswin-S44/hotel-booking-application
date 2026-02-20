@@ -27,6 +27,8 @@ import { getReviewsByRoomId } from "../controllers/getReviewsByRoomId.js";
 // import { getUserProfile, updateUserProfile } from "../controllers/user/userProfileController.js";
 
 import { getNearbyProperties } from "../controllers/user/getNearbyPropertiesController.js";
+import { getBookingsByCategory } from "../controllers/getBookingsByCategory.js";
+import { cancelBookingById } from "../controllers/cancelBookingById.js";
 
 const customerRouter = express.Router();
 customerRouter.get("/", (req, res) => {
@@ -73,5 +75,17 @@ customerRouter.get("/reviews-by-room-id/:id", getReviewsByRoomId);
 customerRouter.get("/nearby", getNearbyProperties);
 
 customerRouter.get("/:propertyId", getPropertyById);
+
+customerRouter.get(
+  "/bookings/category",
+  userVerification,
+  getBookingsByCategory
+);
+
+customerRouter.patch(
+  "/booking/cancel/:bookingId",
+  userVerification,
+  cancelBookingById
+);
 
 export default customerRouter;

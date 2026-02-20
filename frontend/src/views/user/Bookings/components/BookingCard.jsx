@@ -1,50 +1,134 @@
-import { Button, Card, CardBody, CardHeader, Col, Row } from 'react-bootstrap';
-const BookingCard = ({
-  booking
-}) => {
-  const {
-    flightType,
-    timing,
-    travelRoute,
-    icon,
-    id,
-    cancelled
-  } = booking;
-  const Icon = icon;
-  return <Card className="border mb-4">
-      <CardHeader className="border-bottom d-md-flex justify-content-md-between align-items-center">
+import {
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Col,
+  Row,
+  Dropdown,
+} from "react-bootstrap";
+import { FaHotel } from "react-icons/fa";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { format, differenceInHours } from "date-fns";
+import Swal from "sweetalert2";
+import axios from "axios";
+
+const BookingCard = ({ booking, showActions = false, onSuccess }) => {
+  const handleCancel = async () => {
+    const checkIn = new Date(booking.checkInDate);
+    const now = new Date();
+    const hoursDifference = differenceInHours(checkIn, now);
+
+    // if (hoursDifference < 3) {
+    //   Swal.fire({
+    //     icon: "error",
+    //     title: "Cannot Cancel",
+    //     text: "You can only cancel this booking at least 3 hours before the check-in time.",
+    //   });
+    //   return;
+    // }
+
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to cancel this booking?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, cancel it!",
+      showLoaderOnConfirm: true,
+      preConfirm: async () => {
+        try {
+          const token = localStorage.getItem("token");
+          const response = await axios.patch(
+            `http://localhost:5000/api/v1/customer/booking/cancel/${booking._id}`,
+            {},
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+          return response.data;
+        } catch (error) {
+          Swal.showValidationMessage(
+            `Request failed: ${error.response?.data?.message || error.message}`
+          );
+        }
+      },
+      allowOutsideClick: () => !Swal.isLoading(),
+    }).then((result) => {
+      if (result.isConfirmed && result.value?.success) {
+        Swal.fire(
+          "Cancelled!",
+          "Your booking has been cancelled.",
+          "success"
+        ).then(() => {
+          if (onSuccess) onSuccess();
+        });
+      }
+    });
+  };
+
+  return (
+    <Card className="border mb-4">
+      <CardHeader className="border-bottom d-flex justify-content-between align-items-center">
         <div className="d-flex align-items-center">
           <div className="icon-lg bg-light rounded-circle flex-shrink-0">
-            <Icon />
+            <FaHotel />
           </div>
 
           <div className="ms-2">
-            <h6 className="card-title mb-0">{travelRoute}</h6>
+            <h6 className="card-title mb-0">
+              {booking?.propertyId?.listingName ?? ""}
+            </h6>
             <ul className="nav nav-divider small">
-              <li className="nav-item">Booking ID:{id}</li>
-              <li className="nav-item">{flightType}</li>
+              <li className="nav-item">Booking ID: {booking?._id ?? ""}</li>
+              <li className="nav-item">{booking?.paymentStatus}</li>
             </ul>
           </div>
         </div>
 
-        <div className="mt-2 mt-md-0">
-          <Button variant="primary-soft" className="mb-0">
-            Manage Booking
-          </Button>
-          {cancelled && <p className="text-danger text-md-end mb-0">Booking cancelled</p>}
-        </div>
+        {showActions && (
+          <Dropdown align="end">
+            <Dropdown.Toggle
+              as="a"
+              className="btn btn-light btn-round mb-0 arrow-none"
+            >
+              <BsThreeDotsVertical />
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu className="dropdown-menu-end min-w-auto shadow">
+              <li>
+                <Dropdown.Item className="text-danger" onClick={handleCancel}>
+                  Cancel booking
+                </Dropdown.Item>
+              </li>
+            </Dropdown.Menu>
+          </Dropdown>
+        )}
       </CardHeader>
 
       <CardBody>
         <Row className="g-3">
-          {timing.map((item, idx) => {
-          return <Col sm={6} md={4} key={idx}>
-                <span>{item.label}</span>
-                <h6 className="mb-0">{item.name}</h6>
-              </Col>;
-        })}
+          <Col sm={6} md={4}>
+            <span>Check in Date</span>
+            <h6 className="mb-0">
+              {booking?.checkInDate
+                ? format(new Date(booking.checkInDate), "dd MMM yyyy")
+                : ""}
+            </h6>
+          </Col>
+          <Col sm={6} md={4}>
+            <span>Check out Date</span>
+            <h6 className="mb-0">
+              {booking?.checkOutDate
+                ? format(new Date(booking.checkOutDate), "dd MMM yyyy")
+                : ""}
+            </h6>
+          </Col>
         </Row>
       </CardBody>
-    </Card>;
+    </Card>
+  );
 };
+
 export default BookingCard;
