@@ -9,15 +9,13 @@ const NearbyPlaces = () => {
 
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(false);
-  console.log("properties>>>>>>>>>>>>>>>", properties);
 
 
-  useEffect(() => {
-    setLoading(true);
-    navigator.geolocation.getCurrentPosition(async (position) => {
-      const lat = position.coords.latitude;
-      const lng = position.coords.longitude;
+useEffect(() => {
+  setLoading(true);
 
+  const fetchHotels = async (lat, lng) => {
+    try {
       const res = await axios.get("http://localhost:5000/api/v1/customer/nearby", {
         params: {
           lat,
@@ -31,9 +29,26 @@ const NearbyPlaces = () => {
       });
 
       setProperties(res.data.data);
+    } catch (error) {
+      console.error("Error fetching hotels:", error);
+    } finally {
       setLoading(false);
-    });
-  }, []);
+    }
+  };
+
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      const lat = position.coords.latitude;
+      const lng = position.coords.longitude;
+      fetchHotels(lat, lng);
+    },
+    () => {
+      const defaultLat = 9.9865001;
+      const defaultLng = 76.1373067;
+      fetchHotels(defaultLat, defaultLng);
+    }
+  );
+}, []);
 
 
 
@@ -45,35 +60,35 @@ const NearbyPlaces = () => {
         </Col>
       </Row>
 
-      {loading &&   <div
-  style={{
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "100vh"
-  }}
->
-  <img
-    src={load}
-    alt="loading"
-    style={{
-      width: "60px",
-      height: "60px",
-      borderRadius: "50%",
-      animation: "spin 1s linear infinite"
-    }}
-  />
+      {loading && <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh"
+        }}
+      >
+        <img
+          src={load}
+          alt="loading"
+          style={{
+            width: "60px",
+            height: "60px",
+            borderRadius: "50%",
+            animation: "spin 1s linear infinite"
+          }}
+        />
 
-  <style>
-    {`
+        <style>
+          {`
       @keyframes spin {
         from { transform: rotate(0deg); }
         to { transform: rotate(360deg); }
       }
     `}
-  </style>
-</div>
-}
+        </style>
+      </div>
+      }
       <Row className="g-4 g-md-5">
         {(properties ?? []).map((place, idx) => <Col xs={6} sm={4} lg={3} xl={2} key={idx + place.name}>
           <Card className="bg-transparent text-center p-1 h-100">

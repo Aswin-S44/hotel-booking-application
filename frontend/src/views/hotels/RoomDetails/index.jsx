@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import HotelMediaGallery from "../HotelDetails/components/HotelMediaGallery";
 import axios from "axios";
 import TopNavBar from "../Home/components/TopNavBar";
+import Footer from "../Home/components/Footer";
 
 const RoomDetails = () => {
   const location = useLocation();
@@ -20,6 +21,9 @@ const RoomDetails = () => {
   const roomId = location.pathname.split("/").pop();
   const [room, setRoom] = useState([]);
   const passignData = [roomsDetail[0]?.room.roomThumbnail || ""];
+
+console.log("idid",id,roomId);
+
 
   useEffect(() => {
     const getRoomDetails = async () => {
@@ -99,6 +103,7 @@ const RoomDetails = () => {
         <RoomSelection rooms={roomDetails ?? []} />
       </main>
       <FooterWithLinks />
+      <Footer />
     </>
   );
 };

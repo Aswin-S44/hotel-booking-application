@@ -7,6 +7,7 @@ import TopNavBar4 from "./components/TopNavBar4";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react"; 
 import TopNavBar from "../Home/components/TopNavBar";
+import Footer from "../Home/components/Footer";
 const HotelDetails = () => {
   const { id } = useParams();
 
@@ -75,6 +76,7 @@ const HotelDetails = () => {
       </main>
 
       <FooterWithLinks />
+       <Footer />
     </>
   );
 };

@@ -4,6 +4,7 @@ import Hero from './components/Hero';
 import OurStory from './components/OurStory';
 import OurTeam from './components/OurTeam';
 import TopNavBar11 from './components/TopNavBar11';
+import Footer from '../../hotels/Home/components/Footer';
 const About = () => {
   return <>
       <PageMetaData title="About us" />
@@ -17,6 +18,7 @@ const About = () => {
       </main>
 
       <FooterWithLinks />
+       <Footer />
     </>;
 };
 export default About;

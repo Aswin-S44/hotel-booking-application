@@ -29,9 +29,10 @@ import axios from "axios";
 const AboutHotel = ({ hotelDetails, shoRoomOptions = true, propertyId }) => {
   const { isOpen, toggle } = useToggle();
   const { id } = useParams();
+  console.log("PARAM ID:", id);
   const [reviewsData, setReviewsData] = useState(null);
   const [loading, setLoading] = useState(false);
-  console.log("heyyyyyy");
+  console.log("heyyyyyy", reviewsData);
   const fetchReviews = async () => {
     try {
       setLoading(true);
@@ -53,6 +54,8 @@ const AboutHotel = ({ hotelDetails, shoRoomOptions = true, propertyId }) => {
     }
   }, [id]);
 
+console.log("PARENT reviewsData:", reviewsData);
+console.log("PARAM ID:", id);
   return (
     <section className="pt-0">
       <Container data-sticky-container>

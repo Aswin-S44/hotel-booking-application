@@ -44,10 +44,10 @@ const TopNavBar = () => {
   } = useToggle(false);
 
 
-const handleClick = () => {
-  menuToggle();
-  categoryToggle();
-};
+  const handleClick = () => {
+    menuToggle();
+    categoryToggle();
+  };
 
 
 
@@ -65,14 +65,14 @@ const handleClick = () => {
 
 
         <button onClick={handleClick} className="navbar-toggler ms-auto ms-sm-0 p-0 p-sm-2" type="button" data-bs-toggle="collapse" aria-controls="navbarCollapse" aria-expanded={menuIsOpen} aria-label="Toggle navigation">
-            <span className="navbar-toggler-animation">
-              <span />
-              <span />
-              <span />
-            </span>
-            <span className="d-none ms-1 d-sm-inline-block small">Menu</span>
-          </button>
-     
+          <span className="navbar-toggler-animation">
+            <span />
+            <span />
+            <span />
+          </span>
+          <span className="d-none ms-1 d-sm-inline-block small">Menu</span>
+        </button>
+
 
 
 
@@ -166,15 +166,24 @@ const handleClick = () => {
                 My Bookings
               </DropdownItem>
 
-              <DropdownItem>
-                <BsHeart className=" me-2" onClick={() => token ? navigate("/user/wishlist") : navigate("/auth/sign-in")} />
-                My Wishlist
-              </DropdownItem>
+              <a
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  token ? navigate("/user/wishlist") : navigate("/auth/sign-in");
+                }}
+              >
+                <DropdownItem>
+                  <BsHeart className=" me-2" onClick={() => token ? navigate("/user/wishlist") : navigate("/auth/sign-in")} />
+                  My Wishlist
+                </DropdownItem>
+              </a>
 
-              <DropdownItem>
+
+              {/* <DropdownItem>
                 <BsGear className=" me-2" onClick={() => token ? navigate("/user/settings") : navigate("/auth/sign-in")} />
                 Settings
-              </DropdownItem>
+              </DropdownItem> */}
 
               {/* <DropdownItem>
                     <BsInfoCircle className=" me-2" />

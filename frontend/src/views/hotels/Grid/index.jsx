@@ -5,6 +5,7 @@ import HotelGridLayout from './components/HotelGridLayout';
 import HotelListFilter from './components/HotelListFilter';
 import TopNavBar4 from './components/TopNavBar4';
 import TopNavBar from '../Home/components/TopNavBar';
+import Footer from '../Home/components/Footer';
 const HotelsGrid = () => {
 
 
@@ -26,6 +27,7 @@ const HotelsGrid = () => {
     </main>
 
     <FooterWithLinks />
+    {/* <Footer /> */}
   </>;
 };
 export default HotelsGrid;

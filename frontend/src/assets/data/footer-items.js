@@ -1,4 +1,10 @@
 import { FaCar, FaEarthAmericas, FaHotel, FaPlane } from "react-icons/fa6";
+import { FaHome } from "react-icons/fa";
+import { IoPeopleSharp } from "react-icons/io5";
+import { FaHandsHelping } from "react-icons/fa";
+import { LuMessageCircleQuestion } from "react-icons/lu";
+import { IoNewspaper } from "react-icons/io5";
+
 const footerLinks = [
   {
     title: "Page",
@@ -57,51 +63,42 @@ const footerLinks = [
       },
     ],
   },
-  // {
-  //   title: "Global Site",
-  //   items: [
-  //     {
-  //       name: "India",
-  //     },
-  //     {
-  //       name: "California",
-  //     },
-  //     {
-  //       name: "Indonesia",
-  //     },
-  //     {
-  //       name: "Canada",
-  //     },
-  //     {
-  //       name: "Malaysia",
-  //     },
-  //   ],
-  // },
-  // {
-  //   title: "Booking",
-  //   items: [
-  //     {
-  //       name: "Hotel",
-  //       icon: FaHotel,
-  //       link: "/hotels/home",
-  //     },
-  //     {
-  //       name: "Flight",
-  //       icon: FaPlane,
-  //       link: "/flights/home",
-  //     },
-  //     {
-  //       name: "Tour",
-  //       icon: FaEarthAmericas,
-  //       link: "/tours/home",
-  //     },
-  //     {
-  //       name: "Cabs",
-  //       icon: FaCar,
-  //       link: "/cabs/home",
-  //     },
-  //   ],
-  // },
+  {
+  title: "Locations",
+  items: [
+    { name: "Kochi" },
+    { name: "Thiruvananthapuram" },
+    { name: "Kozhikode" },
+    { name: "Alappuzha" },
+    { name: "Palakkad" },
+    { name: "Malappuram" },
+  ],
+},
+  {
+    title: "Menu",
+    items: [
+      {
+        name: "Home",
+        icon: FaHome,
+        link: "/hotels/home",
+      },
+      {
+        name: "About Us",
+        icon: IoPeopleSharp,
+        link: "/pages/about",
+      },
+      {
+        name: "FAQs",
+        icon: LuMessageCircleQuestion,
+        link: "/faqs",
+      },
+      {
+        name: "Blogs",
+        icon: IoNewspaper,
+        link: "/blogs/blog",
+      },
+    ],
+  },
 ];
 const topLinks = [
   // {

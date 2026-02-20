@@ -24,8 +24,36 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { DEFAULT_AVATAR_IMAGE } from "../../../../constants/images";
 
-const CustomerReview = ({ hotelDetails, propertyId, reviewsData }) => {
+const CustomerReview = ({ hotelDetails, propertyId, reviewsData   }) => {
   const { id } = useParams();
+const [newReviewData, setNewReviewData] = useState(null);
+
+
+console.log("newReviewData---------", newReviewData);
+console.log("ID-------------", id);
+
+
+  const fetchReviews = async () => {
+    try {
+      setLoading(true);
+      const res = await axios.get(
+        `http://localhost:5000/api/v1/customer/reviews-by-property-id/${propertyId}`
+      );
+      setNewReviewData(res.data);
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  console.log("propertyId---------", propertyId);
+  console.log("ID-------------", id);
+  useEffect(() => {
+    if (id) {
+      fetchReviews();
+    }
+  }, [id]);
+
 
   // const [reviewsData, setReviewsData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -78,8 +106,15 @@ const CustomerReview = ({ hotelDetails, propertyId, reviewsData }) => {
     );
   };
 
-  const summary = reviewsData?.summary;
-  const reviews = reviewsData?.data || [];
+  const summary = newReviewData?.summary;
+  const reviews = newReviewData?.data || [];
+
+
+
+
+
+console.log("reviews >>>> reviews >>>>>>>",reviews);
+
 
   return (
     <Card className="bg-transparent">

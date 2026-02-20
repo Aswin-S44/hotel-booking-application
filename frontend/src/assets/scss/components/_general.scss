@@ -282,3 +282,12 @@ body.dashboard main{
     width: 150px;
     object-fit: cover;
 }
+
+
+a.nav-notification.btn.btn-light.p-0.mb-0.flex-centered.arrow-none.dropdown-toggle, span.notif-badge.animation-blink {
+    display: none;
+}
+
+.card.card-img-scale img {
+      height: 300px;
+}
