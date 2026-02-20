@@ -1,17 +1,34 @@
-import { SelectFormInput } from '@/components';
-import Flatpicker from '@/components/Flatpicker';
-import { useState } from 'react';
-import { Button, Col, Dropdown, DropdownDivider, DropdownMenu, DropdownToggle, FormLabel, Row } from 'react-bootstrap';
-import { BsCalendar, BsDashCircle, BsGeoAlt, BsPerson, BsPlusCircle, BsSearch } from 'react-icons/bs';
+import { SelectFormInput } from "@/components";
+import Flatpicker from "@/components/Flatpicker";
+import { useState } from "react";
+import {
+  Button,
+  Col,
+  Dropdown,
+  DropdownDivider,
+  DropdownMenu,
+  DropdownToggle,
+  FormLabel,
+  Row,
+} from "react-bootstrap";
+import {
+  BsCalendar,
+  BsDashCircle,
+  BsGeoAlt,
+  BsPerson,
+  BsPlusCircle,
+  BsSearch,
+} from "react-icons/bs";
+import { availableLocations } from "../../../../constants/datas";
 const AvailabilityFilter = () => {
   const initialValue = {
-    location: 'San Jacinto, USA',
+    location: "San Jacinto, USA",
     stayFor: [new Date(), new Date(Date.now() + 5 * 24 * 60 * 60 * 1000)],
     guests: {
       adults: 2,
       rooms: 1,
-      children: 0
-    }
+      children: 0,
+    },
   };
   const [formValue, setFormValue] = useState(initialValue);
   const updateGuests = (type, increase = true) => {
@@ -20,25 +37,27 @@ const AvailabilityFilter = () => {
       ...formValue,
       guests: {
         ...formValue.guests,
-        [type]: increase ? val + 1 : val > 1 ? val - 1 : 0
-      }
+        [type]: increase ? val + 1 : val > 1 ? val - 1 : 0,
+      },
     });
   };
   const getGuestsValue = () => {
-    let value = '';
+    let value = "";
     const guests = formValue.guests;
     if (guests.adults) {
-      value += guests.adults + (guests.adults > 1 ? ' Adults ' : ' Adult ');
+      value += guests.adults + (guests.adults > 1 ? " Adults " : " Adult ");
     }
     if (guests.children) {
-      value += guests.children + (guests.children > 1 ? ' Children ' : ' Child ');
+      value +=
+        guests.children + (guests.children > 1 ? " Children " : " Child ");
     }
     if (guests.rooms) {
-      value += guests.rooms + (guests.rooms > 1 ? ' Rooms ' : ' Room ');
+      value += guests.rooms + (guests.rooms > 1 ? " Rooms " : " Room ");
     }
     return value;
   };
-  return <form className="bg-mode shadow rounded-3 position-relative p-4 pe-md-5 pb-5 pb-md-4 mb-4">
+  return (
+    <form className="bg-mode shadow rounded-3 position-relative p-4 pe-md-5 pb-5 pb-md-4 mb-4">
       <Row className="g-4 align-items-center">
         <Col lg={4}>
           <div className="form-control-border form-control-transparent form-fs-md flex-centered gap-2">
@@ -46,13 +65,22 @@ const AvailabilityFilter = () => {
 
             <div className="flex-grow-1">
               <FormLabel className="form-label">Location</FormLabel>
-              <SelectFormInput>
-                <option value={-1} disabled>
-                  Select location
-                </option>
-                <option value="1">San Jacinto, USA</option>
-                <option value="2">North Dakota, Canada</option>
-                <option value="3">West Virginia, Paris</option>
+              <SelectFormInput
+                value={formValue.location}
+                onChange={(value) =>
+                  setFormValue({
+                    ...formValue,
+                    location: value,
+                  })
+                }
+              >
+                <option value="">Select location</option>
+
+                {availableLocations.map((item) => (
+                  <option key={item.district} value={item.district}>
+                    {item.district}
+                  </option>
+                ))}
               </SelectFormInput>
             </div>
           </div>
@@ -66,13 +94,20 @@ const AvailabilityFilter = () => {
 
             <div className="form-control-border form-control-transparent form-fs-md">
               <FormLabel className="form-label">Check in - out</FormLabel>
-              <Flatpicker value={formValue.stayFor} getValue={val => setFormValue({
-              ...formValue,
-              stayFor: val
-            })} options={{
-              mode: 'range',
-              dateFormat: 'd M'
-            }} className="form-control flatpickr" />
+              <Flatpicker
+                value={formValue.stayFor}
+                getValue={(val) =>
+                  setFormValue({
+                    ...formValue,
+                    stayFor: val,
+                  })
+                }
+                options={{
+                  mode: "range",
+                  dateFormat: "d M",
+                }}
+                className="form-control flatpickr"
+              />
             </div>
           </div>
         </Col>
@@ -86,7 +121,12 @@ const AvailabilityFilter = () => {
             <div className="w-100">
               <label className="form-label">Guests &amp; rooms</label>
               <Dropdown className="guest-selector me-2">
-                <DropdownToggle as="input" className="form-guest-selector form-control selection-result" value={getGuestsValue()} onChange={() => {}} />
+                <DropdownToggle
+                  as="input"
+                  className="form-guest-selector form-control selection-result"
+                  value={getGuestsValue()}
+                  onChange={() => {}}
+                />
 
                 <DropdownMenu className="guest-selector-dropdown">
                   <li className="d-flex justify-content-between">
@@ -95,11 +135,21 @@ const AvailabilityFilter = () => {
                       <small>Ages 13 or above</small>
                     </div>
                     <div className="hstack gap-1 align-items-center">
-                      <Button variant="link" className="adult-remove p-0 mb-0" onClick={() => updateGuests('adults', false)}>
+                      <Button
+                        variant="link"
+                        className="adult-remove p-0 mb-0"
+                        onClick={() => updateGuests("adults", false)}
+                      >
                         <BsDashCircle className=" fs-5 fa-fw" />
                       </Button>
-                      <h6 className="guest-selector-count mb-0 adults">{formValue.guests.adults ?? 0}</h6>
-                      <Button variant="link" className="adult-add p-0 mb-0" onClick={() => updateGuests('adults')}>
+                      <h6 className="guest-selector-count mb-0 adults">
+                        {formValue.guests.adults ?? 0}
+                      </h6>
+                      <Button
+                        variant="link"
+                        className="adult-add p-0 mb-0"
+                        onClick={() => updateGuests("adults")}
+                      >
                         <BsPlusCircle className=" fs-5 fa-fw" />
                       </Button>
                     </div>
@@ -113,11 +163,23 @@ const AvailabilityFilter = () => {
                       <small>Ages 13 below</small>
                     </div>
                     <div className="hstack gap-1 align-items-center">
-                      <Button variant="link" type="button" className="btn btn-link child-remove p-0 mb-0" onClick={() => updateGuests('children', false)}>
+                      <Button
+                        variant="link"
+                        type="button"
+                        className="btn btn-link child-remove p-0 mb-0"
+                        onClick={() => updateGuests("children", false)}
+                      >
                         <BsDashCircle className="  fs-5 fa-fw" />
                       </Button>
-                      <h6 className="guest-selector-count mb-0 child">{formValue.guests.children ?? 0}</h6>
-                      <Button variant="link" type="button" className="btn btn-link child-add p-0 mb-0" onClick={() => updateGuests('children')}>
+                      <h6 className="guest-selector-count mb-0 child">
+                        {formValue.guests.children ?? 0}
+                      </h6>
+                      <Button
+                        variant="link"
+                        type="button"
+                        className="btn btn-link child-add p-0 mb-0"
+                        onClick={() => updateGuests("children")}
+                      >
                         <BsPlusCircle className=" fs-5 fa-fw" />
                       </Button>
                     </div>
@@ -131,11 +193,23 @@ const AvailabilityFilter = () => {
                       <small>Max room 8</small>
                     </div>
                     <div className="hstack gap-1 align-items-center">
-                      <Button variant="link" type="button" className="room-remove p-0 mb-0" onClick={() => updateGuests('rooms', false)}>
+                      <Button
+                        variant="link"
+                        type="button"
+                        className="room-remove p-0 mb-0"
+                        onClick={() => updateGuests("rooms", false)}
+                      >
                         <BsDashCircle className=" fs-5 fa-fw" />
                       </Button>
-                      <h6 className="guest-selector-count mb-0 rooms">{formValue.guests.rooms ?? 0}</h6>
-                      <Button variant="link" type="button" className="btn btn-link room-add p-0 mb-0" onClick={() => updateGuests('rooms')}>
+                      <h6 className="guest-selector-count mb-0 rooms">
+                        {formValue.guests.rooms ?? 0}
+                      </h6>
+                      <Button
+                        variant="link"
+                        type="button"
+                        className="btn btn-link room-add p-0 mb-0"
+                        onClick={() => updateGuests("rooms")}
+                      >
                         <BsPlusCircle className=" fs-5 fa-fw" />
                       </Button>
                     </div>
@@ -148,10 +222,14 @@ const AvailabilityFilter = () => {
       </Row>
 
       <div className="btn-position-md-middle">
-        <button type="submit" className="icon-lg btn btn-round btn-primary mb-0 flex-centered">
+        <button
+          type="submit"
+          className="icon-lg btn btn-round btn-primary mb-0 flex-centered"
+        >
           <BsSearch className=" fa-fw" />
         </button>
       </div>
-    </form>;
+    </form>
+  );
 };
 export default AvailabilityFilter;

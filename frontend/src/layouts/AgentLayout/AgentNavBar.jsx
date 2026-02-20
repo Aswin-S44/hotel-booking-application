@@ -84,8 +84,6 @@ const AgentNavBar = () => {
 
   const { user } = useAuthContext();
 
-  console.log("user-------------", user);
-
   return (
     <section className="pt-4">
       <Container>

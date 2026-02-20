@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 import TopNavBar4 from "../tours/Grid/components/TopNavBar4";
 import AvailabilityFilter from "./Grid/components/AvailabilityFilter";
 import HotelGallery from "./HotelDetails/components/HotelGallery";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import Flatpickr from "react-flatpickr";
+import "flatpickr/dist/flatpickr.css";
+import Swal from "sweetalert2";
+
 import {
   Button,
   Card,
@@ -28,25 +30,48 @@ import {
 import CustomerReview from "./HotelDetails/components/CustomerReview";
 import HotelPolicies from "./HotelDetails/components/HotelPolicies";
 import FooterWithLinks from "../../layouts/HelpLayout/FooterWithLinks";
+import axios from "axios";
 
 const RoomExtraDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  const [reviewsData, setReviewsData] = useState(null);
+
+  const fetchReviews = async () => {
+    try {
+      setLoading(true);
+      const res = await axios.get(
+        `http://localhost:5000/api/v1/customer/reviews-by-room-id/${id}?page=1&limit=10`
+      );
+      setReviewsData(res.data);
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (id) {
+      fetchReviews();
+    }
+  }, [id]);
+
   const [room, setRoom] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const [checkIn, setCheckIn] = useState(new Date());
-  const [checkOut, setCheckOut] = useState(
-    new Date(new Date().setDate(new Date().getDate() + 1))
-  );
+  // Changed to null so no default dates are pre-selected
+  const [checkIn, setCheckIn] = useState(null);
+  const [checkOut, setCheckOut] = useState(null);
 
+  console.log("222222222");
   useEffect(() => {
     const savedFilter = localStorage.getItem("searchData");
     if (savedFilter) {
       const formValue = JSON.parse(savedFilter);
-      if (formValue?.stayFor?.[0]) setCheckIn(new Date(formValue.stayFor[0]));
-      if (formValue?.stayFor?.[1]) setCheckOut(new Date(formValue.stayFor[1]));
+      // if (formValue?.stayFor?.[0]) setCheckIn(new Date(formValue.stayFor[0]));
+      // if (formValue?.stayFor?.[1]) setCheckOut(new Date(formValue.stayFor[1]));
     }
   }, []);
 
@@ -82,15 +107,32 @@ const RoomExtraDetails = () => {
     rooms: room?.property?.rooms ?? [],
   };
 
+  // Calculate nights only if both dates are selected, otherwise 0
   const nights =
-    Math.ceil(Math.abs(checkOut - checkIn) / (1000 * 60 * 60 * 24)) || 1;
+    checkIn && checkOut
+      ? Math.ceil(Math.abs(checkOut - checkIn) / (1000 * 60 * 60 * 24))
+      : 0;
+
   const roomPrice = room?.price || 0;
   const serviceFee = room?.property?.policy?.extraCharges || 0;
   const subtotal = roomPrice * nights;
   const total = subtotal + serviceFee;
   const currency = room?.property?.currency ?? "Rs";
 
+  console.log("room?.property?.currency------------", room?.property?.currency);
+  console.log("Selected Dates:", { checkIn, checkOut });
+
   const handleBookNow = () => {
+    // Check if dates are missing
+    if (!checkIn || !checkOut) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Please select checkin and checkout date",
+      });
+      return;
+    }
+
     const bookingData = {
       propertyId: room?.property?._id,
       roomId: room?._id,
@@ -102,7 +144,9 @@ const RoomExtraDetails = () => {
       total,
       currency,
       hotelName: room?.property?.listingName,
+      discount: room?.discount ?? 0,
     };
+
     navigate(
       `/hotels/booking?property_id=${room?.property?._id}&room_id=${room?._id}`,
       { state: bookingData }
@@ -194,7 +238,10 @@ const RoomExtraDetails = () => {
                           </Row>
                         </CardBody>
                       </Card>
-                      <CustomerReview hotelDetails={hotelDetails} />
+                      <CustomerReview
+                        hotelDetails={hotelDetails}
+                        reviewsData={reviewsData}
+                      />
                       <HotelPolicies />
                     </div>
                   </Col>
@@ -209,48 +256,33 @@ const RoomExtraDetails = () => {
                       </CardHeader>
                       <CardBody>
                         <Row className="g-4 mb-3">
-                          <Col md={6}>
+                          <Col md={12}>
                             <div className="form-control-bg-light">
                               <label className="form-label small h6 fw-light">
-                                Check-in
+                                Check-in & Check-out
                               </label>
                               <div className="position-relative">
-                                <DatePicker
-                                  selected={checkIn}
-                                  onChange={(date) => {
-                                    setCheckIn(date);
-                                    if (date >= checkOut) {
-                                      const nextDay = new Date(date);
-                                      nextDay.setDate(nextDay.getDate() + 1);
-                                      setCheckOut(nextDay);
+                                <Flatpickr
+                                  className="form-control flatpickr"
+                                  placeholder="Select dates"
+                                  options={{
+                                    mode: "range",
+                                    dateFormat: "d M Y",
+                                    minDate: "today",
+                                    defaultDate:
+                                      checkIn && checkOut
+                                        ? [checkIn, checkOut]
+                                        : [],
+                                  }}
+                                  onChange={(dates) => {
+                                    if (dates.length === 2) {
+                                      setCheckIn(dates[0]);
+                                      setCheckOut(dates[1]);
+                                    } else {
+                                      setCheckIn(null);
+                                      setCheckOut(null);
                                     }
                                   }}
-                                  minDate={new Date()}
-                                  className="form-control flatpickr"
-                                  placeholderText="Select date"
-                                />
-                                <FaCalendarAlt className="position-absolute top-50 end-0 translate-middle-y me-3" />
-                              </div>
-                            </div>
-                          </Col>
-                          <Col md={6}>
-                            <div className="form-control-bg-light">
-                              <label className="form-label small h6 fw-light">
-                                Check-out
-                              </label>
-                              <div className="position-relative">
-                                <DatePicker
-                                  selected={checkOut}
-                                  onChange={(date) => setCheckOut(date)}
-                                  minDate={
-                                    new Date(
-                                      new Date(checkIn).setDate(
-                                        checkIn.getDate() + 1
-                                      )
-                                    )
-                                  }
-                                  className="form-control flatpickr"
-                                  placeholderText="Select date"
                                 />
                                 <FaCalendarAlt className="position-absolute top-50 end-0 translate-middle-y me-3" />
                               </div>
@@ -267,14 +299,14 @@ const RoomExtraDetails = () => {
                               {currency} {subtotal}
                             </span>
                           </li>
-                          <li className="list-group-item px-2 d-flex justify-content-between">
+                          {/* <li className="list-group-item px-2 d-flex justify-content-between">
                             <span className="h6 fw-light mb-0">
                               Service Fee
                             </span>
                             <span className="h6 fw-light mb-0">
                               {currency} {serviceFee}
                             </span>
-                          </li>
+                          </li> */}
                           <li className="list-group-item bg-light d-flex justify-content-between rounded-2 px-2 mt-2">
                             <span className="h5 fw-normal mb-0 ps-1">
                               Total

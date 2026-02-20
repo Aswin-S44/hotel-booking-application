@@ -9,8 +9,6 @@ const AddReviewModal = ({ show, handleClose, propertyId, roomId, userId }) => {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  console.log(">>>>>>>>>", propertyId, roomId);
-
   const handleImageChange = (e) => {
     const selectedFiles = Array.from(e.target.files);
     const updatedFiles = [...images, ...selectedFiles].slice(0, 5);
@@ -36,8 +34,6 @@ const AddReviewModal = ({ show, handleClose, propertyId, roomId, userId }) => {
       images.forEach((img) => {
         formData.append("reviewImages", img);
       });
-
-      console.log([...formData.entries()]);
 
       const res = await axios.post(
         "http://localhost:5000/api/v1/customer/add-review",

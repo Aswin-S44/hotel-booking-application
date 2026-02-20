@@ -48,6 +48,7 @@ const FeaturedHotels = () => {
           </Col>
         </Row>
         <Row className="g-4">
+          {console.log("featuredHotels-------------", featuredHotels)}
           {featuredHotels.slice(0, 4).map((hotel, idx) => (
             <Col key={hotel._id || idx} sm={6} xl={3}>
               <Card className="card-img-scale overflow-hidden bg-transparent">
@@ -80,7 +81,7 @@ const FeaturedHotels = () => {
                       <small className="fw-light">/starting at</small>
                     </h6>
                     <h6 className="mb-0 d-flex align-items-center">
-                      {hotel.starRating}
+                      {hotel?.averageRating}
                       <FaStar size={18} className="text-warning ms-1" />
                     </h6>
                   </div>

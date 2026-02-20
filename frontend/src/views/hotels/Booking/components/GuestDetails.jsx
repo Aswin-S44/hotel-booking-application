@@ -7,7 +7,8 @@ import {
   CardHeader,
   Col,
 } from "react-bootstrap";
-import { BsPeopleFill } from "react-icons/bs";
+import { useFieldArray } from "react-hook-form";
+import { BsPeopleFill, BsTrash } from "react-icons/bs";
 import { FaPlus } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 
@@ -22,6 +23,11 @@ const SpecialRequest = [
 ];
 
 const GuestDetails = ({ control }) => {
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "guests",
+  });
+
   return (
     <Card className="shadow">
       <CardHeader className="card-header border-bottom p-4">
@@ -32,48 +38,71 @@ const GuestDetails = ({ control }) => {
       </CardHeader>
       <CardBody className="p-4">
         <div className="row g-4">
-          <Col xs={12}>
-            <div className="bg-light rounded-2 px-4 py-3">
-              <h6 className="mb-0">Main Guest</h6>
-            </div>
-          </Col>
-          <Col md={2}>
-            <div className="form-size-lg">
-              <label className="form-label">Title</label>
-              <SelectFormInput
-                name="title"
+          {fields.map((field, index) => (
+            <div key={field.id} className="row g-4 mb-3">
+              <Col xs={12}>
+                <div className="bg-light rounded-2 px-4 py-3 d-flex justify-content-between align-items-center">
+                  <h6 className="mb-0">
+                    {index === 0 ? "Main Guest" : `Guest ${index + 1}`}
+                  </h6>
+                  {index > 0 && (
+                    <Button
+                      variant="outline-danger"
+                      size="sm"
+                      onClick={() => remove(index)}
+                    >
+                      <BsTrash />
+                    </Button>
+                  )}
+                </div>
+              </Col>
+              <Col md={2}>
+                <div className="form-size-lg">
+                  <label className="form-label">Title</label>
+                  <SelectFormInput
+                    name={`guests.${index}.title`}
+                    control={control}
+                    className="form-select js-choice"
+                  >
+                    <option value="Mr">Mr</option>
+                    <option value="Mrs">Mrs</option>
+                  </SelectFormInput>
+                </div>
+              </Col>
+              <TextFormInput
+                name={`guests.${index}.firstName`}
+                type="text"
+                label="First Name"
                 control={control}
-                className="form-select js-choice"
-              >
-                <option value="mr">Mr</option>
-                <option value="mrs">Mrs</option>
-              </SelectFormInput>
+                placeholder="Enter your first name"
+                className="form-control-lg"
+                containerClass="col-md-5"
+              />
+              <TextFormInput
+                name={`guests.${index}.lastName`}
+                label="Last Name"
+                type="text"
+                control={control}
+                placeholder="Enter your last name"
+                className="form-control-lg"
+                containerClass="col-md-5"
+              />
             </div>
-          </Col>
-          <TextFormInput
-            name="firstName"
-            type="text"
-            label="First Name"
-            control={control}
-            placeholder="Enter your first name"
-            className="form-control-lg"
-            containerClass="col-md-5"
-          />
-          <TextFormInput
-            name="lastName"
-            label="Last Name"
-            type="text"
-            control={control}
-            placeholder="Enter your last name"
-            className="form-control-lg"
-            containerClass="col-md-5"
-          />
+          ))}
+
           <Col xs={12}>
-            <Button variant="link" className="mb-0 p-0 items-center">
+            <Button
+              variant="link"
+              className="mb-0 p-0 items-center"
+              onClick={() =>
+                append({ title: "Mr", firstName: "", lastName: "" })
+              }
+            >
               <FaPlus className="fa-solid me-2" />
               Add New Guest
             </Button>
           </Col>
+
           <Col md={6}>
             <TextFormInput
               name="email"
@@ -97,12 +126,12 @@ const GuestDetails = ({ control }) => {
             containerClass="col-md-6"
           />
         </div>
-        <Alert variant="info" className="my-4" role="alert">
+        {/* <Alert variant="info" className="my-4" role="alert">
           <Link to="/auth/sign-up" className="alert-heading h6">
             Login
           </Link>{" "}
           to prefill all details and get access to secret deals
-        </Alert>
+        </Alert> */}
         {/* <Card className="border mt-4">
           <CardHeader className="border-bottom">
             <h5 className="card-title mb-0">Special request</h5>

@@ -32,7 +32,7 @@ const RoomSelection = ({ rooms }) => {
                   <form className="form-control-bg-light">
                     <SelectFormInput className="form-select form-select-sm js-choice border-0">
                       <option value={-1}>Select Option</option>
-                      <option>Recently search</option>
+                      {/* <option>Recently search</option> */}
                       <option>Most popular</option>
                       <option>Top rated</option>
                     </SelectFormInput>

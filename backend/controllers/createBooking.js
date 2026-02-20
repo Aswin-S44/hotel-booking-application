@@ -10,7 +10,6 @@ import crypto from "crypto";
 
 export const createBooking = async (req, res) => {
   try {
-    console.log("---------------");
     const {
       currency,
       checkInDate,
@@ -19,11 +18,15 @@ export const createBooking = async (req, res) => {
       razorpay_order_id,
       razorpay_signature,
       paymentMethod,
+      guests,
     } = req.body;
+
+    console.log("BODY-----------------", req.body);
 
     const { propertyId, roomId } = req.params;
 
     // Verify Payment Signature if it's an online payment
+
     if (paymentMethod === "online") {
       const body = razorpay_order_id + "|" + razorpay_payment_id;
       const expectedSignature = crypto
@@ -71,7 +74,7 @@ export const createBooking = async (req, res) => {
       checkInDate: req.body.checkInDate,
       checkOutDate: req.body.checkOutDate,
       totalAmount: req.body.totalAmount,
-      paymentStatus: paymentMethod === "online" ? "paid" : "unpaid",
+      paymentStatus: paymentMethod === "online" ? "paid" : "pay_at_hotel",
       status: "booked",
       paymentId: paymentDetails._id,
     };
@@ -79,16 +82,16 @@ export const createBooking = async (req, res) => {
     const createdBooking = await Bookings.create(bookingData);
 
     // Create activity for property owner
-    await Activity.create({
-      userId: propertyId, // property owner receives notification
-      actorId: req.userId, // user who booked
-      type: "BOOKING",
-      title: "New Booking",
-      description: `${req.user?.name || "Guest"} booked your room at ${
-        room?.roomName ?? "UNavailable"
-      }`,
-      relatedId: createdBooking._id,
-    });
+    // await Activity.create({
+    //   userId: propertyId, // property owner receives notification
+    //   actorId: req.userId ?? null, // user who booked
+    //   type: "BOOKING",
+    //   title: "New Booking",
+    //   description: `${req.user?.name || "Guest"} booked your room at ${
+    //     room?.roomName ?? "UNavailable"
+    //   }`,
+    //   relatedId: createdBooking._id,
+    // });
 
     const stats = await Stats.findOne({ shopId: shopId });
     if (stats) {
@@ -103,22 +106,24 @@ export const createBooking = async (req, res) => {
       });
     }
 
+    if (guests?.length > 0) {
+      for (const guest of guests) {
+        const guestUserData = {
+          propertyId,
+          roomId,
+          title: guest.title,
+          firstName: guest.firstName,
+          lastName: guest.lastName,
+          email: req.body.email,
+          phone: req.body.phone,
+          specialRequests: req.body.specialRequests,
+          selectedPaymentTypeId: req.body.selectedPaymentTypeId,
+          bookingId: createdBooking._id,
+        };
+        await Guests.create(guestUserData);
+      }
+    }
     await Room.updateOne({ _id: roomId }, { $set: { isAvailable: false } });
-
-    const guestUserData = {
-      propertyId,
-      roomId,
-      title: req.body.title,
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      email: req.body.email,
-      phone: req.body.phone,
-      specialRequests: req.body.specialRequests,
-      selectedPaymentTypeId: req.body.selectedPaymentTypeId,
-      bookingId: createdBooking._id,
-    };
-    await Guests.create(guestUserData);
-
     res.status(200).send({ success: true, message: "Booking created" });
   } catch (error) {
     return res.status(500).send({

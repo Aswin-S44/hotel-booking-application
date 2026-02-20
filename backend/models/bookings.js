@@ -44,7 +44,7 @@ const bookingsSchema = new mongoose.Schema(
 
     paymentStatus: {
       type: String,
-      enum: ["pending", "paid", "failed", "refunded"],
+      enum: ["pending", "paid", "failed", "refunded", "pay_at_hotel"],
       default: "pending",
     },
 
@@ -58,6 +58,11 @@ const bookingsSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Payment",
       required: true,
+    },
+    paymentType: {
+      type: String,
+      enum: ["online", "pay_at_hotel"],
+      default: "online",
     },
   },
   {

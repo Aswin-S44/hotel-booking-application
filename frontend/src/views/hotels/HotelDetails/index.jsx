@@ -5,15 +5,12 @@ import FooterWithLinks from "./components/FooterWithLinks";
 import HotelGallery from "./components/HotelGallery";
 import TopNavBar4 from "./components/TopNavBar4";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react"; 
+import { useEffect, useState } from "react";
 const HotelDetails = () => {
   const { id } = useParams();
 
   const [hotel, setHotel] = useState(null);
   const [loading, setLoading] = useState(true);
-
-console.log("hotel",hotel);
-
 
   useEffect(() => {
     if (id) {

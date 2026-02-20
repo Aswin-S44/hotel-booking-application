@@ -20,9 +20,13 @@ const BookingDetails = () => {
 
   const methods = useForm({
     defaultValues: {
-      title: "Mr",
-      firstName: "",
-      lastName: "",
+      guests: [
+        {
+          title: "Mr",
+          firstName: "",
+          lastName: "",
+        },
+      ],
       email: "",
       phone: "",
       specialRequests: [],
@@ -35,7 +39,7 @@ const BookingDetails = () => {
       cardName: "visa",
       checkInDate: bookingData.checkIn || "2026-12-12",
       checkOutDate: bookingData.checkOut || "2026-12-14",
-      totalAmount: bookingData.total || 1000,
+      totalAmount: bookingData.total || 0,
       paymentStatus: "unpaid",
       status: "booked",
     },
@@ -114,7 +118,7 @@ const BookingDetails = () => {
             }
           },
           prefill: {
-            name: `${data.firstName} ${data.lastName}`,
+            name: `${data.guests[0].firstName} ${data.guests[0].lastName}`,
             email: data.email,
             contact: data.phone,
           },
@@ -136,10 +140,14 @@ const BookingDetails = () => {
 
         const result = await response.json();
         if (result.success) {
-          alert("Booking successful!");
-          navigate("/bookings");
+          Swal.fire("Success", "Booking successful!", "success");
+          navigate("/");
         } else {
-          alert(result.message || "Booking failed");
+          Swal.fire({
+            icon: "error",
+            title: "Booking failed",
+            text: "Room is already booked",
+          });
         }
       }
     } catch (error) {
@@ -149,12 +157,7 @@ const BookingDetails = () => {
   };
 
   const handlePayAtHotelClick = async () => {
-    const isValid = await methods.trigger([
-      "firstName",
-      "lastName",
-      "email",
-      "phone",
-    ]);
+    const isValid = await methods.trigger(["guests", "email", "phone"]);
     if (!isValid) return;
 
     Swal.fire({
@@ -184,6 +187,11 @@ const BookingDetails = () => {
                 <div className="vstack gap-5">
                   <HotelInformation />
                   <GuestDetails control={methods.control} />
+
+                  {/* Price Summary for Mobile (Visible below xl breakpoint) */}
+                  <div className="d-xl-none">
+                    <PriceSummary />
+                  </div>
 
                   <div className="card shadow-sm p-4">
                     <h5 className="mb-3">Select Payment Method</h5>
@@ -233,15 +241,19 @@ const BookingDetails = () => {
               </Col>
               <Col as="aside" xl={4}>
                 <Row className="g-4">
-                  <Col md={6} xl={12}>
-                    <PriceSummary />
+                  {/* Price Summary for Desktop (Hidden below xl breakpoint) */}
+                  <Col md={6} xl={12} className="d-none d-xl-block">
+                    <PriceSummary
+                      total={bookingData?.total}
+                      discount={bookingData?.discount}
+                    />
                   </Col>
-                  <Col md={6} xl={12}>
+                  {/* <Col md={6} xl={12}>
                     <OfferAndDiscounts />
                   </Col>
                   <Col md={6} xl={12}>
                     <LoginAdvantages />
-                  </Col>
+                  </Col> */}
                 </Row>
               </Col>
             </Row>

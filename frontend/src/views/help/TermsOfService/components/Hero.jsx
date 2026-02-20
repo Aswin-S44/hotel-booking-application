@@ -1,9 +1,23 @@
-import { Card, CardBody, CardHeader, Col, Container, Nav, NavItem, NavLink, Row, TabContainer, TabContent, TabPane } from 'react-bootstrap';
-import { FaCar, FaGlobeAmericas, FaHotel, FaPlane } from 'react-icons/fa';
-import Step1 from './Step1';
-import Step2 from './Step2';
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  Col,
+  Container,
+  Nav,
+  NavItem,
+  NavLink,
+  Row,
+  TabContainer,
+  TabContent,
+  TabPane,
+} from "react-bootstrap";
+import { FaCar, FaGlobeAmericas, FaHotel, FaPlane } from "react-icons/fa";
+import Step1 from "./Step1";
+import Step2 from "./Step2";
 const Hero = () => {
-  return <section className="pt-4 pt-lg-5">
+  return (
+    <section className="pt-4 pt-lg-5">
       <Container>
         <Row>
           <Col xs={12} className="text-center mb-4">
@@ -24,7 +38,7 @@ const Hero = () => {
                           Hotel
                         </NavLink>
                       </NavItem>
-                      <NavItem>
+                      {/* <NavItem>
                         <NavLink eventKey="1" className="items-center">
                           <FaPlane size={18} className="me-2" />
                           Flight
@@ -41,7 +55,7 @@ const Hero = () => {
                           <FaCar size={18} className="me-2" />
                           Cabs
                         </NavLink>
-                      </NavItem>
+                      </NavItem> */}
                     </Nav>
                   </CardHeader>
                   <CardBody className="px-0 pt-4">
@@ -49,7 +63,7 @@ const Hero = () => {
                       <TabPane eventKey="0" className="fade">
                         <Step1 />
                       </TabPane>
-                      <TabPane eventKey="1" className="fade">
+                      {/* <TabPane eventKey="1" className="fade">
                         <Step2 />
                       </TabPane>
                       <TabPane eventKey="2" className="fade">
@@ -57,7 +71,7 @@ const Hero = () => {
                       </TabPane>
                       <TabPane eventKey="3" className="fade">
                         <Step2 />
-                      </TabPane>
+                      </TabPane> */}
                     </TabContent>
                   </CardBody>
                 </Card>
@@ -66,6 +80,7 @@ const Hero = () => {
           </Col>
         </Row>
       </Container>
-    </section>;
+    </section>
+  );
 };
 export default Hero;

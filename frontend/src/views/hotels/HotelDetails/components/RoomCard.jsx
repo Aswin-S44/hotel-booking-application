@@ -124,7 +124,7 @@ const RoomCard = ({
                   size="sm"
                   className="mb-0"
                   onClick={() =>
-                    navigate(`/hotels/room-detail/${id}`, {
+                    navigate(`/hotels/room/${id}`, {
                       state: { rooms },
                     })
                   }

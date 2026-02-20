@@ -19,7 +19,7 @@ const RoomDetails = () => {
   const roomId = location.pathname.split("/").pop();
   const [room, setRoom] = useState([]);
   const passignData = [roomsDetail[0]?.room.roomThumbnail || ""];
-  console.log("1111111111");
+
   useEffect(() => {
     const getRoomDetails = async () => {
       try {
@@ -39,6 +39,17 @@ const RoomDetails = () => {
       getRoomDetails();
     }
   }, [roomId]);
+
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     if (propertyId) {
@@ -81,8 +92,9 @@ const RoomDetails = () => {
       <TopNavBar4 />
       <main>
         {/* <RoomGallery images={images ?? []} /> */}
-        <HotelMediaGallery gallery={passignData} />
-        {console.log("rooms--------", rooms)}
+
+        {!isMobile && <HotelMediaGallery gallery={passignData} />}
+
         <RoomSelection rooms={roomDetails ?? []} />
       </main>
       <FooterWithLinks />

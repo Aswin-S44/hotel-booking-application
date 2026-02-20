@@ -6,8 +6,6 @@ export const updateProperty = async (req, res) => {
     const { propertyId } = req.params;
     const { rooms, ...updateData } = req.body;
 
-    console.log("BODY------------", req.body);
-
     const property = await Property.findOne({
       _id: propertyId,
       // owner: req.userId,

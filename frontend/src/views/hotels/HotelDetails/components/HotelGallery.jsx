@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { GlightBox } from "@/components";
 import { useToggle } from "@/hooks";
 import {
@@ -24,17 +25,48 @@ import {
 } from "react-icons/bs";
 import { FaFacebookSquare, FaShareAlt, FaTwitterSquare } from "react-icons/fa";
 import { FaCopy, FaHeart, FaLinkedin } from "react-icons/fa6";
-import { Link } from "react-router-dom";
-import gallery11 from "@/assets/images/gallery/11.jpg";
-import gallery12 from "@/assets/images/gallery/12.jpg";
-import gallery13 from "@/assets/images/gallery/13.jpg";
-import gallery14 from "@/assets/images/gallery/14.jpg";
-import gallery15 from "@/assets/images/gallery/15.jpg";
-import gallery16 from "@/assets/images/gallery/16.jpg";
+import { Link, useParams } from "react-router-dom";
+
 import HotelMediaGallery from "./HotelMediaGallery";
+
+import { ToastContainer, toast } from "react-toastify";
+
 const HotelGallery = ({ hotelDetails, gallery }) => {
   const { isOpen, toggle } = useToggle();
+  const { id } = useParams();
   const { isOpen: alertVisible, hide: hideAlert } = useToggle(true);
+  const [isFav, setIsFav] = useState(false);
+
+  useEffect(() => {
+    const existingFav = JSON.parse(localStorage.getItem("fav")) || [];
+    setIsFav(existingFav.includes(id));
+  }, [id]);
+
+  const handleAddToFav = () => {
+    const existingFav = JSON.parse(localStorage.getItem("fav")) || [];
+
+    let updatedFav;
+
+    if (existingFav.includes(id)) {
+      updatedFav = existingFav.filter((item) => item !== id);
+      localStorage.setItem("fav", JSON.stringify(updatedFav));
+      setIsFav(false);
+      toast.error("Removed from favourites");
+    } else {
+      updatedFav = [...existingFav, id];
+      localStorage.setItem("fav", JSON.stringify(updatedFav));
+      setIsFav(true);
+      toast.success("Added to favourites");
+    }
+  };
+
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(window.location.href);
+    toast.success("Link copied");
+  };
+
+  const longitude = hotelDetails?.address?.coordinates?.coordinates?.[0];
+  const latitude = hotelDetails?.address?.coordinates?.coordinates?.[1];
 
   return (
     <>
@@ -62,45 +94,23 @@ const HotelGallery = ({ hotelDetails, gallery }) => {
                 </div>
                 <ul className="list-inline text-end">
                   <li className="list-inline-item">
-                    <Button variant="light" size="sm" className="px-2">
-                      <FaHeart className="fa-fw" />
+                    <Button
+                      variant="light"
+                      size="sm"
+                      className="px-2"
+                      onClick={handleAddToFav}
+                    >
+                      <FaHeart
+                        className={`fa-fw ${isFav ? "text-danger" : ""}`}
+                      />
                     </Button>
                   </li>
-                  <Dropdown className="list-inline-item dropdown">
-                    <DropdownToggle
-                      className="btn btn-sm btn-light px-2 arrow-none"
-                      role="button"
-                      id="dropdownShare"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      <FaShareAlt className="fa-fw" />
-                    </DropdownToggle>
-                    <DropdownMenu
-                      className="dropdown-menu-end min-w-auto shadow rounded"
-                      aria-labelledby="dropdownShare"
-                    >
-                      <DropdownItem href="">
-                        <FaTwitterSquare className="me-2" />
-                        Twitter
-                      </DropdownItem>
 
-                      <DropdownItem href="">
-                        <FaFacebookSquare className="me-2" />
-                        Facebook
-                      </DropdownItem>
-
-                      <DropdownItem href="">
-                        <FaLinkedin className="me-2" />
-                        LinkedIn
-                      </DropdownItem>
-
-                      <DropdownItem href="">
-                        <FaCopy className="me-2" />
-                        Copy link
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </Dropdown>
+                  <FaShareAlt
+                    className="fa-fw"
+                    onClick={handleCopyLink}
+                    style={{ cursor: "pointer" }}
+                  />
                 </ul>
               </div>
             </Col>
@@ -260,17 +270,16 @@ const HotelGallery = ({ hotelDetails, gallery }) => {
           <button type="button" onClick={toggle} className="btn-close" />
         </ModalHeader>
         <div className="modal-body p-0">
-          <iframe
-            className="w-100"
-            height={400}
-            src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.9663095343008!2d${hotelDetails?.address?.coordinates?.coordinates[0]}!3d${hotelDetails?.address?.coordinates?.coordinates[1]}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259bf5c1654f3%3A0xc80f9cfce5383d5d!2sGoogle!5e0!3m2!1sen!2sin!4v1586000412513!5m2!1sen!2sin`}
-            style={{
-              border: 0,
-            }}
-            title="map"
-            aria-hidden="false"
-            tabIndex={0}
-          />
+          {latitude && longitude && (
+            <iframe
+              className="w-100"
+              height={400}
+              src={`https://maps.google.com/maps?q=${latitude},${longitude}&z=15&output=embed`}
+              style={{ border: 0 }}
+              title="map"
+              loading="lazy"
+            />
+          )}
         </div>
         <div className="modal-footer">
           <button
@@ -282,6 +291,7 @@ const HotelGallery = ({ hotelDetails, gallery }) => {
           </button>
         </div>
       </Modal>
+      <ToastContainer />
     </>
   );
 };

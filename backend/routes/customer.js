@@ -22,6 +22,8 @@ import {
   updateUserProfile,
 } from "../controllers/user/userProfileController.js";
 import { userVerification } from "../middleware/AuthMiddleware.js";
+import { getReviewsByPropertyId } from "../controllers/getReviewsByPropertyId.js";
+import { getReviewsByRoomId } from "../controllers/getReviewsByRoomId.js";
 
 const customerRouter = express.Router();
 customerRouter.get("/", (req, res) => {
@@ -38,7 +40,7 @@ customerRouter.get("/rooms/property/:propertyId", getRoomsByPropertyId);
 customerRouter.post("/create-order", createOrder);
 customerRouter.post(
   "/booking/:propertyId/:roomId",
-  userVerification,
+  // userVerification,
   createBooking
 );
 customerRouter.get(
@@ -62,5 +64,7 @@ customerRouter.put(
   updateUserProfile
 );
 customerRouter.get("/profile/details", userVerification, getUserProfile);
+customerRouter.get("/reviews-by-property-id/:id", getReviewsByPropertyId);
+customerRouter.get("/reviews-by-room-id/:id", getReviewsByRoomId);
 
 export default customerRouter;

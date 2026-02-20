@@ -74,8 +74,6 @@ export const addReview = async (req, res) => {
 };
 
 export const getReviewsByRoomAndProperty = async (req, res) => {
-  const { propertyId, roomId } = req.params;
-
   try {
     const { propertyId, roomId } = req.params;
 

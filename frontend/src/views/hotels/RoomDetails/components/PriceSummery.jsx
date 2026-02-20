@@ -1,7 +1,7 @@
 import { currency, currentYear } from "@/states";
 import { Button, Card, CardBody, CardHeader, Col, Row } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
-const PriceSummery = ({ rooms }) => { 
+const PriceSummery = ({ rooms }) => {
   const { id: propertyId } = useParams();
 
   const navigate = useNavigate();
@@ -32,13 +32,10 @@ const PriceSummery = ({ rooms }) => {
   // Room price from rooms array (pass rooms as prop or get from state)
   const roomPrice = rooms?.[0]?.price || 0;
 
-const subtotal = roomPrice * nights;
-const discountAmount = Math.round((discountPercent / 100) * subtotal);
-const serviceFee = 100; // keep it dynamic if needed
-const total = subtotal - discountAmount + serviceFee;
-
-
-  console.log("property +++++______++++=======", formValue);
+  const subtotal = roomPrice * nights;
+  const discountAmount = Math.round((discountPercent / 100) * subtotal);
+  const serviceFee = 100; // keep it dynamic if needed
+  const total = subtotal - discountAmount + serviceFee;
 
   return (
     <Col as={"aside"} xl={5} className="d-none d-xl-block">

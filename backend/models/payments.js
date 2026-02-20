@@ -2,11 +2,11 @@ import mongoose from "mongoose";
 
 const paymentSchema = new mongoose.Schema(
   {
-    cardNumber: { type: String, required: true },
-    expirationDate: { type: String, required: true },
-    expirationYear: { type: String, required: true },
-    cvv: { type: String, required: true },
-    cardName: { type: String, required: true },
+    cardNumber: { type: String },
+    expirationDate: { type: String },
+    expirationYear: { type: String },
+    cvv: { type: String },
+    cardName: { type: String },
     amount: { type: Number, required: true, default: 0 },
   },
   {

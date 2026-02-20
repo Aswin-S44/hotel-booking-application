@@ -1,5 +1,5 @@
 import { useToggle } from "@/hooks";
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import {
   Card,
   CardBody,
@@ -23,10 +23,35 @@ import CustomerReview from "./CustomerReview";
 import HotelPolicies from "./HotelPolicies";
 import PriceOverView from "./PriceOverView";
 import RoomOptions from "./RoomOptions";
-import { amenities } from "../data";
-const AboutHotel = ({ hotelDetails, shoRoomOptions = true , propertyId}) => {
+import { useParams } from "react-router-dom";
+import axios from "axios";
+
+const AboutHotel = ({ hotelDetails, shoRoomOptions = true, propertyId }) => {
   const { isOpen, toggle } = useToggle();
-console.log("hotelDetails",hotelDetails);
+  const { id } = useParams();
+  const [reviewsData, setReviewsData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  console.log("heyyyyyy");
+  const fetchReviews = async () => {
+    try {
+      setLoading(true);
+      const res = await axios.get(
+        `http://localhost:5000/api/v1/customer/reviews-by-property-id/${id}`
+      );
+      setReviewsData(res.data);
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  console.log("propertyId---------", propertyId);
+  console.log("ID-------------", id);
+  useEffect(() => {
+    if (id) {
+      fetchReviews();
+    }
+  }, [id]);
 
   return (
     <section className="pt-0">
@@ -96,7 +121,11 @@ console.log("hotelDetails",hotelDetails);
                 />
               )}
 
-              <CustomerReview hotelDetails={hotelDetails} propertyId={propertyId} />
+              <CustomerReview
+                hotelDetails={hotelDetails}
+                propertyId={propertyId}
+                reviewsData={reviewsData}
+              />
 
               <HotelPolicies />
             </div>
@@ -106,6 +135,7 @@ console.log("hotelDetails",hotelDetails);
               rate={hotelDetails?.rate ?? 0}
               rating={hotelDetails?.rating ?? 0}
               rooms={hotelDetails?.rooms}
+              amenities={hotelDetails?.amenities ?? []}
             />
           </Col>
         </Row>

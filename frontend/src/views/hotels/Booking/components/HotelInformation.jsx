@@ -10,6 +10,8 @@ import {
 import { FaHotel, FaStar } from "react-icons/fa6";
 import hotel2 from "@/assets/images/category/hotel/4by3/02.jpg";
 import { Link } from "react-router-dom";
+import { format } from "date-fns";
+
 import {
   BsAlarm,
   BsBrightnessHigh,
@@ -40,8 +42,6 @@ const HotelInformation = () => {
   const checkOut = formatDate(parsedData?.stayFor[1]);
 
   const bookingData = location.state;
-
-  console.log("BOOKING DATA-----------", bookingData);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -75,8 +75,6 @@ const HotelInformation = () => {
   };
 
   useEffect(() => {
-    console.log("trigger");
-
     const params = new URLSearchParams(location.search);
     const propertyId = params.get("property_id");
 
@@ -127,7 +125,7 @@ const HotelInformation = () => {
                   {data?.location?.state}, {data?.location?.country}{" "}
                   {data?.location?.postalCode}
                 </p>
-                <ul className="list-inline mb-0 items-center">
+                {/* <ul className="list-inline mb-0 items-center">
                   {Array.from(new Array(4)).map((_val, idx) => (
                     <li key={idx} className="list-inline-item me-1 mb-1 small">
                       <FaStar size={16} className="text-warning" />
@@ -139,7 +137,7 @@ const HotelInformation = () => {
                   <li className="list-inline-item ms-3 h6 small fw-bold mb-0">
                     {data?.starRating} /5.0
                   </li>
-                </ul>
+                </ul> */}
               </CardBody>
             </Col>
           </Row>
@@ -148,21 +146,32 @@ const HotelInformation = () => {
           <Col lg={4}>
             <div className="bg-light py-3 px-4 rounded-3">
               <h6 className="fw-light small mb-1">Check-in</h6>
-              <h5 className="mb-1">{bookingData?.checkIn}</h5>
-              <small className="items-center">
+              <h5 className="mb-1">
+                {bookingData?.checkIn
+                  ? format(new Date(bookingData.checkIn), "dd MMM yyyy")
+                  : ""}
+              </h5>
+
+              {/* <small className="items-center">
                 <BsAlarm className=" me-1" />
                 12:00 pm
-              </small>
+              </small> */}
             </div>
           </Col>
           <Col lg={4}>
             <div className="bg-light py-3 px-4 rounded-3">
               <h6 className="fw-light small mb-1">Check out</h6>
-              <h5 className="mb-1">{bookingData?.checkOut}</h5>
-              <small className="items-center">
+              {/* <h5 className="mb-1">{bookingData?.checkOut}</h5> */}
+
+              <h5 className="mb-1">
+                {bookingData?.checkOut
+                  ? format(new Date(bookingData.checkOut), "dd MMM yyyy")
+                  : ""}
+              </h5>
+              {/* <small className="items-center">
                 <BsAlarm className=" me-1" />
                 11:00 am
-              </small>
+              </small> */}
             </div>
           </Col>
           <Col lg={4}>
@@ -180,7 +189,7 @@ const HotelInformation = () => {
             </div>
           </Col>
         </Row>
-        <Card className="border mt-4">
+        {/* <Card className="border mt-4">
           <CardHeader className="border-bottom d-md-flex justify-content-md-between">
             <h5 className="card-title mb-0">Deluxe Pool View with Breakfast</h5>
             <Button variant="link" className="p-0 mb-0">
@@ -208,7 +217,7 @@ const HotelInformation = () => {
               </li>
             </ul>
           </CardBody>
-        </Card>
+        </Card> */}
       </CardBody>
     </Card>
   );

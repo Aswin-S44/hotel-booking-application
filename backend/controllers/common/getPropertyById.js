@@ -5,7 +5,6 @@ import Room from "../../models/roomSchema.js";
 export const getPropertyById = async (req, res) => {
   try {
     const { propertyId } = req.params;
-    console.log("1111111111");
 
     // Validate ObjectId
     if (!mongoose.Types.ObjectId.isValid(propertyId)) {

@@ -1,5 +1,3 @@
-
-
 const convertToBase64 = (file) => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -11,3 +9,13 @@ const convertToBase64 = (file) => {
 };
 
 export default convertToBase64;
+
+export const formatLabel = (value) => {
+  if (!value) return "";
+
+  return value
+    .toLowerCase()
+    .split("_")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+};

@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import clsx from "clsx";
 import { FaSearch } from "react-icons/fa";
 import { useCallback, useEffect, useState } from "react";
+import { formatLabel } from "../../../../utils/utils";
 
 const UpcomingBookings = () => {
   const [bookings, setBookings] = useState([]);
@@ -149,9 +150,9 @@ const UpcomingBookings = () => {
                 <th scope="col" className="border-0">
                   Name
                 </th>
-                <th scope="col" className="border-0">
+                {/* <th scope="col" className="border-0">
                   Requirements
-                </th>
+                </th> */}
                 <th scope="col" className="border-0">
                   Date
                 </th>
@@ -192,7 +193,7 @@ const UpcomingBookings = () => {
                         <Link to="">{booking.roomName}</Link>
                       </h6>
                     </td>
-                    <td>{booking.additionalInfo || "N/A"}</td>
+                    {/* <td>{booking.additionalInfo || "N/A"}</td> */}
                     <td>
                       <h6 className="mb-0 fw-light">{booking.checkInDate}</h6>
                     </td>
@@ -219,7 +220,10 @@ const UpcomingBookings = () => {
                             : "bg-warning text-warning"
                         )}
                       >
-                        {booking.paymentStatus}
+                        {/* {booking.paymentStatus} */}
+                        {booking.paymentStatus
+                          ? formatLabel(booking.paymentStatus)
+                          : "Unavailable"}
                       </div>
                     </td>
                     <td>

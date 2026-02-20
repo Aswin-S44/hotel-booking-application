@@ -6,7 +6,7 @@ export const deleteRoomById = async (req, res) => {
 
     const room = await Room.findOne({
       _id: roomId,
-      owner: req.userId,
+      // owner: req.userId,
     });
 
     if (!room) {

@@ -280,7 +280,7 @@ const ListingForms = () => {
           text: id ? "Property updated!" : "Property added!",
           icon: "success",
         });
-        navigate("/agent/dashboard");
+        navigate("/agent/listings");
       }
     } catch (error) {
       console.error("Submission Error:", error);

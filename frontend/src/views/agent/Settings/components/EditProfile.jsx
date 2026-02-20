@@ -146,7 +146,6 @@ const EditProfile = () => {
         body: JSON.stringify(payload),
       });
 
-      console.log("response---------", response);
       setSubmitting(false);
       if (response.ok) {
         Swal.fire({

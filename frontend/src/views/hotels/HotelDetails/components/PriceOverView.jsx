@@ -2,15 +2,21 @@ import { currency } from "@/states";
 import { Button, Card, CardBody, Col, Image, Row } from "react-bootstrap";
 import { BsArrowRight } from "react-icons/bs";
 import { FaStarHalfAlt } from "react-icons/fa";
-import { FaStar } from "react-icons/fa6";
+import { FaRegStar, FaStar } from "react-icons/fa6";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Sticky from "react-sticky-el";
 import { useViewPort } from "@/hooks";
 import offerImg4 from "@/assets/images/offer/04.jpg";
-const PriceOverView = ({ rate, rating, rooms }) => {
+
+const PriceOverView = ({ rate, rating, rooms, amenities = [] }) => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { width } = useViewPort();
+
+  const fullStars = Math.floor(rating);
+  const hasHalfStar = rating % 1 >= 0.5;
+  const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+
   return (
     <Sticky
       disabled={width <= 1199}
@@ -41,22 +47,40 @@ const PriceOverView = ({ rate, rating, rooms }) => {
         </div>
         <ul className="list-inline mb-2 items-center">
           <li className="list-inline-item me-1 h6 fw-light mb-0">
-            <BsArrowRight className="  me-2" />
+            <BsArrowRight className="me-2" />
             {rating}
           </li>
-          {Array.from(new Array(4)).map((_val, idx) => (
-            <li className="list-inline-item me-1 small" key={idx}>
+
+          {/* Full Stars */}
+          {Array.from({ length: fullStars }).map((_, idx) => (
+            <li className="list-inline-item me-1 small" key={`full-${idx}`}>
               <FaStar size={16} className="text-warning" />
             </li>
           ))}
-          <li className="list-inline-item me-0 small">
-            <FaStarHalfAlt className="text-warning" />
-          </li>
+
+          {/* Half Star */}
+          {hasHalfStar && (
+            <li className="list-inline-item me-1 small">
+              <FaStarHalfAlt size={16} className="text-warning" />
+            </li>
+          )}
+
+          {/* Empty Stars */}
+          {Array.from({ length: emptyStars }).map((_, idx) => (
+            <li className="list-inline-item me-1 small" key={`empty-${idx}`}>
+              <FaRegStar size={16} className="text-warning" />
+            </li>
+          ))}
         </ul>
-        <p className="h6 fw-light mb-4 items-center">
-          <BsArrowRight className=" me-2" />
-          Free breakfast available
-        </p>
+
+        <hr />
+        {amenities?.length > 0 &&
+          amenities.map((amn) => (
+            <p className="h6 fw-light mb-4 items-center">
+              <BsArrowRight className=" me-2" />
+              {amn}
+            </p>
+          ))}
         <div className="d-grid">
           <Button
             variant="primary-soft"

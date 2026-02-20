@@ -26,8 +26,6 @@ const Activities = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
 
-  console.log("activities", activities);
-
   const handleView = (activity) => {
     setSelectedActivity(activity);
     setShowModal(true);

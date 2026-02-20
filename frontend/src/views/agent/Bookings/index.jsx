@@ -167,9 +167,9 @@ const Bookings = () => {
                           <th scope="col" className="border-0">
                             Name
                           </th>
-                          <th scope="col" className="border-0">
+                          {/* <th scope="col" className="border-0">
                             Requirements
-                          </th>
+                          </th> */}
                           <th scope="col" className="border-0">
                             Date
                           </th>
@@ -204,7 +204,7 @@ const Bookings = () => {
                                   <Link to="">{booking.roomName}</Link>
                                 </h6>
                               </td>
-                              <td>{booking.additionalInfo || "N/A"}</td>
+                              {/* <td>{booking.additionalInfo || "N/A"}</td> */}
                               <td>
                                 <h6 className="mb-0 fw-light">
                                   {booking.checkInDate}

@@ -6,7 +6,7 @@ import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
 import signInImg from "@/assets/images/element/signin.svg";
 import logoIcon from "@/assets/images/logo-icon.svg";
-import logo from '../../../assets/images/logo.png'
+import logo from "../../../assets/images/logo.png";
 
 import { developedByLink, currentYear } from "@/states";
 import Swal from "sweetalert2";
@@ -37,7 +37,7 @@ const SignIn = () => {
 
       const result = await response.json();
 
-      if (result.status === 200) {  
+      if (result.status === 200) {
         const sessionData = {
           ...result.user,
           token: result.token,
@@ -72,46 +72,45 @@ const SignIn = () => {
     }
   };
 
-const handleGoogleLogin = async () => {
-  try {
-    setLoading(true);
+  const handleGoogleLogin = async () => {
+    try {
+      setLoading(true);
 
-    const idToken = await signInWithGoogle();
-console.log("idtoken",idToken);
+      const idToken = await signInWithGoogle();
 
-    const res = await axios.post(
-      "http://localhost:5000/api/v1/auth/google-login",
-      { idToken },
-      { withCredentials: true }
-    );
+      const res = await axios.post(
+        "http://localhost:5000/api/v1/auth/google-login",
+        { idToken },
+        { withCredentials: true }
+      );
 
-    if (res.status === 200) {
-      saveSession({
-        ...res.data.user,
-        token: res.data.token,
-      });
+      if (res.status === 200) {
+        saveSession({
+          ...res.data.user,
+          token: res.data.token,
+        });
+
+        Swal.fire({
+          icon: "success",
+          title: "Login Successful",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+
+        navigate("/agent/dashboard");
+      }
+    } catch (error) {
+      console.error("Google login failed:", error);
 
       Swal.fire({
-        icon: "success",
-        title: "Login Successful",
-        timer: 1500,
-        showConfirmButton: false,
+        icon: "error",
+        title: "Google Login Failed",
+        text: error.response?.data?.message || "Something went wrong",
       });
-
-      navigate("/agent/dashboard");
+    } finally {
+      setLoading(false);
     }
-  } catch (error) {
-    console.error("Google login failed:", error);
-
-    Swal.fire({
-      icon: "error",
-      title: "Google Login Failed",
-      text: error.response?.data?.message || "Something went wrong",
-    });
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   return (
     <>
@@ -181,7 +180,11 @@ console.log("idtoken",idToken);
             </div>
 
             <div className="vstack gap-3">
-              <button type="button" className="btn btn-light mb-0" onClick={handleGoogleLogin}>
+              <button
+                type="button"
+                className="btn btn-light mb-0"
+                onClick={handleGoogleLogin}
+              >
                 <FcGoogle size={16} className="fab fa-fw me-2" />
                 Continue with Google
               </button>

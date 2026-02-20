@@ -69,7 +69,7 @@ const RoomCard = ({ images, name, price, sqfeet, rooms, id }) => {
                   })
                 }
               >
-                Select room1
+                Select room
               </Button>
             </div>
           </CardBody>
