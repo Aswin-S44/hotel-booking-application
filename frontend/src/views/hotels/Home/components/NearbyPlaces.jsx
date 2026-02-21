@@ -4,6 +4,7 @@ import { nearbyPlacesData } from "../data";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import load from "../../../../assets/images/loading/loading.png";
+import { API_BASE_URL } from "../../../../config/env";
 
 const NearbyPlaces = () => {
   const [properties, setProperties] = useState([]);
@@ -14,20 +15,17 @@ const NearbyPlaces = () => {
 
     const fetchHotels = async (lat, lng) => {
       try {
-        const res = await axios.get(
-          "http://localhost:5000/api/v1/customer/nearby",
-          {
-            params: {
-              lat,
-              lng,
-              page: 1,
-              limit: 12,
-              maxDistance: 30000,
-              sortBy: "distance",
-              order: "asc",
-            },
-          }
-        );
+        const res = await axios.get(`${API_BASE_URL}/api/v1/customer/nearby`, {
+          params: {
+            lat,
+            lng,
+            page: 1,
+            limit: 12,
+            maxDistance: 30000,
+            sortBy: "distance",
+            order: "asc",
+          },
+        });
 
         setProperties(res.data.data);
       } catch (error) {
