@@ -21,7 +21,8 @@ import {
 import { FaStarHalfAlt } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import axios from "axios"; 
+import axios from "axios";
+import { API_BASE_URL } from "../../../../config/env";
 const HotelInformation = () => {
   const location = useLocation();
   const [reviews, setReviews] = useState([]);
@@ -56,7 +57,7 @@ const HotelInformation = () => {
   const fetchReviews = async (propertyId, roomId) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/v1/customer/property/${propertyId}/review/${roomId}`
+        `${API_BASE_URL}/api/v1/customer/property/${propertyId}/review/${roomId}`
       );
 
       setReviews(response.data.data);
@@ -82,7 +83,7 @@ const HotelInformation = () => {
       const fetchHotelRooms = async () => {
         try {
           const response = await fetch(
-            `http://localhost:5000/api/v1/customer/property/${propertyId}`
+            `${API_BASE_URL}/api/v1/customer/property/${propertyId}`
           );
           const result = await response.json();
 

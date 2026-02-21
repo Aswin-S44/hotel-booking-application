@@ -23,21 +23,17 @@ import { useAuthContext } from "@/states/useAuthContext";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { DEFAULT_AVATAR_IMAGE } from "../../../../constants/images";
+import { API_BASE_URL } from "../../../../config/env";
 
-const CustomerReview = ({ hotelDetails, propertyId, reviewsData   }) => {
+const CustomerReview = ({ hotelDetails, propertyId, reviewsData }) => {
   const { id } = useParams();
-const [newReviewData, setNewReviewData] = useState(null);
-
-
-console.log("newReviewData---------", newReviewData);
-console.log("ID-------------", id);
-
+  const [newReviewData, setNewReviewData] = useState(null);
 
   const fetchReviews = async () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        `http://localhost:5000/api/v1/customer/reviews-by-property-id/${propertyId}`
+        `${API_BASE_URL}/api/v1/customer/reviews-by-property-id/${propertyId}`
       );
       setNewReviewData(res.data);
     } catch (error) {
@@ -46,37 +42,15 @@ console.log("ID-------------", id);
       setLoading(false);
     }
   };
-  console.log("propertyId---------", propertyId);
-  console.log("ID-------------", id);
+
   useEffect(() => {
     if (id) {
       fetchReviews();
     }
   }, [id]);
 
-
   // const [reviewsData, setReviewsData] = useState(null);
   const [loading, setLoading] = useState(false);
-
-  // const fetchReviews = async () => {
-  //   try {
-  //     setLoading(true);
-  //     const res = await axios.get(
-  //       `http://localhost:5000/api/v1/customer/reviews-by-property-id/${id}`
-  //     );
-  //     setReviewsData(res.data);
-  //   } catch (error) {
-  //     console.error("Error fetching reviews:", error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (id) {
-  //     fetchReviews();
-  //   }
-  // }, [id]);
 
   const reviewSchema = yup.object({
     review: yup.string().required("Please enter your review"),
@@ -108,13 +82,6 @@ console.log("ID-------------", id);
 
   const summary = newReviewData?.summary;
   const reviews = newReviewData?.data || [];
-
-
-
-
-
-console.log("reviews >>>> reviews >>>>>>>",reviews);
-
 
   return (
     <Card className="bg-transparent">

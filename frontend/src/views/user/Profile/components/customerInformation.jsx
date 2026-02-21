@@ -22,6 +22,7 @@ import axios from "axios";
 import avatar1 from "@/assets/images/avatar/01.jpg";
 import Flatpicker from "@/components/Flatpicker";
 import { DEFAULT_AVATAR_IMAGE } from "../../../../constants/images";
+import { API_BASE_URL } from "../../../../config/env";
 
 const CustomerInformation = () => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -60,7 +61,7 @@ const CustomerInformation = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        "http://localhost:5000/api/v1/customer/profile/details",
+        `${API_BASE_URL}/api/v1/customer/profile/details`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -107,7 +108,7 @@ const CustomerInformation = () => {
       //   formData.append("profileImage", selectedFile);
       // }
 
-      await axios.patch("http://localhost:5000/api/v1/auth/profile", data, {
+      await axios.patch(`${API_BASE_URL}/api/v1/auth/profile`, data, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -161,7 +162,7 @@ const CustomerInformation = () => {
                         : profileImagePath
                         ? profileImagePath.startsWith("data:")
                           ? profileImagePath
-                          : `http://localhost:5000/${profileImagePath}`
+                          : `${API_BASE_URL}/${profileImagePath}`
                         : DEFAULT_AVATAR_IMAGE
                     }
                   />

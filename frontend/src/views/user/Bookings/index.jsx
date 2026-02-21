@@ -17,6 +17,7 @@ import CompletedBooking from "./components/CompletedBooking";
 import { PageMetaData } from "@/components";
 import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
+import { API_BASE_URL } from "../../../config/env";
 
 const Bookings = () => {
   const [bookings, setBookings] = useState([]);
@@ -29,7 +30,7 @@ const Bookings = () => {
       const token = localStorage.getItem("token");
       try {
         const { data } = await axios.get(
-          `http://localhost:5000/api/v1/customer/bookings/category?type=${activeTab}`,
+          `${API_BASE_URL}/api/v1/customer/bookings/category?type=${activeTab}`,
           {
             headers: { Authorization: `Bearer ${token}` },
             signal: signal,

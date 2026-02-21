@@ -8,6 +8,7 @@ import LoginAdvantages from "./LoginAdvantages";
 import OfferAndDiscounts from "./OfferAndDiscounts";
 import PaymentOptions from "./PaymentOptions";
 import PriceSummary from "./PriceSummary";
+import { API_BASE_URL } from "../../../../config/env";
 
 const BookingDetails = () => {
   const location = useLocation();
@@ -18,7 +19,7 @@ const BookingDetails = () => {
 
   const bookingData = location.state || {};
   const token = localStorage.getItem("token");
-  console.log("tokem-----------", token);
+
   const methods = useForm({
     defaultValues: {
       guests: [
@@ -86,7 +87,7 @@ const BookingDetails = () => {
 
         // 1. Create order on backend
         const orderRes = await fetch(
-          "http://localhost:5000/api/v1/customer/create-order",
+          `${API_BASE_URL}/api/v1/customer/create-order`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -98,7 +99,7 @@ const BookingDetails = () => {
         );
 
         const orderData = await orderRes.json();
-        console.log("token------------", token);
+
         // 2. Open Razorpay Checkout
         const options = {
           key: import.meta.env.VITE_RAZORPAY_KEY_ID,
@@ -110,7 +111,7 @@ const BookingDetails = () => {
           handler: async function (response) {
             // 3. Verify and Create Booking
             const verifyRes = await fetch(
-              `http://localhost:5000/api/v1/customer/booking/${propertyId}/${roomId}`,
+              `${API_BASE_URL}/api/v1/customer/booking/${propertyId}/${roomId}`,
               {
                 method: "POST",
                 headers: {
@@ -147,7 +148,7 @@ const BookingDetails = () => {
       } else {
         // Handle offline payment
         const response = await fetch(
-          `http://localhost:5000/api/v1/customer/booking/${propertyId}/${roomId}`,
+          `${API_BASE_URL}/api/v1/customer/booking/${propertyId}/${roomId}`,
           {
             method: "POST",
             headers: {

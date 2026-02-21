@@ -82,7 +82,7 @@ const AvailabilityFilter = () => {
 
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/v1/customer/search-location`,
+        `${API_BASE_URL}/api/v1/customer/search-location`,
         {
           params: {
             location: formValue.location,

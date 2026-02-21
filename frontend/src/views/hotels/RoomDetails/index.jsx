@@ -9,6 +9,7 @@ import HotelMediaGallery from "../HotelDetails/components/HotelMediaGallery";
 import axios from "axios";
 import TopNavBar from "../Home/components/TopNavBar";
 import Footer from "../Home/components/Footer";
+import { API_BASE_URL } from "../../../config/env";
 
 const RoomDetails = () => {
   const location = useLocation();
@@ -26,7 +27,7 @@ const RoomDetails = () => {
     const getRoomDetails = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/v1/customer/rooms/${roomId}`
+          `${API_BASE_URL}/api/v1/customer/rooms/${roomId}`
         );
 
         // If API returns single room → wrap in array
@@ -59,7 +60,7 @@ const RoomDetails = () => {
         try {
           setLoading(true);
           const response = await fetch(
-            `http://localhost:5000/api/v1/customer/rooms/property/${propertyId}`
+            `${API_BASE_URL}/api/v1/customer/rooms/property/${propertyId}`
           );
           const result = await response.json();
 

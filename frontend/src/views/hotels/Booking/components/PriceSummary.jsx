@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "react-bootstrap";
+import { API_BASE_URL } from "../../../../config/env";
 const PriceSummary = ({ total, discount }) => {
   const [data, setData] = useState([]);
 
@@ -19,7 +20,7 @@ const PriceSummary = ({ total, discount }) => {
       const fetchHotelRooms = async () => {
         try {
           const response = await fetch(
-            `http://localhost:5000/api/v1/customer/rooms/${roomId}`
+            `${API_BASE_URL}/api/v1/customer/rooms/${roomId}`
           );
           const result = await response.json();
 

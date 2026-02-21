@@ -23,6 +23,7 @@ import { currency } from "@/states";
 import visa from "@/assets/images/element/visa.svg";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { API_BASE_URL } from "../../../../config/env";
 
 const EarningStatistics = ({ selectedDate }) => {
   const [loading, setLoading] = useState(false);
@@ -37,7 +38,7 @@ const EarningStatistics = ({ selectedDate }) => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          `http://localhost:5000/api/v1/shops/earning-statuses?date=${selectedDate}`,
+          `${API_BASE_URL}/api/v1/shops/earning-statuses?date=${selectedDate}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         if (response.data) setEarningStatus(response.data);

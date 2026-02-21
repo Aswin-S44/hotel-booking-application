@@ -4,6 +4,7 @@ import { BsGeoAlt } from "react-icons/bs";
 import { FaStar } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { API_BASE_URL } from "../../../../config/env";
 
 const FeaturedHotels = () => {
   const [featuredHotels, setFeaturedHotels] = useState([]);
@@ -13,7 +14,7 @@ const FeaturedHotels = () => {
     const fetchHotels = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/api/v1/customer/properties"
+          `${API_BASE_URL}/api/v1/customer/properties`
         );
         const result = await response.json();
         if (result.success) {

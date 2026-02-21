@@ -25,6 +25,7 @@ import { useNavigate } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
 import { availableLocations } from "../../../../constants/datas";
+import { API_BASE_URL } from "../../../../config/env";
 
 const AvailabilityFilter = () => {
   const navigate = useNavigate();
@@ -84,7 +85,7 @@ const AvailabilityFilter = () => {
 
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/v1/customer/search-location`,
+        `${API_BASE_URL}/api/v1/customer/search-location`,
         {
           params: {
             location: formValue.location,

@@ -18,6 +18,7 @@ import { FaSearch } from "react-icons/fa";
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
 import NotFound from "../../../components/NotFound/NotFound";
+import { API_BASE_URL } from "../../../config/env";
 
 const Bookings = () => {
   const [bookings, setBookings] = useState([]);
@@ -39,7 +40,7 @@ const Bookings = () => {
       try {
         setLoading(true);
         const response = await fetch(
-          `http://localhost:5000/api/v1/shops/bookings?page=${page}`,
+          `${API_BASE_URL}/api/v1/shops/bookings?page=${page}`,
           {
             method: "GET",
             headers: {

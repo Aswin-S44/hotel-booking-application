@@ -12,6 +12,7 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { format, differenceInHours } from "date-fns";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { API_BASE_URL } from "../../../../config/env";
 
 const BookingCard = ({ booking, showActions = false, onSuccess }) => {
   const handleCancel = async () => {
@@ -41,7 +42,7 @@ const BookingCard = ({ booking, showActions = false, onSuccess }) => {
         try {
           const token = localStorage.getItem("token");
           const response = await axios.patch(
-            `http://localhost:5000/api/v1/customer/booking/cancel/${booking._id}`,
+            `${API_BASE_URL}/api/v1/customer/booking/cancel/${booking._id}`,
             {},
             {
               headers: { Authorization: `Bearer ${token}` },

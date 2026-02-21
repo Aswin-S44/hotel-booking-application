@@ -15,6 +15,7 @@ import ListingCard from "./components/ListingCard";
 import { PageMetaData } from "@/components";
 import { useEffect, useState, useCallback } from "react";
 import NotFound from "../../../components/NotFound/NotFound";
+import { API_BASE_URL } from "../../../config/env";
 
 const Listings = () => {
   const [rooms, setRooms] = useState([]);
@@ -47,7 +48,7 @@ const Listings = () => {
       }).toString();
 
       const response = await fetch(
-        `http://localhost:5000/api/v1/shops/rooms?${queryParams}`,
+        `${API_BASE_URL}/api/v1/shops/rooms?${queryParams}`,
         {
           method: "GET",
           headers: {
@@ -87,7 +88,7 @@ const Listings = () => {
     const fetchStats = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/api/v1/shops/listings/count",
+          `${API_BASE_URL}/api/v1/shops/listings/count`,
           {
             method: "GET",
             headers: {

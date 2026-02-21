@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuthContext } from "../../../../states/useAuthContext";
+import { API_BASE_URL } from "../../../../config/env";
 
 const UpdateEmail = () => {
   const { user, removeSession } = useAuthContext();
@@ -49,7 +50,7 @@ const UpdateEmail = () => {
     setLoading(true);
     try {
       const { data } = await axios.post(
-        "http://localhost:5000/api/v1/auth/send-email-otp",
+        `${API_BASE_URL}/api/v1/auth/send-email-otp`,
         { newEmail },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -79,7 +80,7 @@ const UpdateEmail = () => {
     setLoading(true);
     try {
       const response = await axios.patch(
-        "http://localhost:5000/api/v1/auth/update/email",
+        `${API_BASE_URL}/api/v1/auth/update/email`,
         {
           newEmail: data.email,
           otp: data.otp,

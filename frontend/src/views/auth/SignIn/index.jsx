@@ -14,6 +14,7 @@ import { useForm } from "react-hook-form";
 import { useAuthContext } from "../../../states/useAuthContext";
 import axios from "axios";
 import { signInWithGoogle } from "@/firebase";
+import { API_BASE_URL } from "../../../config/env";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ const SignIn = () => {
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:5000/api/v1/auth/signin", {
+      const response = await fetch(`${API_BASE_URL}/api/v1/auth/signin`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -87,7 +88,7 @@ const SignIn = () => {
       const idToken = await signInWithGoogle();
 
       const res = await axios.post(
-        "http://localhost:5000/api/v1/auth/google-login",
+        `${API_BASE_URL}/api/v1/auth/google-login`,
         { idToken },
         { withCredentials: true }
       );

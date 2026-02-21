@@ -22,6 +22,7 @@ import { FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { currency } from "@/states";
 import clsx from "clsx";
+import { API_BASE_URL } from "../../../../config/env";
 
 const InvoiceHistory = () => {
   const [history, setHistory] = useState([]);
@@ -44,7 +45,7 @@ const InvoiceHistory = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        `http://localhost:5000/api/v1/shops/invoices`,
+        `${API_BASE_URL}/api/v1/shops/invoices`,
         {
           params: {
             page: pagination.currentPage,

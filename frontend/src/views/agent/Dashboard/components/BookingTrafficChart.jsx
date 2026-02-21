@@ -6,13 +6,14 @@ import ReactApexChart from "react-apexcharts";
 import { Card, CardBody, CardHeader } from "react-bootstrap";
 import { FaCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { API_BASE_URL } from "../../../../config/env";
 const BookingTrafficChart = ({ shopID }) => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
     const fetchTraffic = async () => {
       const res = await axios.get(
-        `http://localhost:5000/api/v1/shops/traffic/${shopID}`
+        `${API_BASE_URL}/api/v1/shops/traffic/${shopID}`
       );
       setData(res.data);
     };

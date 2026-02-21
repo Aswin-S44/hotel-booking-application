@@ -42,9 +42,6 @@ const RoomCard = ({
 }) => {
   const navigate = useNavigate();
 
-console.log("features >>>>", features);
-
-
   const { isOpen, toggle } = useToggle();
   const { dir } = useLayoutContext();
   const roomSliderSettings = {
@@ -99,28 +96,28 @@ console.log("features >>>>", features);
               <Link to="">{name}</Link>
             </h5>
             <ul
-  className={`mb-2 ${
-    features.length <= 3
-      ? "d-flex flex-column gap-2 list-unstyled"
-      : "nav nav-divider"
-  }`}
->
-  {features.map((feature, idx) => (
-    <li
-      key={idx}
-      className={`${
-        features.length <= 3
-          ? "p-2 rounded bg-light border"
-          : "nav-item"
-      }`}
-    >
-      {features.length <= 3 && (
-        <span style={{ marginRight: "8px" }}>✓</span>
-      )}
-      {feature}
-    </li>
-  ))}
-</ul>
+              className={`mb-2 ${
+                features.length <= 3
+                  ? "d-flex flex-column gap-2 list-unstyled"
+                  : "nav nav-divider"
+              }`}
+            >
+              {features.map((feature, idx) => (
+                <li
+                  key={idx}
+                  className={`${
+                    features.length <= 3
+                      ? "p-2 rounded bg-light border"
+                      : "nav-item"
+                  }`}
+                >
+                  {features.length <= 3 && (
+                    <span style={{ marginRight: "8px" }}>✓</span>
+                  )}
+                  {feature}
+                </li>
+              ))}
+            </ul>
 
             {/* {schemes ? schemes.map((scheme, idx) => <p key={idx} className="text-success mb-0">
                   {scheme}

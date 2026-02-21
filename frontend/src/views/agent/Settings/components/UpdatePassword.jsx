@@ -7,6 +7,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { API_BASE_URL } from "../../../../config/env";
 
 const UpdatePassword = () => {
   const { user } = useAuthContext();
@@ -35,7 +36,7 @@ const UpdatePassword = () => {
     setLoading(true);
     try {
       const response = await axios.patch(
-        "http://localhost:5000/api/v1/auth/update/password",
+        `${API_BASE_URL}/api/v1/auth/update/password`,
         {
           currentPassword: data.currentPassword,
           newPassword: data.newPassword,

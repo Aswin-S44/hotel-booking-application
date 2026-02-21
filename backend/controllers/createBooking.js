@@ -23,7 +23,6 @@ export const createBooking = async (req, res) => {
 
     const { propertyId, roomId } = req.params;
     const userId = req.userId;
-    console.log("userId---------", userId);
 
     if (!userId) {
       return res.status(404).send({ message: "User not loggedin" });

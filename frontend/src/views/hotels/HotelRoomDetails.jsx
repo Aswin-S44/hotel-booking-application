@@ -27,6 +27,7 @@ import CustomerReview from "./HotelDetails/components/CustomerReview";
 import HotelPolicies from "./HotelDetails/components/HotelPolicies";
 import PriceOverView from "./HotelDetails/components/PriceOverView";
 import FooterWithLinks from "../../layouts/HelpLayout/FooterWithLinks";
+import { API_BASE_URL } from "../../config/env";
 
 const HotelRoomDetails = () => {
   const { id } = useParams();
@@ -40,7 +41,7 @@ const HotelRoomDetails = () => {
       const fetchRoomDetails = async () => {
         try {
           const response = await fetch(
-            `http://localhost:5000/api/v1/customer/rooms/${id}/all`
+            `${API_BASE_URL}/api/v1/customer/rooms/${id}/all`
           );
           const result = await response.json();
 

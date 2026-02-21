@@ -25,18 +25,19 @@ import PriceOverView from "./PriceOverView";
 import RoomOptions from "./RoomOptions";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { API_BASE_URL } from "../../../../config/env";
 
 const AboutHotel = ({ hotelDetails, shoRoomOptions = true, propertyId }) => {
   const { isOpen, toggle } = useToggle();
   const { id } = useParams();
-  console.log("PARAM ID:", id);
+
   const [reviewsData, setReviewsData] = useState(null);
   const [loading, setLoading] = useState(false);
   const fetchReviews = async () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        `http://localhost:5000/api/v1/customer/reviews-by-property-id/${id}`
+        `${API_BASE_URL}/api/v1/customer/reviews-by-property-id/${id}`
       );
       setReviewsData(res.data);
     } catch (error) {
@@ -52,8 +53,6 @@ const AboutHotel = ({ hotelDetails, shoRoomOptions = true, propertyId }) => {
     }
   }, [id]);
 
-console.log("PARENT reviewsData:", reviewsData);
-console.log("PARAM ID:", id);
   return (
     <section className="pt-0">
       <Container data-sticky-container>

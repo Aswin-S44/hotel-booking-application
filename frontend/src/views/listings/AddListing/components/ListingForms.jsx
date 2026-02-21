@@ -10,6 +10,7 @@ import Step3 from "./Step3";
 import { Wizard, useWizard } from "react-use-wizard";
 import { useAuthContext } from "../../../../states/useAuthContext";
 import Swal from "sweetalert2";
+import { API_BASE_URL } from "../../../../config/env";
 
 const Header = () => {
   const { goToStep, activeStep } = useWizard();
@@ -162,7 +163,7 @@ const ListingForms = () => {
         setLoading(true);
         try {
           const response = await fetch(
-            `http://localhost:5000/api/v1/shops/property/${id}`,
+            `${API_BASE_URL}/api/v1/shops/property/${id}`,
             {
               headers: { Authorization: `Bearer ${token}` },
             }
@@ -261,8 +262,8 @@ const ListingForms = () => {
 
     try {
       const url = id
-        ? `http://localhost:5000/api/v1/shops/property/${id}`
-        : "http://localhost:5000/api/v1/shops/property";
+        ? `${API_BASE_URL}/api/v1/shops/property/${id}`
+        : `${API_BASE_URL}/api/v1/shops/property`;
       const method = id ? "PATCH" : "POST";
 
       const response = await fetch(url, {

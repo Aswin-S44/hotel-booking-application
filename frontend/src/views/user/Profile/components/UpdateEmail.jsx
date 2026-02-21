@@ -7,6 +7,7 @@ import { TextFormInput } from "@/components";
 import { useAuthContext } from "../../../../states/useAuthContext";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { API_BASE_URL } from "../../../../config/env";
 
 const UpdateEmail = () => {
   const { user } = useAuthContext();
@@ -48,7 +49,7 @@ const UpdateEmail = () => {
     setLoading(true);
     try {
       const { data } = await axios.post(
-        "http://localhost:5000/api/v1/auth/send-email-otp",
+        `${API_BASE_URL}/api/v1/auth/send-email-otp`,
         { newEmail },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -78,7 +79,7 @@ const UpdateEmail = () => {
     setLoading(true);
     try {
       const response = await axios.patch(
-        "http://localhost:5000/api/v1/auth/update/email",
+        `${API_BASE_URL}/api/v1/auth/update/email`,
         {
           newEmail: data.email,
           otp: data.otp,
@@ -147,7 +148,7 @@ const UpdateEmail = () => {
                     Resend OTP in{" "}
                     <span className="fw-bold">{resendTimer}s</span>
                   </small>
-                ) : ( 
+                ) : (
                   <button
                     type="button"
                     className="btn btn-link p-0 text-decoration-none small"

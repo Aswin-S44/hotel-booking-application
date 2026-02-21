@@ -14,6 +14,7 @@ import { useAuthContext } from "@/states";
 import avatar1 from "@/assets/images/avatar/01.jpg";
 import { useEffect, useState } from "react";
 import { DEFAULT_AVATAR_IMAGE } from "../../constants/images";
+import { API_BASE_URL } from "../../config/env";
 const LeftPanel = () => {
   const { pathname } = useLocation();
   const { removeSession } = useAuthContext();
@@ -27,14 +28,11 @@ const LeftPanel = () => {
     const fetchProfileData = async () => {
       const token = localStorage.getItem("token");
       try {
-        const response = await fetch(
-          "http://localhost:5000/api/v1/auth/profile",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await fetch(`${API_BASE_URL}/api/v1/auth/profile`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         const data = await response.json();
 
         if (data) {

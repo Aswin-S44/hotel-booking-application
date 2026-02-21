@@ -9,6 +9,7 @@ import axios from "axios";
 import signInImg from "@/assets/images/element/signin.svg";
 import logoIcon from "@/assets/images/logo-icon.svg";
 import { developedByLink, currentYear } from "@/states";
+import { API_BASE_URL } from "../../../config/env";
 
 const SignUp = () => {
   const [step, setStep] = useState(1);
@@ -41,7 +42,7 @@ const SignUp = () => {
     setLoading(true);
     setError("");
     try {
-      await axios.post("http://localhost:5000/api/v1/auth/send-otp", {
+      await axios.post(`${API_BASE_URL}/api/v1/auth/send-otp`, {
         email: data.email,
       });
       setStep(2);
@@ -57,7 +58,7 @@ const SignUp = () => {
     setError("");
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/v1/auth/verify-otp",
+        `${API_BASE_URL}/api/v1/auth/verify-otp`,
         {
           name: data.name,
           email: data.email,

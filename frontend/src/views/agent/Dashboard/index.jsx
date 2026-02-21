@@ -13,6 +13,7 @@ import UpcomingBookings from "./components/UpcomingBookings";
 
 import { PageMetaData } from "@/components";
 import { useEffect, useState } from "react";
+import { API_BASE_URL } from "../../../config/env";
 const Dashboard = () => {
   const [statistics, setStatistics] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -20,25 +21,18 @@ const Dashboard = () => {
 
   const token = localStorage.getItem("token");
 
-
-
-
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:5000/api/v1/shops/stats",
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await fetch(`${API_BASE_URL}/api/v1/shops/stats`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
         const result = await response.json();
-        setshopID(result?.data?.shopId)
-
+        setshopID(result?.data?.shopId);
 
         if (result.success) {
           const { listings, earnings, visitors, reviews } = result.data;

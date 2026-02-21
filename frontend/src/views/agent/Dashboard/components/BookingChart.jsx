@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import { Card, CardBody, CardHeader } from "react-bootstrap";
 import axios from "axios";
+import { API_BASE_URL } from "../../../../config/env";
 
 const BookingChart = () => {
   const [chartData, setChartData] = useState([
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  ]); 
+  ]);
 
   const token = localStorage.getItem("token");
 
@@ -14,7 +15,7 @@ const BookingChart = () => {
     const fetchStats = async () => {
       try {
         const { data } = await axios.get(
-          `http://localhost:5000/api/v1/shops/stats/graph`,
+          `${API_BASE_URL}/api/v1/shops/stats/graph`,
           {
             method: "GET",
             headers: {

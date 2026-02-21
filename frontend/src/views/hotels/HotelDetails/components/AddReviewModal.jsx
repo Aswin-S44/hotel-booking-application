@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { API_BASE_URL } from "../../../../config/env";
 
 const AddReviewModal = ({ show, handleClose, propertyId, roomId, userId }) => {
   const [rating, setRating] = useState(5);
@@ -36,7 +37,7 @@ const AddReviewModal = ({ show, handleClose, propertyId, roomId, userId }) => {
       });
 
       const res = await axios.post(
-        "http://localhost:5000/api/v1/customer/add-review",
+        `${API_BASE_URL}/api/v1/customer/add-review`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },

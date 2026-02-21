@@ -4,6 +4,7 @@ import { Fragment, useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import NotFound from "../../../../components/NotFound/NotFound";
 import { ToastContainer, toast } from "react-toastify";
+import { API_BASE_URL } from "../../../../config/env";
 
 const UserReviews = () => {
   const [reviews, setReviews] = useState([]);
@@ -20,13 +21,10 @@ const UserReviews = () => {
     setLoading(true);
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get(
-        `http://localhost:5000/api/v1/shops/reviews`,
-        {
-          params: { page, limit: 5, rating },
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const response = await axios.get(`${API_BASE_URL}/api/v1/shops/reviews`, {
+        params: { page, limit: 5, rating },
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       if (response.data.success) {
         setReviews(response.data.reviews);
@@ -46,12 +44,9 @@ const UserReviews = () => {
   const handleDeleteReview = async (reviewId) => {
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(
-        `http://localhost:5000/api/v1/shops/reviews/${reviewId}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      await axios.delete(`${API_BASE_URL}/api/v1/shops/reviews/${reviewId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       toast.success("Review deleted successfully");
       setReviews((prev) => prev.filter((r) => r._id !== reviewId));
     } catch (error) {
@@ -63,7 +58,7 @@ const UserReviews = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.patch(
-        `http://localhost:5000/api/v1/shops/reviews/${reviewId}/reply`,
+        `${API_BASE_URL}/api/v1/shops/reviews/${reviewId}/reply`,
         { reply: replyText },
         { headers: { Authorization: `Bearer ${token}` } }
       );

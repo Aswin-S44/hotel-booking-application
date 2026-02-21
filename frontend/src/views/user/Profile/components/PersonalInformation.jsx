@@ -19,6 +19,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import avatar1 from "@/assets/images/avatar/01.jpg";
 import Flatpicker from "@/components/Flatpicker";
+import { API_BASE_URL } from "../../../../config/env";
 
 const PersonalInformation = () => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -55,7 +56,7 @@ const PersonalInformation = () => {
   const fetchProfile = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/v1/customer/profile/details",
+        `${API_BASE_URL}/api/v1/customer/profile/details`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -108,7 +109,7 @@ const PersonalInformation = () => {
       }
 
       await axios.put(
-        "http://localhost:5000/api/v1/customer/update-profile",
+        `${API_BASE_URL}/api/v1/customer/update-profile`,
         formData,
         {
           headers: {
@@ -150,7 +151,7 @@ const PersonalInformation = () => {
                       selectedFile
                         ? URL.createObjectURL(selectedFile)
                         : profileImagePath
-                        ? `http://localhost:5000/${profileImagePath}`
+                        ? `${API_BASE_URL}/${profileImagePath}`
                         : avatar1
                     }
                   />

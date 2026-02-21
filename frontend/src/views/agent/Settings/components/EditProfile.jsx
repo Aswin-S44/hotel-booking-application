@@ -21,6 +21,7 @@ import { useAuthContext } from "../../../../states/useAuthContext";
 import { toast } from "react-hot-toast";
 import { DEFAULT_AVATAR_IMAGE } from "../../../../constants/images";
 import Swal from "sweetalert2";
+import { API_BASE_URL } from "../../../../config/env";
 
 const EditProfile = () => {
   const { user } = useAuthContext();
@@ -79,14 +80,11 @@ const EditProfile = () => {
     const fetchProfileData = async () => {
       const token = localStorage.getItem("token");
       try {
-        const response = await fetch(
-          "http://localhost:5000/api/v1/auth/profile",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await fetch(`${API_BASE_URL}/api/v1/auth/profile`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         const data = await response.json();
 
         if (response.ok) {
@@ -122,7 +120,7 @@ const EditProfile = () => {
   const onSubmit = async (data) => {
     const token = localStorage.getItem("token");
     try {
-      const url = `http://localhost:5000/api/v1/shops/profile`;
+      const url = `${API_BASE_URL}/api/v1/shops/profile`;
 
       // Construct plain JSON object
       const payload = {

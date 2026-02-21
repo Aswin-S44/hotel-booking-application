@@ -17,6 +17,7 @@ import { useEffect, useState, Fragment } from "react";
 import clsx from "clsx";
 import { PageMetaData } from "@/components";
 import NotFound from "../../../components/NotFound/NotFound";
+import { API_BASE_URL } from "../../../config/env";
 const Activities = () => {
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -43,16 +44,13 @@ const Activities = () => {
 
       const token = localStorage.getItem("token");
 
-      const response = await fetch(
-        "http://localhost:5000/api/v1/shops/activity",
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await fetch(`${API_BASE_URL}/api/v1/shops/activity`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       const data = await response.json();
 
@@ -71,7 +69,7 @@ const Activities = () => {
     try {
       const token = localStorage.getItem("token");
 
-      await fetch(`http://localhost:5000/api/v1/shops/activity/${deleteId}`, {
+      await fetch(`${API_BASE_URL}/api/v1/shops/activity/${deleteId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,

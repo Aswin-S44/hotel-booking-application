@@ -16,6 +16,7 @@ import clsx from "clsx";
 import { BsBookmarkHeart } from "react-icons/bs";
 import { FaSearch } from "react-icons/fa";
 import NotFound from "../../../components/NotFound/NotFound";
+import { API_BASE_URL } from "../../../config/env";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -44,7 +45,7 @@ const Users = () => {
       });
 
       const response = await fetch(
-        `http://localhost:5000/api/v1/shops/users?${queryParams.toString()}`,
+        `${API_BASE_URL}/api/v1/shops/users?${queryParams.toString()}`,
         {
           method: "GET",
           headers: {

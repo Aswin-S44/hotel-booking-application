@@ -24,8 +24,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { currency } from "@/states";
 import { useState } from "react";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 import { ToastContainer, toast } from "react-toastify";
+import { API_BASE_URL } from "../../../../config/env";
 
 const ListingCard = ({ roomListCard, setRooms }) => {
   const { location, roomThumbnail, listingName, price, isDisabled } =
@@ -38,22 +40,38 @@ const ListingCard = ({ roomListCard, setRooms }) => {
 
   const handleDelete = async () => {
     try {
-      setLoading(true);
-      await axios.delete(
-        `http://localhost:5000/api/v1/shops/rooms/${roomListCard?._id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      Swal.fire({
+        title: "Are you sure want to delete room ?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          setLoading(true);
+          await axios.delete(
+            `${API_BASE_URL}/api/v1/shops/rooms/${roomListCard?._id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
 
-      setRooms((prevRooms) =>
-        prevRooms.filter((room) => room._id !== roomListCard._id)
-      );
-      toast.success("Room deleted successfully");
-      setLoading(false);
-      setShow(false);
+          setRooms((prevRooms) =>
+            prevRooms.filter((room) => room._id !== roomListCard._id)
+          );
+          toast.success("Room deleted successfully");
+          setLoading(false);
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your file has been deleted.",
+            icon: "success",
+          });
+        }
+      });
     } catch (error) {
       toast.error("Failed to delete room");
       setLoading(false);
@@ -66,7 +84,7 @@ const ListingCard = ({ roomListCard, setRooms }) => {
       const newStatus = !isDisabled;
 
       await axios.patch(
-        `http://localhost:5000/api/v1/shops/room/${roomListCard._id}`,
+        `${API_BASE_URL}/api/v1/shops/room/${roomListCard._id}`,
         {
           isDisabled: newStatus,
         },
@@ -187,7 +205,7 @@ const ListingCard = ({ roomListCard, setRooms }) => {
                   Edit
                 </Button>
                 <Button
-                  onClick={() => setShow(true)}
+                  onClick={handleDelete}
                   variant="danger"
                   size="sm"
                   className="mb-0 items-center"
@@ -195,30 +213,6 @@ const ListingCard = ({ roomListCard, setRooms }) => {
                   <BsTrash3 className=" fa-fw me-1" />
                   Delete
                 </Button>
-
-                <Modal show={show} onHide={() => setShow(false)} centered>
-                  <Modal.Header closeButton>
-                    <Modal.Title>Confirm Delete</Modal.Title>
-                  </Modal.Header>
-
-                  <Modal.Body>
-                    Are you sure you want to delete all rooms of this property?
-                  </Modal.Body>
-
-                  <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setShow(false)}>
-                      Cancel
-                    </Button>
-
-                    <Button
-                      variant="danger"
-                      onClick={handleDelete}
-                      disabled={loading}
-                    >
-                      {loading ? "Deleting..." : "Yes, Delete"}
-                    </Button>
-                  </Modal.Footer>
-                </Modal>
               </div>
             </div>
           </CardBody>
