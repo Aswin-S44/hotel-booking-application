@@ -150,15 +150,15 @@ const ListingCard = ({ roomListCard, setRooms }) => {
                   onClick={handleToggleStatus}
                 >
                   {isDisabled ? (
-                    <>
+                    <div>
                       <BsCheckCircle className="me-1" />
                       Reactivate
-                    </>
+                    </div>
                   ) : (
-                    <>
+                    <div>
                       <BsSlashCircle className="me-1" />
                       Disable
-                    </>
+                    </div>
                   )}
                 </DropdownItem>
               </DropdownMenu>

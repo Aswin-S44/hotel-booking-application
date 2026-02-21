@@ -17,7 +17,7 @@ const FileFormInput = ({ name, control, label, containerClass }) => {
         name={name}
         control={control}
         render={({ field: { onChange, value }, fieldState: { error } }) => (
-          <>
+          <div>
             <FormControl
               type="file"
               onChange={async (e) => {
@@ -42,7 +42,7 @@ const FileFormInput = ({ name, control, label, containerClass }) => {
             {error && (
               <FormText className="text-danger">{error.message}</FormText>
             )}
-          </>
+          </div>
         )}
       />
     </div>

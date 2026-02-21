@@ -1,26 +1,29 @@
-import { LogoBox, Preloader } from '@/components';
-import { useToggle } from '@/hooks';
-import { useAuthContext } from '@/states';
-import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
-import { Suspense, lazy } from 'react';
-import { Offcanvas, OffcanvasBody } from 'react-bootstrap';
-import { BsGearFill } from 'react-icons/bs';
-import { FaArrowRightFromBracket } from 'react-icons/fa6';
-import { Link } from 'react-router-dom';
-const AdminMenu = lazy(() => import('./AdminMenu'));
-const TopBar = lazy(() => import('./TopBar'));
-import 'overlayscrollbars/overlayscrollbars.css';
+import { LogoBox, Preloader } from "@/components";
+import { useToggle } from "@/hooks";
+import { useAuthContext } from "@/states";
+import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
+import { Suspense, lazy } from "react";
+import { Offcanvas, OffcanvasBody } from "react-bootstrap";
+import { BsGearFill } from "react-icons/bs";
+import { FaArrowRightFromBracket } from "react-icons/fa6";
+import { Link } from "react-router-dom";
+const AdminMenu = lazy(() => import("./AdminMenu"));
+const TopBar = lazy(() => import("./TopBar"));
+import "overlayscrollbars/overlayscrollbars.css";
 const AdminLeftMenu = () => {
-  const {
-    removeSession
-  } = useAuthContext();
-  return <>
+  const { removeSession } = useAuthContext();
+  return (
+    <div>
       <Suspense>
         <AdminMenu />
       </Suspense>
 
       <div className="d-flex align-items-center justify-content-between text-primary-hover mt-auto p-3">
-        <Link onClick={removeSession} className="h6 fw-light mb-0 text-body d-flex align-items-center" to="">
+        <Link
+          onClick={removeSession}
+          className="h6 fw-light mb-0 text-body d-flex align-items-center"
+          to=""
+        >
           <FaArrowRightFromBracket className="me-1" />
           Log out
         </Link>
@@ -28,16 +31,13 @@ const AdminLeftMenu = () => {
           <BsGearFill />
         </Link>
       </div>
-    </>;
+    </div>
+  );
 };
-const AdminLayout = ({
-  children
-}) => {
-  const {
-    isOpen,
-    toggle
-  } = useToggle();
-  return <main>
+const AdminLayout = ({ children }) => {
+  const { isOpen, toggle } = useToggle();
+  return (
+    <main>
       <nav className="navbar sidebar navbar-expand-xl navbar-light">
         <div className="d-flex align-items-center">
           <LogoBox />
@@ -48,7 +48,13 @@ const AdminLayout = ({
           </div>
         </div>
 
-        <Offcanvas show={isOpen} onHide={toggle} placement="start" className="flex-row custom-scrollbar h-100" tabIndex={-1}>
+        <Offcanvas
+          show={isOpen}
+          onHide={toggle}
+          placement="start"
+          className="flex-row custom-scrollbar h-100"
+          tabIndex={-1}
+        >
           <OverlayScrollbarsComponent className="w-100">
             <OffcanvasBody className="sidebar-offcanvas-wrapper d-flex flex-column pt-4">
               <AdminLeftMenu />
@@ -65,6 +71,7 @@ const AdminLayout = ({
           <Suspense fallback={<Preloader />}>{children}</Suspense>
         </div>
       </div>
-    </main>;
+    </main>
+  );
 };
 export default AdminLayout;

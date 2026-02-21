@@ -108,7 +108,7 @@ const SignUp = () => {
             className="mt-4 text-start"
           >
             {step === 1 ? (
-              <>
+              <span>
                 <TextFormInput
                   name="name"
                   containerClass="mb-3"
@@ -143,9 +143,9 @@ const SignUp = () => {
                 >
                   {loading ? "Sending..." : "Send Verification Code"}
                 </button>
-              </>
+              </span>
             ) : (
-              <>
+              <span>
                 <p className="text-muted">
                   Enter the 6-digit code sent to <strong>{emailValue}</strong>
                 </p>
@@ -181,11 +181,11 @@ const SignUp = () => {
                 >
                   Back to Edit Details
                 </button>
-              </>
+              </span>
             )}
 
             {step === 1 && (
-              <>
+              <span>
                 <div className="position-relative my-4">
                   <hr />
                   <p className="small position-absolute top-50 start-50 translate-middle bg-mode px-1 px-sm-2">
@@ -206,7 +206,7 @@ const SignUp = () => {
                     Continue with Facebook
                   </button> */}
                 </div>
-              </>
+              </span>
             )}
 
             <div className="text-primary-hover text-body mt-3 text-center">

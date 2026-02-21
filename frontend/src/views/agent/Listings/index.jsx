@@ -230,7 +230,7 @@ const Listings = () => {
                   />
                 </div>
               ) : (
-                <>
+                <div>
                   {rooms.map((room, idx) => (
                     <ListingCard
                       key={room._id || idx}
@@ -265,7 +265,7 @@ const Listings = () => {
                       </Pagination>
                     </div>
                   )}
-                </>
+                </div>
               )}
             </CardBody>
           </Card>

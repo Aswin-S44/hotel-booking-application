@@ -36,7 +36,7 @@ const DropzoneFormInput = ({ label, onFileUpload, value, showPreview }) => {
   }, [selectedFiles, onFileUpload]);
 
   return (
-    <>
+    <div>
       {label && <FormLabel>{label}</FormLabel>}
       <Dropzone
         onDrop={(files) => {
@@ -82,7 +82,7 @@ const DropzoneFormInput = ({ label, onFileUpload, value, showPreview }) => {
           </div>
         )}
       </Dropzone>
-    </>
+    </div>
   );
 };
 

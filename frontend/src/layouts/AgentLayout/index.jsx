@@ -1,18 +1,17 @@
-import { Preloader } from '@/components';
-import { Suspense, lazy } from 'react';
-const TopNavBar = lazy(() => import('./TopNavBar'));
-const AgentNavBar = lazy(() => import('./AgentNavBar'));
-const Footer = lazy(() => import('./Footer'));
-const AgentLayout = ({
-  children
-}) => {
-  return <>
+import { Preloader } from "@/components";
+import { Suspense, lazy } from "react";
+const TopNavBar = lazy(() => import("./TopNavBar"));
+const AgentNavBar = lazy(() => import("./AgentNavBar"));
+const Footer = lazy(() => import("./Footer"));
+const AgentLayout = ({ children }) => {
+  return (
+    <>
       <Suspense>
         <TopNavBar />
       </Suspense>
 
       <main>
-        <Suspense> 
+        <Suspense>
           <AgentNavBar />
         </Suspense>
 
@@ -22,6 +21,7 @@ const AgentLayout = ({
       <Suspense>
         <Footer />
       </Suspense>
-    </>;
+    </>
+  );
 };
 export default AgentLayout;

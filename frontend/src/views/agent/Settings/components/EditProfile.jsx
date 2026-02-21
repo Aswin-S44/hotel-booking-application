@@ -250,7 +250,11 @@ const EditProfile = () => {
                   Discard
                 </Link>
                 <Button variant="primary" type="submit" disabled={submitting}>
-                  {submitting ? <>Please wait....</> : <> Save change</>}
+                  {submitting ? (
+                    <span>Please wait....</span>
+                  ) : (
+                    <span> Save change</span>
+                  )}
                 </Button>
               </div>
             </form>
