@@ -97,7 +97,7 @@ const handleRemoveAll = () => {
               <FaTrash className="me-2" />
               Remove all
             </Button>
-          </form>
+          </form> 
 
           {sortedProperties.length === 0 && !loading ? (
   <div className="text-center py-5">
