@@ -24,6 +24,7 @@ import {
   getUserActivities,
 } from "../controllers/shops/activityController.js";
 import { getTrafficStats } from "../controllers/trafficController.js";
+import { getAllUsers } from "../controllers/shops/getAllUsers.js";
 
 const shopsRouter = express.Router();
 
@@ -52,5 +53,6 @@ shopsRouter.patch("/room/:roomId", userVerification, updateRoomById);
 shopsRouter.delete("/reviews/:id", userVerification, deleteReviewById);
 shopsRouter.patch("/reviews/:id/reply", userVerification, replyToReview);
 shopsRouter.get("/traffic/:shopId", getTrafficStats);
+shopsRouter.get("/users", userVerification, getAllUsers);
 
 export default shopsRouter;

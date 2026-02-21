@@ -3,6 +3,7 @@ import { Navigate } from "react-router-dom";
 import RoomExtraDetails from "../views/hotels/roomDetails";
 import HotelRoomDetails from "../views/hotels/HotelRoomDetails";
 import CustomerProfile from "../views/user/Profile/customerProfile";
+import Users from "../views/agent/Bookings/Users";
 const HotelsHome = lazy(() => import("@/views/hotels/Home"));
 const HotelsChain = lazy(() => import("@/views/hotels/Chain"));
 const HotelsResort = lazy(() => import("@/views/hotels/Resort"));
@@ -420,6 +421,11 @@ export const agentRoutes = [
     path: "/agent/bookings",
     name: "agent.bookings",
     element: <AgentBookings />,
+  },
+  {
+    path: "/agent/users",
+    name: "agent.users",
+    element: <Users />,
   },
   {
     path: "/agent/activities",

@@ -1,3 +1,4 @@
+import React, { useEffect, useState, useCallback } from "react";
 import { PageMetaData, SelectFormInput } from "@/components";
 import {
   Card,
@@ -7,13 +8,15 @@ import {
   Col,
   Container,
   Row,
+  Modal,
+  Button,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import clsx from "clsx";
-import { BsBookmarkHeart } from "react-icons/bs";
+import { BsBookmarkHeart, BsCloudDownload } from "react-icons/bs";
 import { FaSearch } from "react-icons/fa";
-import { useEffect, useState, useCallback } from "react";
-import { Modal, Button } from "react-bootstrap";
+import { jsPDF } from "jspdf";
+import autoTable from "jspdf-autotable";
 import NotFound from "../../../components/NotFound/NotFound";
 
 const Bookings = () => {
@@ -66,6 +69,36 @@ const Bookings = () => {
     fetchBookings(currentPage);
   }, [fetchBookings, currentPage]);
 
+  const downloadAllBookingsPDF = () => {
+    if (bookings.length === 0) return;
+    const doc = new jsPDF();
+    doc.setFontSize(18);
+    doc.text("BOOKINGS REPORT", 14, 20);
+    doc.setFontSize(10);
+    doc.text(`Generated on: ${new Date().toLocaleString()}`, 14, 28);
+    doc.text(`Total Bookings: ${totalBooking}`, 14, 34);
+
+    const tableRows = bookings.map((booking, idx) => [
+      idx + 1,
+      booking.roomName,
+      `${booking.checkInDate} to ${booking.checkOutDate}`,
+      booking.status.toUpperCase(),
+      booking.paymentStatus.toUpperCase(),
+      `INR ${booking.totalAmount}`,
+    ]);
+
+    autoTable(doc, {
+      startY: 40,
+      head: [["#", "Room Name", "Duration", "Status", "Payment", "Amount"]],
+      body: tableRows,
+      theme: "grid",
+      headStyles: { fillColor: [13, 110, 253] }, // Primary Blue
+      styles: { fontSize: 8 },
+    });
+
+    doc.save(`Bookings_Report_${new Date().getTime()}.pdf`);
+  };
+
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
@@ -92,7 +125,7 @@ const Bookings = () => {
   const startEntry = bookings.length > 0 ? (currentPage - 1) * 10 + 1 : 0;
   const endEntry = Math.min(currentPage * 10, totalBooking);
 
-  if (!loading && bookings.length == 0) {
+  if (!loading && bookings.length === 0) {
     return (
       <NotFound
         title={"No Bookings found!"}
@@ -117,13 +150,22 @@ const Bookings = () => {
           <Row>
             <Col xs={12}>
               <Card className="border">
-                <CardHeader className="border-bottom">
-                  <h5 className="card-header-title">
+                <CardHeader className="border-bottom d-flex justify-content-between align-items-center">
+                  <h5 className="card-header-title mb-0">
                     Bookings
                     <span className="badge bg-primary bg-opacity-10 text-primary ms-2">
                       {totalBooking} Rooms
                     </span>
                   </h5>
+                  <Button
+                    variant="primary"
+                    size="sm"
+                    className="d-flex align-items-center gap-2"
+                    onClick={downloadAllBookingsPDF}
+                    disabled={loading || bookings.length === 0}
+                  >
+                    <BsCloudDownload /> Download All
+                  </Button>
                 </CardHeader>
                 <CardBody>
                   <div className="row g-3 align-items-center justify-content-between mb-3">
@@ -167,9 +209,6 @@ const Bookings = () => {
                           <th scope="col" className="border-0">
                             Name
                           </th>
-                          {/* <th scope="col" className="border-0">
-                            Requirements
-                          </th> */}
                           <th scope="col" className="border-0">
                             Date
                           </th>
@@ -204,7 +243,6 @@ const Bookings = () => {
                                   <Link to="">{booking.roomName}</Link>
                                 </h6>
                               </td>
-                              {/* <td>{booking.additionalInfo || "N/A"}</td> */}
                               <td>
                                 <h6 className="mb-0 fw-light">
                                   {booking.checkInDate}
@@ -214,7 +252,8 @@ const Bookings = () => {
                                 <div
                                   className={clsx(
                                     "badge",
-                                    booking.status === "cancel"
+                                    booking.status === "cancel" ||
+                                      booking.status === "cancelled"
                                       ? "bg-danger"
                                       : booking.status === "booked"
                                       ? "bg-success"
@@ -298,96 +337,67 @@ const Bookings = () => {
         </Container>
       </section>
 
+      {/* View Details Modal */}
       <Modal
         show={showModal}
         onHide={() => setShowModal(false)}
         centered
         size="lg"
       >
-        <Modal.Header closeButton className="border-0 pb-0">
-          {/* <Modal.Title className="fw-bold">Booking Details</Modal.Title> */}
-        </Modal.Header>
-
+        <Modal.Header closeButton className="border-0 pb-0" />
         <Modal.Body>
           {selectedBooking && (
             <div className="p-2">
-              {/* Room Header */}
               <div className="mb-4">
                 <h4 className="fw-bold mb-1">{selectedBooking.roomName}</h4>
               </div>
-
-              {/* Status + Payment Row */}
               <div className="d-flex gap-3 mb-4 flex-wrap">
                 <span
-                  className={`badge px-3 py-2 ${
+                  className={clsx(
+                    "badge px-3 py-2",
                     selectedBooking.status === "booked"
                       ? "bg-success"
                       : "bg-danger"
-                  }`}
+                  )}
                 >
                   {selectedBooking.status.toUpperCase()}
                 </span>
-
                 <span
-                  className={`badge px-3 py-2 ${
+                  className={clsx(
+                    "badge px-3 py-2",
                     selectedBooking.paymentStatus === "paid"
                       ? "bg-primary"
                       : "bg-warning text-dark"
-                  }`}
+                  )}
                 >
                   {selectedBooking.paymentStatus.toUpperCase()}
                 </span>
               </div>
-
-              {/* Booking Info Card */}
               <div className="card border-0 shadow-sm mb-3">
                 <div className="card-body">
                   <div className="row mb-2">
-                    <div className="col-6 ">Booking ID</div>
+                    <div className="col-6">Booking ID</div>
                     <div className="col-6 text-end fw-semibold">
                       #{selectedBooking._id.slice(-6)}
                     </div>
                   </div>
                   <div className="row mb-2">
-                    <div className="col-6 ">Check In - Out</div>
+                    <div className="col-6">Check In - Out</div>
                     <div className="col-6 text-end fw-semibold">
                       {selectedBooking.checkInDate} →{" "}
                       {selectedBooking.checkOutDate}
                     </div>
                   </div>
-
                   <div className="row mb-2">
-                    <div className="col-6 ">Room Requirements</div>
+                    <div className="col-6">Requirements</div>
                     <div className="col-6 text-end">
                       {selectedBooking.additionalInfo || "N/A"}
                     </div>
                   </div>
-
                   <div className="row mb-2">
-                    <div className="col-6 ">Total Amount</div>
+                    <div className="col-6">Total Amount</div>
                     <div className="col-6 text-end fw-bold text-success">
                       ₹ {selectedBooking.totalAmount}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Payment Info */}
-              <div className="card border-0 shadow-sm mb-3">
-                <div className="card-body">
-                  <h6 className="fw-bold mb-3">Payment Details</h6>
-
-                  <div className="row mb-2">
-                    <div className="col-6 ">Payment ID</div>
-                    <div className="col-6 text-end">
-                      #{selectedBooking.paymentDetails?._id.slice(-6) || "N/A"}
-                    </div>
-                  </div>
-
-                  <div className="row">
-                    <div className="col-6 ">Source</div>
-                    <div className="col-6 text-end">
-                      {selectedBooking.utm?.source || "Organic"}
                     </div>
                   </div>
                 </div>
@@ -395,7 +405,6 @@ const Bookings = () => {
             </div>
           )}
         </Modal.Body>
-
         <Modal.Footer className="border-0">
           <Button
             variant="outline-secondary"

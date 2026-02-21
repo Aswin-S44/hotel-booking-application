@@ -24,7 +24,7 @@ import visa from "@/assets/images/element/visa.svg";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const EarningStatistics = () => {
+const EarningStatistics = ({ selectedDate }) => {
   const [loading, setLoading] = useState(false);
   const [earningStatus, setEarningStatus] = useState({
     salesThisMonth: 0,
@@ -34,28 +34,19 @@ const EarningStatistics = () => {
 
   useEffect(() => {
     const fetchEarningStatus = async () => {
-      setLoading(true);
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          `http://localhost:5000/api/v1/shops/earning-statuses`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
+          `http://localhost:5000/api/v1/shops/earning-statuses?date=${selectedDate}`,
+          { headers: { Authorization: `Bearer ${token}` } }
         );
-
-        // FIXED: Access response.data directly because backend returns the object directly
-        if (response.data) {
-          setEarningStatus(response.data);
-        }
+        if (response.data) setEarningStatus(response.data);
       } catch (error) {
         console.error("Error fetching earning stats", error);
-      } finally {
-        setLoading(false);
       }
     };
     fetchEarningStatus();
-  }, []);
+  }, [selectedDate]);
 
   return (
     <Row className="g-4">

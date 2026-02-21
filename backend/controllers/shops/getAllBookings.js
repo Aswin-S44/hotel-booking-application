@@ -1,6 +1,6 @@
 import Bookings from "../../models/bookings.js";
 import { format } from "date-fns";
-
+ 
 export const getAllBookings = async (req, res) => {
   try {
     const shopId = req.userId;

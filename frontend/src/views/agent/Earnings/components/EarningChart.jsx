@@ -5,7 +5,7 @@ import { BsArrowDown, BsArrowUp } from "react-icons/bs";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const EarningChart = () => {
+const EarningChart = ({ selectedDate }) => {
   const [earningData, setEarningData] = useState({
     earningsCurrentMonth: 0,
     earningsLastMonth: 0,
@@ -16,20 +16,21 @@ const EarningChart = () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          `http://localhost:5000/api/v1/shops/earning-statuses`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
+          `http://localhost:5000/api/v1/shops/earning-statuses?date=${selectedDate}`,
+          { headers: { Authorization: `Bearer ${token}` } }
         );
-        if (response.data) {
-          setEarningData(response.data);
-        }
+        if (response.data) setEarningData(response.data);
       } catch (error) {
         console.error("Error fetching chart earnings", error);
       }
     };
     fetchEarnings();
-  }, []);
+  }, [selectedDate]); // Dependency added here
+
+  // Logic to determine which month index to highlight in the chart
+  const monthIndex = parseInt(selectedDate.split("-")[1]) - 1;
+  const chartData = new Array(12).fill(0);
+  chartData[monthIndex] = earningData.earningsCurrentMonth;
 
   const calculateDiff = () => {
     const current = earningData.earningsCurrentMonth;

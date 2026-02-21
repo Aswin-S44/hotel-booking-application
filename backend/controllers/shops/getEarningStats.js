@@ -1,17 +1,19 @@
 import mongoose from "mongoose";
-import { startOfMonth, endOfMonth, subMonths } from "date-fns";
+import { startOfMonth, endOfMonth, subMonths, parse } from "date-fns";
 import Bookings from "../../models/bookings.js";
 import Stats from "../../models/statsSchema.js";
 
 export const getEarningStats = async (req, res) => {
   try {
     const shopId = new mongoose.Types.ObjectId(req.userId);
-    const now = new Date();
+    const { date } = req.query; // Expecting format "YYYY-MM"
 
-    const startOfCurrentMonth = startOfMonth(now);
-    const endOfCurrentMonth = endOfMonth(now);
-    const startOfLastMonth = startOfMonth(subMonths(now, 1));
-    const endOfLastMonth = endOfMonth(subMonths(now, 1));
+    const targetDate = date ? parse(date, "yyyy-MM", new Date()) : new Date();
+
+    const startOfCurrentMonth = startOfMonth(targetDate);
+    const endOfCurrentMonth = endOfMonth(targetDate);
+    const startOfLastMonth = startOfMonth(subMonths(targetDate, 1));
+    const endOfLastMonth = endOfMonth(subMonths(targetDate, 1));
 
     const bookingStats = await Bookings.aggregate([
       {

@@ -226,6 +226,13 @@ export const AGENT_MENU_ITEMS = [
     parentKey: "acc-agent",
     icon: BsGear,
   },
+  {
+    key: "acc-agent-bookings",
+    label: "Users",
+    url: "/agent/users",
+    parentKey: "acc-agent",
+    icon: BsBookmarkHeart,
+  },
   // {
   //   key: "acc-agent-room-details",
   //   label: "Room",
