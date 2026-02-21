@@ -232,11 +232,13 @@ const Listings = () => {
               ) : (
                 <div>
                   {rooms.map((room, idx) => (
-                    <ListingCard
-                      key={room._id || idx}
-                      roomListCard={room}
-                      setRooms={setRooms}
-                    />
+                    <div className="mt-2">
+                      <ListingCard
+                        key={room._id || idx}
+                        roomListCard={room}
+                        setRooms={setRooms}
+                      />
+                    </div>
                   ))}
 
                   {pagination.pages > 1 && (

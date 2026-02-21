@@ -63,7 +63,7 @@ const ListingCard = ({ roomListCard, setRooms }) => {
           setRooms((prevRooms) =>
             prevRooms.filter((room) => room._id !== roomListCard._id)
           );
-          toast.success("Room deleted successfully");
+          // toast.success("Room deleted successfully");
           setLoading(false);
           Swal.fire({
             title: "Deleted!",
@@ -73,7 +73,12 @@ const ListingCard = ({ roomListCard, setRooms }) => {
         }
       });
     } catch (error) {
-      toast.error("Failed to delete room");
+      // toast.error("Failed to delete room");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!",
+      });
       setLoading(false);
     }
   };
@@ -103,11 +108,20 @@ const ListingCard = ({ roomListCard, setRooms }) => {
         )
       );
 
-      toast.success(
-        newStatus
-          ? "Room disabled successfully"
-          : "Room reactivated successfully"
-      );
+      if (newStatus) {
+        Swal.fire({
+          title: "Disabled",
+          text: "Room disabled successfully",
+          icon: "success",
+        });
+      } else {
+        Swal.fire({
+          title: "Reactivated",
+          text: "Room deactivated successfully",
+          icon: "success",
+        });
+      }
+
       setLoading(false);
     } catch (error) {
       toast.error("Failed to update room status");
@@ -116,110 +130,117 @@ const ListingCard = ({ roomListCard, setRooms }) => {
   };
 
   return (
-    <Card className="border p-2">
-      <Row className="g-4">
-        <Col md={3} lg={2} className="position-relative">
-          <Image
-            src={roomThumbnail}
-            className="card-img rounded-2"
-            alt="Card image"
-          />
-          {isDisabled && (
-            <Badge bg="danger" className="position-absolute top-0 start-0 m-2">
-              Disabled
-            </Badge>
-          )}
-        </Col>
-        <Col md={9} lg={10}>
-          <CardBody className="position-relative d-flex flex-column p-0 h-100">
-            <Dropdown className="list-inline-item position-absolute top-0 end-0">
-              <DropdownToggle
-                as={Link}
-                to=""
-                className="arrow-none btn btn-sm btn-round btn-light"
+    <>
+      <Card className="border p-2">
+        <Row className="g-4">
+          <Col md={3} lg={2} className="position-relative">
+            <Image
+              src={roomThumbnail}
+              className="card-img rounded-2"
+              alt="Card image"
+            />
+            {isDisabled && (
+              <Badge
+                bg="danger"
+                className="position-absolute top-0 start-0 m-2"
               >
-                <BsThreeDotsVertical />
-              </DropdownToggle>
-              <DropdownMenu
-                align="end"
-                className="min-w-auto shadow rounded"
-                aria-labelledby="dropdownAction2"
-              >
-                <DropdownItem
-                  className="items-center"
-                  onClick={handleToggleStatus}
+                Disabled
+              </Badge>
+            )}
+          </Col>
+          <Col md={9} lg={10}>
+            <CardBody className="position-relative d-flex flex-column p-0 h-100">
+              <Dropdown className="list-inline-item position-absolute top-0 end-0">
+                <DropdownToggle
+                  as={Link}
+                  to=""
+                  className="arrow-none btn btn-sm btn-round btn-light"
                 >
-                  {isDisabled ? (
-                    <div>
-                      <BsCheckCircle className="me-1" />
-                      Reactivate
-                    </div>
-                  ) : (
-                    <div>
-                      <BsSlashCircle className="me-1" />
-                      Disable
-                    </div>
-                  )}
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-            <h5 className="card-title mb-0 me-5">
-              <Link to={`/hotel/room/${roomListCard?._id}`}>{listingName}</Link>
-              {isDisabled && (
-                <Badge bg="secondary" className="ms-2 fs-6 fw-light">
-                  Disabled
-                </Badge>
-              )}
-            </h5>
-            <small>
-              <BsGeoAlt className="me-2" />
-              {[
-                location?.street,
-                location?.city,
-                location?.state,
-                location?.postalCode,
-                location?.country,
-              ]
-                .filter(Boolean)
-                .join(", ")}
-            </small>
+                  <BsThreeDotsVertical />
+                </DropdownToggle>
+                <DropdownMenu
+                  align="end"
+                  className="min-w-auto shadow rounded"
+                  aria-labelledby="dropdownAction2"
+                >
+                  <DropdownItem
+                    className="items-center"
+                    onClick={handleToggleStatus}
+                  >
+                    {isDisabled ? (
+                      <div>
+                        <BsCheckCircle className="me-1" />
+                        Reactivate
+                      </div>
+                    ) : (
+                      <div>
+                        <BsSlashCircle className="me-1" />
+                        Disable
+                      </div>
+                    )}
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+              <h5 className="card-title mb-0 me-5">
+                <Link to={`/hotel/room/${roomListCard?._id}`}>
+                  {listingName}
+                </Link>
+                {isDisabled && (
+                  <Badge bg="secondary" className="ms-2 fs-6 fw-light">
+                    Disabled
+                  </Badge>
+                )}
+              </h5>
+              <small>
+                <BsGeoAlt className="me-2" />
+                {[
+                  location?.street,
+                  location?.city,
+                  location?.state,
+                  location?.postalCode,
+                  location?.country,
+                ]
+                  .filter(Boolean)
+                  .join(", ")}
+              </small>
 
-            <div className="d-sm-flex justify-content-sm-between align-items-center mt-3 mt-md-auto">
-              <div className="d-flex align-items-center">
-                <h5 className="fw-bold mb-0 me-1">
-                  {currency}
-                  {price}
-                </h5>
-                <span className="mb-0 me-2">/day</span>
+              <div className="d-sm-flex justify-content-sm-between align-items-center mt-3 mt-md-auto">
+                <div className="d-flex align-items-center">
+                  <h5 className="fw-bold mb-0 me-1">
+                    {currency}
+                    {price}
+                  </h5>
+                  <span className="mb-0 me-2">/day</span>
+                </div>
+                <div className="hstack gap-2 mt-3 mt-sm-0">
+                  <Button
+                    variant="primary"
+                    size="sm"
+                    className="mb-0 items-center"
+                    onClick={() => {
+                      navigate(`/listings/${roomListCard?.property}/edit`);
+                    }}
+                  >
+                    <BsPencilSquare className=" fa-fw me-1" />
+                    Edit
+                  </Button>
+                  <Button
+                    onClick={handleDelete}
+                    variant="danger"
+                    size="sm"
+                    className="mb-0 items-center"
+                  >
+                    <BsTrash3 className=" fa-fw me-1" />
+                    Delete
+                  </Button>
+                </div>
               </div>
-              <div className="hstack gap-2 mt-3 mt-sm-0">
-                <Button
-                  variant="primary"
-                  size="sm"
-                  className="mb-0 items-center"
-                  onClick={() => {
-                    navigate(`/listings/${roomListCard?.property}/edit`);
-                  }}
-                >
-                  <BsPencilSquare className=" fa-fw me-1" />
-                  Edit
-                </Button>
-                <Button
-                  onClick={handleDelete}
-                  variant="danger"
-                  size="sm"
-                  className="mb-0 items-center"
-                >
-                  <BsTrash3 className=" fa-fw me-1" />
-                  Delete
-                </Button>
-              </div>
-            </div>
-          </CardBody>
-        </Col>
-        <ToastContainer />
-      </Row>
-    </Card>
+            </CardBody>
+          </Col>
+        </Row>
+      </Card>
+      {/* <ToastContainer /> */}
+    </>
   );
 };
 

@@ -1,10 +1,16 @@
-import { NavItem, NavLink } from 'react-bootstrap';
-import { BsBriefcase, BsHouseDoor, BsPercent, BsPersonCircle } from 'react-icons/bs';
-import { Link } from 'react-router-dom';
+import { NavItem, NavLink } from "react-bootstrap";
+import {
+  BsBriefcase,
+  BsHouseDoor,
+  BsPercent,
+  BsPersonCircle,
+} from "react-icons/bs";
+import { Link } from "react-router-dom";
 import { RiHotelLine } from "react-icons/ri";
 import { RxCalendar } from "react-icons/rx";
 const Footer = () => {
-  return <div className="navbar navbar-mobile">
+  return (
+    <div className="navbar navbar-mobile">
       <ul className="navbar-nav">
         <NavItem>
           <NavLink active as={Link} to="/">
@@ -27,15 +33,14 @@ const Footer = () => {
           </NavLink>
         </NavItem>
 
-        
-
         <NavItem>
-          <NavLink as={Link} to="/user/profile">
+          <NavLink as={Link} to="/customer/profile">
             <BsPersonCircle className=" fa-fw" />
             <span className="mb-0 nav-text">Account</span>
           </NavLink>
         </NavItem>
       </ul>
-    </div>;
+    </div>
+  );
 };
 export default Footer;

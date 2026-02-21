@@ -21,6 +21,7 @@
     "bootstrap": "^5.3.8",
     "choices.js": "^11.1.0",
     "clsx": "^2.1.1",
+    "country-state-city": "^3.2.1",
     "date-fns": "^4.1.0",
     "dropzone": "^6.0.0-beta.2",
     "firebase": "^12.9.0",

@@ -291,7 +291,21 @@ const HotelGallery = ({ hotelDetails, gallery }) => {
           </button>
         </div>
       </Modal>
-      <ToastContainer />
+
+      <div style={{ position: "fixed", top: 0, left: 0, zIndex: 9999 }}>
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
+      </div>
     </>
   );
 };

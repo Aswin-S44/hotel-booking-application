@@ -9,6 +9,24 @@ import {
 import { Button, Card, CardBody, CardHeader, Col, Row } from "react-bootstrap";
 import { useWizard } from "react-use-wizard";
 import { Controller, useFormContext } from "react-hook-form";
+import { countries } from "../../../../constants/datas";
+
+const keralaDistricts = [
+  "Alappuzha",
+  "Ernakulam",
+  "Idukki",
+  "Kannur",
+  "Kasaragod",
+  "Kollam",
+  "Kottayam",
+  "Kozhikode",
+  "Malappuram",
+  "Palakkad",
+  "Pathanamthitta",
+  "Thiruvananthapuram",
+  "Thrissur",
+  "Wayanad",
+];
 
 const Step1 = () => {
   const { control, trigger } = useFormContext();
@@ -140,8 +158,11 @@ const Step1 = () => {
                       className="form-select js-choice"
                     >
                       <option value="">Select Country</option>
-                      <option value="India">India</option>
-                      <option value="USA">Usa</option>
+                      {countries.map((country) => (
+                        <option key={country} value={country}>
+                          {country}
+                        </option>
+                      ))}
                     </SelectFormInput>
                     {error && (
                       <div className="text-danger small mt-1">
@@ -164,8 +185,11 @@ const Step1 = () => {
                       className="form-select js-choice"
                     >
                       <option value="">Select state</option>
-                      <option value="India">India</option>
-                      <option value="USA">Usa</option>
+                      {keralaDistricts.map((district) => (
+                        <option key={district} value={district}>
+                          {district}
+                        </option>
+                      ))}
                     </SelectFormInput>
                     {error && (
                       <div className="text-danger small mt-1">
