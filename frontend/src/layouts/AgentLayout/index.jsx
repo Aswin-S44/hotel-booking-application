@@ -11,7 +11,7 @@ const AgentLayout = ({
         <TopNavBar />
       </Suspense>
 
-      <main>
+      <main className="min-vh-80">
         <Suspense> 
           <AgentNavBar />
         </Suspense>
