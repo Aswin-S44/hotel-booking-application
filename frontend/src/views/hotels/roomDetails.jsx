@@ -33,6 +33,7 @@ import axios from "axios";
 import TopNavBar from "./Home/components/TopNavBar";
 import { useAuthContext } from "../../states/useAuthContext";
 import Swal from "sweetalert2";
+import { API_BASE_URL } from "../../config/env";
 
 const RoomExtraDetails = () => {
   const { id } = useParams();
@@ -46,7 +47,7 @@ const RoomExtraDetails = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        `http://localhost:5000/api/v1/customer/reviews-by-room-id/${id}?page=1&limit=10`
+        `${API_BASE_URL}/api/v1/customer/reviews-by-room-id/${id}?page=1&limit=10`
       );
       setReviewsData(res.data);
     } catch (error) {
@@ -83,7 +84,7 @@ const RoomExtraDetails = () => {
       const fetchRoomDetails = async () => {
         try {
           const response = await fetch(
-            `http://localhost:5000/api/v1/customer/rooms/${id}/all`
+            `${API_BASE_URL}/api/v1/customer/rooms/${id}/all`
           );
           const result = await response.json();
           if (result && result.data) {
