@@ -36,7 +36,7 @@ const HotelHome = () => {
 
       <FooterWithLinks />
 
-      <Footer />
+      {/* <Footer /> */}
     </>;
 };
 export default HotelHome;

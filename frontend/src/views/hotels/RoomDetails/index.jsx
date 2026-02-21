@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import HotelMediaGallery from "../HotelDetails/components/HotelMediaGallery";
 import axios from "axios";
 import TopNavBar from "../Home/components/TopNavBar";
+import Footer from "../Home/components/Footer";
 
 const RoomDetails = () => {
   const location = useLocation();
@@ -99,6 +100,7 @@ const RoomDetails = () => {
         <RoomSelection rooms={roomDetails ?? []} />
       </main>
       <FooterWithLinks />
+      <Footer />
     </>
   );
 };

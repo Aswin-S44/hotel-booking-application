@@ -99,13 +99,13 @@ export const USER_PROFILE_MENU_ITEMS = [
     parentKey: "acc-user",
     icon: BsHeart,
   },
-  {
-    key: "acc-user-settings",
-    label: "Settings",
-    url: "/user/settings",
-    parentKey: "acc-user",
-    icon: BsGear,
-  },
+  // {
+  //   key: "acc-user-settings",
+  //   label: "Settings",
+  //   url: "/user/settings",
+  //   parentKey: "acc-user",
+  //   icon: BsGear,
+  // },
   // {
   //   key: "acc-user-delete",
   //   label: "Delete Profile",

@@ -14,7 +14,7 @@ const Footer = () => {
         </NavItem>
 
         <NavItem>
-          <NavLink as={Link} to="/offer-detail">
+          <NavLink as={Link} to="/hotels/grid?location=United%20States">
             <RiHotelLine className=" fa-fw" />
             <span className="mb-0 nav-text">Hotels</span>
           </NavLink>

@@ -42,6 +42,9 @@ const RoomCard = ({
 }) => {
   const navigate = useNavigate();
 
+console.log("features >>>>", features);
+
+
   const { isOpen, toggle } = useToggle();
   const { dir } = useLayoutContext();
   const roomSliderSettings = {
@@ -95,13 +98,29 @@ const RoomCard = ({
             <h5 className="card-title">
               <Link to="">{name}</Link>
             </h5>
-            <ul className="nav nav-divider mb-2">
-              {features.map((feature, idx) => (
-                <li key={idx} className="nav-item">
-                  {feature}
-                </li>
-              ))}
-            </ul>
+            <ul
+  className={`mb-2 ${
+    features.length <= 3
+      ? "d-flex flex-column gap-2 list-unstyled"
+      : "nav nav-divider"
+  }`}
+>
+  {features.map((feature, idx) => (
+    <li
+      key={idx}
+      className={`${
+        features.length <= 3
+          ? "p-2 rounded bg-light border"
+          : "nav-item"
+      }`}
+    >
+      {features.length <= 3 && (
+        <span style={{ marginRight: "8px" }}>✓</span>
+      )}
+      {feature}
+    </li>
+  ))}
+</ul>
 
             {/* {schemes ? schemes.map((scheme, idx) => <p key={idx} className="text-success mb-0">
                   {scheme}
@@ -115,7 +134,7 @@ const RoomCard = ({
                 </h5>
                 <span className="mb-0 me-2">/day</span>
                 <span className="text-decoration-line-through mb-0">
-                  {currency}1000
+                  {currency} {price + 500}
                 </span>
               </div>
               <div className="mt-3 mt-sm-0">

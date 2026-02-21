@@ -305,39 +305,6 @@ const TopNavBar = () => {
                     </DropdownItem>
 
                     <DropdownDivider />
-
-                    <li>
-                      <div className="nav-pills-primary-soft theme-icon-active d-flex justify-content-between align-items-center p-2 pb-0">
-                        <span>Mode:</span>
-                        {(themeModes ?? []).map((mode, idx) => {
-                          const Icon = mode.icon;
-                          return (
-                            <OverlayTrigger
-                              key={mode.theme + idx}
-                              overlay={
-                                <Tooltip>{toSentenceCase(mode.theme)}</Tooltip>
-                              }
-                            >
-                              <button
-                                onClick={() => updateTheme(mode.theme)}
-                                type="button"
-                                className={clsx(
-                                  "btn btn-link nav-link text-primary-hover mb-0 p-0",
-                                  {
-                                    active: theme === mode.theme,
-                                  }
-                                )}
-                                data-bs-toggle="tooltip"
-                                data-bs-placement="top"
-                                data-bs-title="Light"
-                              >
-                                <Icon />
-                              </button>
-                            </OverlayTrigger>
-                          );
-                        })}
-                      </div>
-                    </li>
                   </DropdownMenu>
                 </Dropdown>
               </Nav>
