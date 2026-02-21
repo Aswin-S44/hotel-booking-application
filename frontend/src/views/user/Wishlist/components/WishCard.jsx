@@ -1,10 +1,11 @@
 import { currency } from '@/states';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Card, CardBody, Col, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Image, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
 import { BsGeoAlt } from 'react-icons/bs';
 import { FaCopy, FaFacebookSquare, FaHeart, FaLinkedin, FaShareAlt, FaStar, FaStarHalfAlt, FaTwitterSquare } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { Toast, ToastContainer } from "react-bootstrap";
+import axios from 'axios';
 const WishCard = ({
   wishCard
 }) => {
@@ -16,11 +17,45 @@ const WishCard = ({
     rating
   } = wishCard;
 
-  console.log("wishCard ???", wishCard);
+  console.log("wishCard ???", wishCard
+);
 
   const [copied, setCopied] = useState(false);
   const [showToast, setShowToast] = useState(false);
+const [reviews, setReviews] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
+
+  console.log("reviews",reviews);
+
+useEffect(() => {
+  const fetchStats = async () => {
+    try {
+      setLoading(true);
+
+      const token = localStorage.getItem("token");
+
+      const response = await axios.get(
+        "http://localhost:5000/api/v1/shops/stats",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+console.log(">>>>>>>>>>>>>>>>>>>");
+
+      setReviews(response.data.data);
+    } catch (err) {
+      setError(err.response?.data?.message || "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchStats();
+}, []);
 
   const safeRating = Math.max(
     0,
@@ -50,25 +85,20 @@ const handleCopyLink = async () => {
       <Col md={9}>
         <CardBody className="py-md-2 d-flex flex-column h-100">
           <div className="d-flex justify-content-between align-items-center">
-            <ul className="list-inline small mb-1">
-              {Array.from({ length: Math.floor(safeRating) }).map((_, idx) => (
-                <li key={idx} className="list-inline-item me-1 small">
-                  <FaStar size={16} className="text-warning" />
-                </li>
-              ))}
+         <ul className="list-inline small mb-1">
+  {Array.from({ length: 5 }).map((_, index) => (
+    <li key={index} className="list-inline-item me-1 small">
+      <FaStar
+        size={16}
+        className={index < Number(wishCard?.totalReviews) ? "text-warning" : "text-secondary"}
+      />
+    </li>
+  ))}
+</ul>
 
-              {!Number.isInteger(safeRating) && (
-                <li className="list-inline-item me-1 small">
-                  <FaStarHalfAlt size={15} className="text-warning" />
-                </li>
-              )}
-
-              {Array.from({ length: 5 - Math.ceil(safeRating) }).map((_, idx) => (
-                <li key={idx} className="list-inline-item me-1 small">
-                  <FaStar size={16} />
-                </li>
-              ))}
-            </ul>
+<span className="small text-muted">
+  {wishCard?.totalReviews > 0 ? `(${wishCard?.totalReviews} reviews)` : "No reviews yet"}
+</span>
             <ul className="list-inline mb-0 items-center gap-1">
               <li className="list-inline-item">
                 <Link to="" className="btn btn-sm btn-round btn-danger mb-0">

@@ -24,7 +24,7 @@ const UserLayout = ({
         <TopNavBar />
       </Suspense>
 
-      <main>
+      <main  className="min-vh-80">
         <section className="pt-3">
           <Container>
             <Row>

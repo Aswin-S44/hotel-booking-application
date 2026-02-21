@@ -10,6 +10,7 @@ const Wishlist = () => {
   const [loading, setLoading] = useState(false);
   const [sortOption, setSortOption] = useState("recent");
 
+  
 
 const handleRemoveAll = () => {
   localStorage.removeItem("fav");
@@ -119,7 +120,7 @@ const handleRemoveAll = () => {
 ) : (
   sortedProperties.map((card, idx) => (
     <WishCard key={idx} wishCard={card} />
-  ))
+  ))      
 )}
         </CardBody>
       </Card>
