@@ -291,3 +291,24 @@ a.nav-notification.btn.btn-light.p-0.mb-0.flex-centered.arrow-none.dropdown-togg
 .card.card-img-scale img {
       height: 300px;
 }
+
+
+
+@media (min-width: 1300px) {
+
+  .vstack.gap-4.container{
+    min-height: 300px;
+    position: relative;
+  }
+
+}
+
+
+@media (min-width: 1490px) {
+
+  .vstack.gap-4.container{
+    min-height: 500px;
+    position: relative;
+  }
+
+}
