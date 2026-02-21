@@ -1,68 +1,106 @@
-import { AppMenu, LogoBox } from '@/components';
-import { useScrollEvent, useToggle } from '@/hooks';
-import { useAuthContext, useLayoutContext } from '@/states';
-import { toSentenceCase } from '@/utils';
-import clsx from 'clsx';
-import { Button, Card, CardBody, CardFooter, CardHeader, Container, Dropdown, DropdownDivider, DropdownItem, DropdownMenu, DropdownToggle, Image, ListGroup, ListGroupItem, Navbar, OverlayTrigger, Tooltip } from 'react-bootstrap';
-import { BsBell, BsBookmarkCheck, BsCircleHalf, BsGear, BsHeart, BsInfoCircle, BsLightningCharge, BsMoonStars, BsPower, BsSun } from 'react-icons/bs';
-import { Link, useNavigate } from 'react-router-dom';
-import avatar1 from '@/assets/images/avatar/01.jpg';
-import { notificationData } from './data';
+import { AppMenu, LogoBox } from "@/components";
+import { useScrollEvent, useToggle } from "@/hooks";
+import { useAuthContext, useLayoutContext } from "@/states";
+import { toSentenceCase } from "@/utils";
+import clsx from "clsx";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  Container,
+  Dropdown,
+  DropdownDivider,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  Image,
+  ListGroup,
+  ListGroupItem,
+  Navbar,
+  OverlayTrigger,
+  Tooltip,
+} from "react-bootstrap";
+import {
+  BsBell,
+  BsBookmarkCheck,
+  BsCircleHalf,
+  BsGear,
+  BsHeart,
+  BsInfoCircle,
+  BsLightningCharge,
+  BsMoonStars,
+  BsPower,
+  BsSun,
+} from "react-icons/bs";
+import { Link, useNavigate } from "react-router-dom";
+import avatar1 from "@/assets/images/avatar/01.jpg";
+import { notificationData } from "./data";
+import { DEFAULT_AVATAR_IMAGE } from "../../constants/images";
 
-
-const themeModes = [{
-  icon: BsSun,
-  theme: 'light'
-}, {
-  icon: BsMoonStars,
-  theme: 'dark'
-}, {
-  icon: BsCircleHalf,
-  theme: 'auto'
-}];
+const themeModes = [
+  {
+    icon: BsSun,
+    theme: "light",
+  },
+  {
+    icon: BsMoonStars,
+    theme: "dark",
+  },
+  {
+    icon: BsCircleHalf,
+    theme: "auto",
+  },
+];
 const TopNavBar = () => {
-  const {
-    scrollY
-  } = useScrollEvent();
-  const {
-    theme,
-    updateTheme
-  } = useLayoutContext();
-  const {
-    removeSession
-  } = useAuthContext();
-  const {
-    isOpen,
-    toggle
-  } = useToggle();
-
+  const { scrollY } = useScrollEvent();
+  const { theme, updateTheme } = useLayoutContext();
+  const { removeSession, user } = useAuthContext();
+  const { isOpen, toggle } = useToggle();
 
   const navigate = useNavigate();
 
+  return (
+    <header
+      className={clsx("navbar-light header-sticky", {
+        "header-sticky-on": scrollY >= 400,
+      })}
+    >
+      <Navbar expand="lg">
+        <Container>
+          <LogoBox />
+          <button
+            onClick={toggle}
+            className="navbar-toggler ms-auto mx-3 me-md-0 p-0 p-sm-2"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarCollapse"
+            aria-controls="navbarCollapse"
+            aria-expanded={isOpen}
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-animation">
+              <span />
+              <span />
+              <span />
+            </span>
+          </button>
 
-  return <header className={clsx('navbar-light header-sticky', {
-    'header-sticky-on': scrollY >= 400
-  })}>
-    <Navbar expand="lg">
-      <Container>
-        <LogoBox />
-        <button onClick={toggle} className="navbar-toggler ms-auto mx-3 me-md-0 p-0 p-sm-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded={isOpen} aria-label="Toggle navigation">
-          <span className="navbar-toggler-animation">
-            <span />
-            <span />
-            <span />
-          </span>
-        </button>
+          <AppMenu mobileMenuOpen={isOpen} />
 
-        <AppMenu mobileMenuOpen={isOpen} />
-
-        <ul className="nav flex-row align-items-center list-unstyled ms-xl-auto">
-          <Dropdown className="nav-item ms-0 ms-md-3">
-            <DropdownToggle as={Link} to="/agent/activities" className="arrow-none nav-link p-0" role="button" >
-              <BsBell className=" fa-fw fs-5" />
-            </DropdownToggle>
-            <span className="notif-badge animation-blink" />
-            {/* 
+          <ul className="nav flex-row align-items-center list-unstyled ms-xl-auto">
+            <Dropdown className="nav-item ms-0 ms-md-3">
+              <DropdownToggle
+                as={Link}
+                to="/agent/activities"
+                className="arrow-none nav-link p-0"
+                role="button"
+              >
+                <BsBell className=" fa-fw fs-5" />
+              </DropdownToggle>
+              <span className="notif-badge animation-blink" />
+              {/* 
               <DropdownMenu align="end" className="dropdown-animation dropdown-menu-size-md shadow-lg p-0" renderOnMount>
                 <Card className="bg-transparent">
                   <CardHeader className="bg-transparent d-flex justify-content-between align-items-center border-bottom">
@@ -95,67 +133,105 @@ const TopNavBar = () => {
                   </CardFooter>
                 </Card>
               </DropdownMenu> */}
-          </Dropdown>
-          <Dropdown className="nav-item ms-3">
-            <DropdownToggle as={Link} to="" className="arrow-none avatar avatar-xs p-0" id="profileDropdown" role="button">
-              <Image className="avatar-img rounded-circle" src={avatar1} alt="avatar" />
-            </DropdownToggle>
-            <DropdownMenu align={'end'} className="dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown" renderOnMount>
-              <li className="px-3 mb-3">
-                <div className="d-flex align-items-center">
-                  <div className="avatar me-3">
-                    <Image className="avatar-img rounded-circle shadow" src={avatar1} alt="avatar" />
+            </Dropdown>
+            <Dropdown className="nav-item ms-3">
+              <DropdownToggle
+                as={Link}
+                to=""
+                className="arrow-none avatar avatar-xs p-0"
+                id="profileDropdown"
+                role="button"
+              >
+                <Image
+                  className="avatar-img rounded-circle"
+                  src={user?.avatar ?? DEFAULT_AVATAR_IMAGE}
+                  alt="avatar"
+                />
+              </DropdownToggle>
+              <DropdownMenu
+                align={"end"}
+                className="dropdown-animation dropdown-menu-end shadow pt-3"
+                aria-labelledby="profileDropdown"
+                renderOnMount
+              >
+                <li className="px-3 mb-3">
+                  <div className="d-flex align-items-center">
+                    <div className="avatar me-3">
+                      <Image
+                        className="avatar-img rounded-circle shadow"
+                        src={user?.avatar ?? DEFAULT_AVATAR_IMAGE}
+                        alt="avatar"
+                      />
+                    </div>
+                    <div>
+                      <h6 className="h6 mt-2 mt-sm-0">{user?.name ?? ""}</h6>
+                      <p className="small m-0">{user?.email ?? ""}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h6 className="h6 mt-2 mt-sm-0">Lori Ferguson</h6>
-                    <p className="small m-0">example@gmail.com</p>
-                  </div>
-                </div>
-              </li>
+                </li>
 
-              <DropdownDivider />
+                <DropdownDivider />
 
-              <DropdownItem onClick={() => navigate('/agent/bookings')}>
-                <BsBookmarkCheck className=" fa-fw me-2" />
-                My Bookings
-              </DropdownItem>
+                <DropdownItem onClick={() => navigate("/agent/bookings")}>
+                  <BsBookmarkCheck className=" fa-fw me-2" />
+                  My Bookings
+                </DropdownItem>
 
-              {/* <DropdownItem>
+                {/* <DropdownItem>
                     <BsHeart className=" fa-fw me-2" />
                     My Wishlist
                   </DropdownItem> */}
 
-              <DropdownItem onClick={() => navigate('/agent/settings')}>
-                <BsGear className=" fa-fw me-2" />
-                Settings
-              </DropdownItem>
+                <DropdownItem onClick={() => navigate("/agent/settings")}>
+                  <BsGear className=" fa-fw me-2" />
+                  Settings
+                </DropdownItem>
 
-              {/* <DropdownItem>
+                {/* <DropdownItem>
                     <BsInfoCircle className=" fa-fw me-2" />
                     Help Center
                   </DropdownItem> */}
 
-              <DropdownItem className="bg-danger-soft-hover" onClick={removeSession}>
-                <BsPower className=" fa-fw me-2" />
-                Sign Out
-              </DropdownItem>
+                <DropdownItem
+                  className="bg-danger-soft-hover"
+                  onClick={removeSession}
+                >
+                  <BsPower className=" fa-fw me-2" />
+                  Sign Out
+                </DropdownItem>
 
+                <DropdownDivider />
 
-              <DropdownDivider />
-
-              <li>
-                <div className="nav-pills-primary-soft theme-icon-active d-flex justify-content-between align-items-center p-2 pb-0">
-                  <span>Mode:</span>
-                  {(themeModes ?? []).map((mode, idx) => {
-                    const Icon = mode.icon;
-                    return <OverlayTrigger key={mode.theme + idx} overlay={<Tooltip>{toSentenceCase(mode.theme)}</Tooltip>}>
-                      <button onClick={() => updateTheme(mode.theme)} type="button" className={clsx('btn btn-link nav-link text-primary-hover mb-0 p-0', {
-                        active: theme === mode.theme
-                      })} data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Light">
-                        <Icon />
-                      </button>
-                    </OverlayTrigger>;
-                  })}
+                <li>
+                  <div className="nav-pills-primary-soft theme-icon-active d-flex justify-content-between align-items-center p-2 pb-0">
+                    <span>Mode:</span>
+                    {(themeModes ?? []).map((mode, idx) => {
+                      const Icon = mode.icon;
+                      return (
+                        <OverlayTrigger
+                          key={mode.theme + idx}
+                          overlay={
+                            <Tooltip>{toSentenceCase(mode.theme)}</Tooltip>
+                          }
+                        >
+                          <button
+                            onClick={() => updateTheme(mode.theme)}
+                            type="button"
+                            className={clsx(
+                              "btn btn-link nav-link text-primary-hover mb-0 p-0",
+                              {
+                                active: theme === mode.theme,
+                              }
+                            )}
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="top"
+                            data-bs-title="Light"
+                          >
+                            <Icon />
+                          </button>
+                        </OverlayTrigger>
+                      );
+                    })}
                   </div>
                 </li>
               </DropdownMenu>
@@ -168,6 +244,7 @@ const TopNavBar = () => {
           </ul>
         </Container>
       </Navbar>
-    </header>;
+    </header>
+  );
 };
 export default TopNavBar;

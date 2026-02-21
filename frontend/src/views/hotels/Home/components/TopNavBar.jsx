@@ -40,6 +40,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { notificationData } from "../data";
 import { DEFAULT_AVATAR_IMAGE } from "../../../../constants/images";
+
 const themeModes = [
   {
     icon: BsSun,
@@ -54,6 +55,7 @@ const themeModes = [
     theme: "auto",
   },
 ];
+
 const TopNavBar = () => {
   const { theme, updateTheme } = useLayoutContext();
   const { pathname } = useLocation();
@@ -104,13 +106,6 @@ const TopNavBar = () => {
             </span>
             <span className="d-none ms-1 d-sm-inline-block small">Menu</span>
           </button>
-
-          {/* <button onClick={categoryToggle} className="navbar-toggler ms-sm-auto mx-3 me-md-0 p-0 p-sm-2" type="button" aria-controls="navbarCategoryCollapse" aria-expanded="false" aria-label="Toggle navigation">
-            <BsFillGrid3X3GapFill className=" me-1" />
-            <span className="d-none d-sm-inline-block small">Category</span>
-          </button> */}
-
-          {/* <AppMenu showExtraPages /> */}
 
           <Collapse in={categoryIsOpen}>
             <div className="navbar-collapse">
@@ -249,45 +244,57 @@ const TopNavBar = () => {
 
                     <DropdownDivider />
 
+                    {user?.role === "customer" && (
+                      <>
+                        <DropdownItem
+                          onClick={() =>
+                            token
+                              ? navigate("/user/bookings")
+                              : navigate("/auth/sign-in")
+                          }
+                        >
+                          <BsBookmarkCheck className=" me-2" />
+                          My Bookings
+                        </DropdownItem>
+
+                        <DropdownItem
+                          onClick={() =>
+                            token
+                              ? navigate("/user/wishlist")
+                              : navigate("/auth/sign-in")
+                          }
+                        >
+                          <BsHeart className=" me-2" />
+                          My Wishlist
+                        </DropdownItem>
+                      </>
+                    )}
+
+                    {user?.role === "admin" && (
+                      <DropdownItem
+                        onClick={() =>
+                          token
+                            ? navigate("/agent/dashboard")
+                            : navigate("/auth/sign-in")
+                        }
+                      >
+                        <BsBookmarkCheck className=" me-2" />
+                        My Dashboard
+                      </DropdownItem>
+                    )}
+
                     <DropdownItem
                       onClick={() =>
-                        token
-                          ? navigate("/user/bookings")
+                        user
+                          ? user?.role == "customer"
+                            ? navigate("/user/settings")
+                            : navigate("/agent/settings")
                           : navigate("/auth/sign-in")
                       }
                     >
-                      <BsBookmarkCheck className=" me-2" />
-                      My Bookings
-                    </DropdownItem>
-
-                    <DropdownItem>
-                      <BsHeart
-                        className=" me-2"
-                        onClick={() =>
-                          token
-                            ? navigate("/user/wishlist")
-                            : navigate("/auth/sign-in")
-                        }
-                      />
-                      My Wishlist
-                    </DropdownItem>
-
-                    <DropdownItem>
-                      <BsGear
-                        className=" me-2"
-                        onClick={() =>
-                          token
-                            ? navigate("/user/settings")
-                            : navigate("/auth/sign-in")
-                        }
-                      />
+                      <BsGear className=" me-2" />
                       Settings
                     </DropdownItem>
-
-                    {/* <DropdownItem>
-                    <BsInfoCircle className=" me-2" />
-                    Help Center
-                  </DropdownItem> */}
 
                     <DropdownItem
                       className="bg-danger-soft-hover"
@@ -341,4 +348,5 @@ const TopNavBar = () => {
     </header>
   );
 };
+
 export default TopNavBar;
