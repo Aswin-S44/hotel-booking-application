@@ -58,6 +58,7 @@ const FeaturedHotels = () => {
                     className="card-img"
                     alt={hotel.listingName}
                   />
+                  {console.log("hotel------------", hotel)}
                   <div className="position-absolute bottom-0 start-0 p-3">
                     <div className="badge text-bg-dark fs-6 rounded-pill stretched-link d-flex">
                       <BsGeoAlt className=" me-2" />

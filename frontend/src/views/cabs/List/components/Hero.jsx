@@ -37,7 +37,7 @@ const Hero = () => {
                           <div className="form-size-lg">
                             <FormLabel>Pickup</FormLabel>
                             <SelectFormInput className="form-select js-choice" data-search-enabled="true" aria-label=".form-select-sm">
-                              <option value={-1}>Select location</option>
+                              <option value={-1}>Select location1</option>
                               <option>San Jacinto, USA</option>
                               <option>North Dakota, Canada</option>
                               <option>West Virginia, Paris</option>

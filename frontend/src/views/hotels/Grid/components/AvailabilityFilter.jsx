@@ -22,6 +22,7 @@ import {
 import axios from "axios";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
+import { API_BASE_URL } from "../../../../config/env";
 
 const AvailabilityFilter = () => {
   const initialValue = {
@@ -119,13 +120,6 @@ const AvailabilityFilter = () => {
             <BsGeoAlt size={37} />
             <div className="flex-grow-1">
               <FormLabel className="form-label">Location</FormLabel>
-              {/* <SelectFormInput>
-                <option value={-1}>Select location</option>
-                <option value="1">San Jacinto, USA</option>
-                <option value="2">North Dakota, Canada</option>
-                <option value="3">West Virginia, Paris</option>
-                <option value="4">United States</option>
-              </SelectFormInput> */}
 
               <SelectFormInput
                 value={formValue.location}
@@ -136,15 +130,21 @@ const AvailabilityFilter = () => {
                   })
                 }
               >
-                <option value="">Select location</option>
-                <option value="San Jacinto, USA">San Jacinto, USA</option>
-                <option value="North Dakota, Canada">
-                  North Dakota, Canada
-                </option>
-                <option value="West Virginia, Paris">
-                  West Virginia, Paris
-                </option>
-                <option value="United States">United States</option>
+                <option value="">Select district</option>
+                <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+                <option value="Kollam">Kollam</option>
+                <option value="Pathanamthitta">Pathanamthitta</option>
+                <option value="Alappuzha">Alappuzha</option>
+                <option value="Kottayam">Kottayam</option>
+                <option value="Idukki">Idukki</option>
+                <option value="Ernakulam">Ernakulam</option>
+                <option value="Thrissur">Thrissur</option>
+                <option value="Palakkad">Palakkad</option>
+                <option value="Malappuram">Malappuram</option>
+                <option value="Kozhikode">Kozhikode</option>
+                <option value="Wayanad">Wayanad</option>
+                <option value="Kannur">Kannur</option>
+                <option value="Kasaragod">Kasaragod</option>
               </SelectFormInput>
             </div>
           </div>

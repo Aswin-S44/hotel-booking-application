@@ -4,7 +4,7 @@ import { FaCopy, FaLinkedin } from 'react-icons/fa6';
 import { FaFacebookSquare, FaTwitterSquare } from 'react-icons/fa';
 import gallery4 from '@/assets/images/gallery/04.jpg';
 import { currency } from '@/states';
-const ConfirmTicket = () => {
+const ConfirmTicket = () => { 
   return <section className="pt-4">
       <Container>
         <Row>

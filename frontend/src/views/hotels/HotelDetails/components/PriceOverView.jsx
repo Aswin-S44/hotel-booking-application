@@ -75,8 +75,8 @@ const PriceOverView = ({ rate, rating, rooms, amenities = [] }) => {
 
         <hr />
         {amenities?.length > 0 &&
-          amenities.map((amn) => (
-            <p className="h6 fw-light mb-4 items-center">
+          amenities.map((amn, index) => (
+            <p className="h6 fw-light mb-4 items-center" key={index}>
               <BsArrowRight className=" me-2" />
               {amn}
             </p>

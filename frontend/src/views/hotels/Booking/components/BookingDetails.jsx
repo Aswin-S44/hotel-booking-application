@@ -129,8 +129,8 @@ const BookingDetails = () => {
 
             const result = await verifyRes.json();
             if (result.success) {
-              Swal.fire("Success", "Booking successful!", "success");
-              navigate("/bookings");
+              // Swal.fire("Success", "Booking successful!", "success");
+              navigate("/booking-confirmed");
             } else {
               alert(result.message || "Payment verification failed");
             }
@@ -161,8 +161,9 @@ const BookingDetails = () => {
 
         const result = await response.json();
         if (result.success) {
-          Swal.fire("Success", "Booking successful!", "success");
-          navigate("/");
+          // Swal.fire("Success", "Booking successful!", "success");
+          // navigate("/");
+          navigate("/listings/booking-confirmed");
         } else {
           Swal.fire({
             icon: "error",

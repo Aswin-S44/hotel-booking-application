@@ -16,8 +16,7 @@ import { BsArrowRight } from "react-icons/bs";
 import { FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 import { FaStar } from "react-icons/fa6";
 import * as yup from "yup";
-import avatar2 from "@/assets/images/avatar/02.jpg";
-import avatarDefault from "@/assets/images/avatar/01.jpg"; // Added a default avatar
+import avatarDefault from "@/assets/images/avatar/01.jpg";
 import AddReviewModal from "./AddReviewModal";
 import { useAuthContext } from "@/states/useAuthContext";
 import { useParams } from "react-router-dom";
@@ -25,15 +24,18 @@ import axios from "axios";
 import { DEFAULT_AVATAR_IMAGE } from "../../../../constants/images";
 import { API_BASE_URL } from "../../../../config/env";
 
-const CustomerReview = ({ hotelDetails, propertyId, reviewsData }) => {
+const CustomerReview = ({ hotelDetails, propertyId }) => {
   const { id } = useParams();
   const [newReviewData, setNewReviewData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [showReview, setShowReview] = useState(false);
+  const { user } = useAuthContext();
 
   const fetchReviews = async () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        `${API_BASE_URL}/api/v1/customer/reviews-by-property-id/${propertyId}`
+        `${API_BASE_URL}/api/v1/customer/reviews-by-property-id/${id}`
       );
       setNewReviewData(res.data);
     } catch (error) {
@@ -49,18 +51,13 @@ const CustomerReview = ({ hotelDetails, propertyId, reviewsData }) => {
     }
   }, [id]);
 
-  // const [reviewsData, setReviewsData] = useState(null);
-  const [loading, setLoading] = useState(false);
-
   const reviewSchema = yup.object({
     review: yup.string().required("Please enter your review"),
   });
+
   const { control, handleSubmit } = useForm({
     resolver: yupResolver(reviewSchema),
   });
-
-  const [showReview, setShowReview] = useState(false);
-  const { user } = useAuthContext();
 
   const renderStars = (rating) => {
     return (
@@ -104,17 +101,17 @@ const CustomerReview = ({ hotelDetails, propertyId, reviewsData }) => {
               <CardBody className="p-0">
                 <Row className="gx-3 g-2 align-items-center">
                   {[5, 4, 3, 2, 1].map((star) => {
-                    const distribution = summary?.ratingDistribution[star];
+                    const distribution = summary?.ratingDistribution?.[star];
                     return (
                       <Fragment key={star}>
-                        <Col xs={9} sm={10}>
+                        <Col xs={9}>
                           <ProgressBar
                             variant="warning"
                             now={distribution?.percentage || 0}
                             className="progress-sm bg-warning bg-opacity-15"
                           />
                         </Col>
-                        <Col xs={3} sm={2} className="text-end">
+                        <Col xs={3} className="text-end">
                           <span className="h6 fw-light mb-0">
                             {distribution?.percentage || 0}%
                           </span>
@@ -127,27 +124,18 @@ const CustomerReview = ({ hotelDetails, propertyId, reviewsData }) => {
             </Col>
           </Row>
         </Card>
-        <form onSubmit={handleSubmit(() => {})} className="mb-5">
-          {/* <div className="form-control-bg-light mb-3">
-            <SelectFormInput className="form-select js-choice">
-              <option>★★★★★ (5/5)</option>
-              <option>★★★★☆ (4/5)</option>
-              <option>★★★☆☆ (3/5)</option>
-              <option>★★☆☆☆ (2/5)</option>
-              <option>★☆☆☆☆ (1/5)</option>
-            </SelectFormInput>
-          </div>
-          <TextAreaFormInput name="review" containerClass="form-control-bg-light mb-3" control={control} rows={3} /> */}
-        </form>
-        <Button
-          type="submit"
-          variant="primary"
-          size="lg"
-          className="mb-0 items-center"
-          onClick={() => setShowReview(true)}
-        >
-          Post review <BsArrowRight className="ms-2" />
-        </Button>
+
+        <div className="d-grid d-sm-block mb-5">
+          <Button
+            type="button"
+            variant="primary"
+            size="lg"
+            className="mb-0 items-center w-100 w-sm-auto"
+            onClick={() => setShowReview(true)}
+          >
+            Post review <BsArrowRight className="ms-2" />
+          </Button>
+        </div>
 
         <AddReviewModal
           show={showReview}
@@ -155,7 +143,7 @@ const CustomerReview = ({ hotelDetails, propertyId, reviewsData }) => {
             setShowReview(false);
             fetchReviews();
           }}
-          roomId={hotelDetails?.rooms[0]?._id}
+          roomId={hotelDetails?.rooms?.[0]?._id}
           userId={user?._id}
           propertyId={propertyId || id}
         />
@@ -170,15 +158,14 @@ const CustomerReview = ({ hotelDetails, propertyId, reviewsData }) => {
                   alt="avatar"
                 />
               </div>
-              {/* Added flex-grow-1 here to fix the alignment */}
               <div className="flex-grow-1">
                 <div className="d-flex justify-content-between mt-1 mt-md-0">
                   <div>
                     <h6 className="me-3 mb-0">
                       {review.fromId?.name ||
-                        review.fromId?.firstName +
-                          " " +
-                          review.fromId?.lastName}
+                        (review.fromId?.firstName && review.fromId?.lastName
+                          ? `${review.fromId.firstName} ${review.fromId.lastName}`
+                          : "User")}
                     </h6>
                     <ul className="nav nav-divider small mb-2">
                       <li className="nav-item">
@@ -190,7 +177,6 @@ const CustomerReview = ({ hotelDetails, propertyId, reviewsData }) => {
                       </li>
                     </ul>
                   </div>
-                  {/* Badge now pushed to the right */}
                   <div className="icon-md rounded text-bg-warning fs-6">
                     {review.rating}
                   </div>
@@ -226,13 +212,16 @@ const CustomerReview = ({ hotelDetails, propertyId, reviewsData }) => {
           </div>
         ))}
 
-        <div className="text-center">
-          <Button variant="primary-soft" className="mb-0">
-            Load more
-          </Button>
-        </div>
+        {reviews.length > 0 && (
+          <div className="text-center">
+            <Button variant="primary-soft" className="mb-0 w-100 w-sm-auto">
+              Load more
+            </Button>
+          </div>
+        )}
       </CardBody>
     </Card>
   );
 };
+
 export default CustomerReview;

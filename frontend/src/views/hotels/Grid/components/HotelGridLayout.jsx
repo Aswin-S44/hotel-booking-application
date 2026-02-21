@@ -1,64 +1,35 @@
 import { Col, Container, Row } from "react-bootstrap";
-import { hotels } from "../data";
 import HotelGridCard from "./HotelGridCard";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
-import { Link, useSearchParams } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { useSearchParams, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { API_BASE_URL } from "../../../../config/env";
 
 const HotelGridLayout = () => {
-  const location = useLocation();
-  const [hotelsData, setHotels] = useState([]);
-  const [apiHotels, setApiHotels] = useState([]); // ✅ new variable
+  const [hotelsData, setHotelsData] = useState([]);
   const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (location.state?.hotels) {
-      // setHotels(location.state.hotels);
-    }
-  }, [location.state]);
-
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const searchLocation = searchParams.get("location");
-
-  const [searchHotelsData, setSearchHotelsData] = useState([]);
-
-  useEffect(() => {
-    const fetchSearchHotelsData = async () => {
-      try {
-        const response = await axios.get(
-          `${API_BASE_URL}/api/v1/customer/search-location`,
-          {
-            params: { location: searchLocation },
-          }
-        );
-
-        setSearchHotelsData(response.data.data);
-      } catch (error) {
-        console.log("Search Hotels API Error:", error);
-      }
-    };
-
-    if (searchLocation) {
-      fetchSearchHotelsData();
-    }
-  }, [searchLocation]);
 
   const fetchHotels = async () => {
     try {
       setLoading(true);
+      let url = `${API_BASE_URL}/api/v1/customer/properties`;
+      let params = { page, limit: 6 };
 
-      const response = await axios.get(
-        `${API_BASE_URL}/api/v1/customer/properties`,
-        {
-          params: { page, limit: 6 },
-        }
-      );
+      if (searchLocation) {
+        url = `${API_BASE_URL}/api/v1/customer/search-location`;
+        params.location = searchLocation;
+      }
 
-      setApiHotels(response.data.data);
+      const response = await axios.get(url, { params });
+
+      setHotelsData(response.data.data);
+      setTotalPages(response.data.totalPages || 1);
     } catch (error) {
       console.error("Error fetching hotels:", error);
     } finally {
@@ -68,18 +39,27 @@ const HotelGridLayout = () => {
 
   useEffect(() => {
     fetchHotels();
-  }, [page]);
+  }, [page, searchLocation]);
 
-  const displayHotels = searchLocation ? searchHotelsData : apiHotels || [];
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setPage(newPage);
+      window.scrollTo(0, 0);
+    }
+  };
 
   return (
     <section className="pt-0">
       <Container>
         <Row className="g-4">
-          {displayHotels?.map((hotel, idx) => {
-            return (
-              <Col key={idx} md={6} xl={4}>
-                <HotelGridCard
+          {loading ? (
+            <Col className="text-center">
+              <h4>Loading...</h4>
+            </Col>
+          ) : hotelsData.length > 0 ? (
+            hotelsData.map((hotel, idx) => (
+              <Col key={idx} md={6} xl={4}> 
+                <HotelGridCard 
                   id={hotel._id}
                   name={hotel.listingName}
                   price={hotel.basePrice}
@@ -89,52 +69,66 @@ const HotelGridLayout = () => {
                   sale={hotel.discount}
                 />
               </Col>
-            );
-          })}
+            ))
+          ) : (
+            <Col className="text-center">
+              <h4>No hotels found.</h4>
+            </Col>
+          )}
         </Row>
-        <Row>
-          <Col xs={12}>
-            <nav
-              className="mt-4 d-flex justify-content-center"
-              aria-label="navigation"
-            >
-              <ul className="pagination pagination-primary-soft d-inline-block d-md-flex rounded mb-0">
-                <li className="page-item mb-0">
-                  <Link className="page-link" to="" tabIndex={-1}>
-                    <FaAngleLeft />
-                  </Link>
-                </li>
-                <li className="page-item mb-0">
-                  <Link className="page-link" to="">
-                    1
-                  </Link>
-                </li>
-                <li className="page-item mb-0 active">
-                  <Link className="page-link" to="">
-                    2
-                  </Link>
-                </li>
-                <li className="page-item mb-0">
-                  <Link className="page-link" to="">
-                    ..
-                  </Link>
-                </li>
-                <li className="page-item mb-0">
-                  <Link className="page-link" to="">
-                    6
-                  </Link>
-                </li>
-                <li className="page-item mb-0">
-                  <Link className="page-link" to="">
-                    <FaAngleRight />
-                  </Link>
-                </li>
-              </ul>
-            </nav>
-          </Col>
-        </Row>
+
+        {totalPages > 1 && (
+          <Row>
+            <Col xs={12}>
+              <nav className="mt-4 d-flex justify-content-center">
+                <ul className="pagination pagination-primary-soft d-inline-block d-md-flex rounded mb-0">
+                  <li
+                    className={`page-item mb-0 ${page === 1 ? "disabled" : ""}`}
+                  >
+                    <button
+                      className="page-link"
+                      onClick={() => handlePageChange(page - 1)}
+                    >
+                      <FaAngleLeft />
+                    </button>
+                  </li>
+
+                  {[...Array(totalPages)].map((_, index) => (
+                    <li
+                      key={index}
+                      className={`page-item mb-0 ${
+                        page === index + 1 ? "active" : ""
+                      }`}
+                    >
+                      <button
+                        className="page-link"
+                        onClick={() => handlePageChange(index + 1)}
+                      >
+                        {index + 1}
+                      </button>
+                    </li>
+                  ))}
+
+                  <li
+                    className={`page-item mb-0 ${
+                      page === totalPages ? "disabled" : ""
+                    }`}
+                  >
+                    <button
+                      className="page-link"
+                      onClick={() => handlePageChange(page + 1)}
+                    >
+                      <FaAngleRight />
+                    </button>
+                  </li>
+                </ul>
+              </nav>
+            </Col>
+          </Row>
+        )}
       </Container>
     </section>
   );
 };
+
 export default HotelGridLayout;

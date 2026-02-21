@@ -335,6 +335,33 @@ const UpcomingBookings = () => {
                   {selectedBooking.paymentStatus.toUpperCase()}
                 </span>
               </div>
+              {console.log("selectedBooking-------------", selectedBooking)}
+              <div className="card border-0 shadow-sm mb-3">
+                <div className="card-body">
+                  <h6 className="fw-bold mb-3">Customer Details</h6>
+
+                  <div className="row mb-2">
+                    <div className="col-6 ">Customer name</div>
+                    <div className="col-6 text-end">
+                      {selectedBooking.customer?.name ?? ""}
+                    </div>
+                  </div>
+
+                  <div className="row mb-2">
+                    <div className="col-6 ">Email</div>
+                    <div className="col-6 text-end">
+                      {selectedBooking.customer?.email ?? ""}
+                    </div>
+                  </div>
+
+                  <div className="row mb-2">
+                    <div className="col-6 ">Contact Number</div>
+                    <div className="col-6 text-end">
+                      {selectedBooking.customer?.contactNumber ?? "Unavailable"}
+                    </div>
+                  </div>
+                </div>
+              </div>
 
               {/* Booking Info Card */}
               <div className="card border-0 shadow-sm mb-3">
@@ -353,12 +380,12 @@ const UpcomingBookings = () => {
                     </div>
                   </div>
 
-                  <div className="row mb-2">
+                  {/* <div className="row mb-2">
                     <div className="col-6 ">Room Requirements</div>
                     <div className="col-6 text-end">
                       {selectedBooking.additionalInfo || "N/A"}
                     </div>
-                  </div>
+                  </div> */}
 
                   <div className="row mb-2">
                     <div className="col-6 ">Total Amount</div>

@@ -1,6 +1,6 @@
 import Bookings from "../../models/bookings.js";
 import { format } from "date-fns";
- 
+
 export const getAllBookings = async (req, res) => {
   try {
     const shopId = req.userId;
@@ -35,11 +35,19 @@ export const getAllBookings = async (req, res) => {
         path: "paymentId",
         select: "paymentMethod transactionId",
       })
-      .select("checkInDate checkOutDate status paymentStatus roomId totalAmount propertyId paymentId trafficSource utm")
+      .populate({
+        path: "bookedUserId",
+        select: "name email avatar contactNumber",
+      })
+      .select(
+        "checkInDate checkOutDate status paymentStatus roomId totalAmount propertyId paymentId trafficSource utm"
+      )
       .sort(filter === "upcoming" ? { checkInDate: 1 } : { createdAt: -1 })
       .limit(Number(limit))
       .skip((Number(page) - 1) * Number(limit))
       .lean();
+
+    console.log("bookings-----------", bookings);
 
     const data = bookings.map((booking) => ({
       _id: booking._id,
@@ -68,8 +76,8 @@ export const getAllBookings = async (req, res) => {
 
       trafficSource: booking.trafficSource,
       utm: booking.utm || null,
+      customer: booking?.bookedUserId,
     }));
-
 
     return res.status(200).json({
       success: true,

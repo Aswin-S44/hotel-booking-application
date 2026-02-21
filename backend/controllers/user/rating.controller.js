@@ -102,9 +102,10 @@ export const getReviewsByRoomAndProperty = async (req, res) => {
 
     // 3️⃣ No reviews found
     if (!reviews || reviews.length === 0) {
-      return res.status(404).json({
+      return res.status(200).json({
         success: false,
         message: "No reviews found for this room in this property",
+        data: [],
       });
     }
 

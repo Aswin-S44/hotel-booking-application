@@ -170,6 +170,72 @@ const RoomExtraDetails = () => {
     );
   };
 
+  const PriceSummaryCard = ({ isSticky = false }) => (
+    <Card
+      className={`bg-transparent border ${isSticky ? "sticky-top" : ""}`}
+      style={isSticky ? { top: "100px" } : {}}
+    >
+      <CardHeader className="bg-transparent border-bottom">
+        <h4 className="card-title mb-0">Price Summary </h4>
+      </CardHeader>
+      <CardBody>
+        <Row className="g-4 mb-3">
+          <Col md={12}>
+            <div className="form-control-bg-light">
+              <label className="form-label small h6 fw-light">
+                Check-in & Check-out
+              </label>
+              <div className="position-relative">
+                <Flatpickr
+                  className="form-control flatpickr"
+                  placeholder="Select dates"
+                  options={{
+                    mode: "range",
+                    dateFormat: "d M Y",
+                    minDate: "today",
+                    defaultDate: checkIn && checkOut ? [checkIn, checkOut] : [],
+                  }}
+                  onChange={(dates) => {
+                    if (dates.length === 2) {
+                      setCheckIn(dates[0]);
+                      setCheckOut(dates[1]);
+                    } else {
+                      setCheckIn(null);
+                      setCheckOut(null);
+                    }
+                  }}
+                />
+                <FaCalendarAlt className="position-absolute top-50 end-0 translate-middle-y me-3" />
+              </div>
+            </div>
+          </Col>
+        </Row>
+        <ul className="list-group list-group-borderless mb-3">
+          <li className="list-group-item px-2 d-flex justify-content-between">
+            <span className="h6 fw-light mb-0">
+              {currency} {roomPrice} x {nights}{" "}
+              {nights > 1 ? "Nights" : "Night"}
+            </span>
+            <span className="h6 fw-light mb-0">
+              {currency} {subtotal}
+            </span>
+          </li>
+          <li className="list-group-item bg-light d-flex justify-content-between rounded-2 px-2 mt-2">
+            <span className="h5 fw-normal mb-0 ps-1">Total</span>
+            <span className="h5 fw-normal mb-0">
+              {currency} {total}
+            </span>
+          </li>
+        </ul>
+        <div className="d-grid gap-2">
+          <Button variant="dark" className="mb-0" onClick={handleBookNow}>
+            Continue To Book
+          </Button>
+        </div>
+      </CardBody>
+    </Card>
+  );
+
   return (
     <>
       <PageMetaData title="Hotel - Details" />
@@ -238,6 +304,7 @@ const RoomExtraDetails = () => {
                           />
                         </CardBody>
                       </Card>
+
                       <Card className="bg-transparent">
                         <CardHeader className="border-bottom bg-transparent px-0 pt-0">
                           <h3 className="card-title mb-0">Amenities</h3>
@@ -257,6 +324,11 @@ const RoomExtraDetails = () => {
                           </Row>
                         </CardBody>
                       </Card>
+
+                      <div className="d-xl-none">
+                        <PriceSummaryCard />
+                      </div>
+
                       <CustomerReview
                         hotelDetails={hotelDetails}
                         reviewsData={reviewsData}
@@ -265,87 +337,8 @@ const RoomExtraDetails = () => {
                     </div>
                   </Col>
 
-                  <Col as={"aside"} xl={5}>
-                    <Card
-                      className="bg-transparent border sticky-top"
-                      style={{ top: "100px" }}
-                    >
-                      <CardHeader className="bg-transparent border-bottom">
-                        <h4 className="card-title mb-0">Price Summary </h4>
-                      </CardHeader>
-                      <CardBody>
-                        <Row className="g-4 mb-3">
-                          <Col md={12}>
-                            <div className="form-control-bg-light">
-                              <label className="form-label small h6 fw-light">
-                                Check-in & Check-out
-                              </label>
-                              <div className="position-relative">
-                                <Flatpickr
-                                  className="form-control flatpickr"
-                                  placeholder="Select dates"
-                                  options={{
-                                    mode: "range",
-                                    dateFormat: "d M Y",
-                                    minDate: "today",
-                                    defaultDate:
-                                      checkIn && checkOut
-                                        ? [checkIn, checkOut]
-                                        : [],
-                                  }}
-                                  onChange={(dates) => {
-                                    if (dates.length === 2) {
-                                      setCheckIn(dates[0]);
-                                      setCheckOut(dates[1]);
-                                    } else {
-                                      setCheckIn(null);
-                                      setCheckOut(null);
-                                    }
-                                  }}
-                                />
-                                <FaCalendarAlt className="position-absolute top-50 end-0 translate-middle-y me-3" />
-                              </div>
-                            </div>
-                          </Col>
-                        </Row>
-                        <ul className="list-group list-group-borderless mb-3">
-                          <li className="list-group-item px-2 d-flex justify-content-between">
-                            <span className="h6 fw-light mb-0">
-                              {currency} {roomPrice} x {nights}{" "}
-                              {nights > 1 ? "Nights" : "Night"}
-                            </span>
-                            <span className="h6 fw-light mb-0">
-                              {currency} {subtotal}
-                            </span>
-                          </li>
-                          {/* <li className="list-group-item px-2 d-flex justify-content-between">
-                            <span className="h6 fw-light mb-0">
-                              Service Fee
-                            </span>
-                            <span className="h6 fw-light mb-0">
-                              {currency} {serviceFee}
-                            </span>
-                          </li> */}
-                          <li className="list-group-item bg-light d-flex justify-content-between rounded-2 px-2 mt-2">
-                            <span className="h5 fw-normal mb-0 ps-1">
-                              Total
-                            </span>
-                            <span className="h5 fw-normal mb-0">
-                              {currency} {total}
-                            </span>
-                          </li>
-                        </ul>
-                        <div className="d-grid gap-2">
-                          <Button
-                            variant="dark"
-                            className="mb-0"
-                            onClick={handleBookNow}
-                          >
-                            Continue To Book
-                          </Button>
-                        </div>
-                      </CardBody>
-                    </Card>
+                  <Col as={"aside"} xl={5} className="d-none d-xl-block">
+                    <PriceSummaryCard isSticky={true} />
                   </Col>
                 </Row>
               </Container>

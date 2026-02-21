@@ -14,7 +14,7 @@ class ErrorBoundary extends React.Component {
     console.error("Global Error:", error, errorInfo);
   }
 
-  handleReload = () => {
+  handleReload = () => { 
     window.location.reload();
   };
 
