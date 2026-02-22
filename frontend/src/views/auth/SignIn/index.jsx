@@ -93,7 +93,9 @@ const SignIn = () => {
         { withCredentials: true }
       );
 
-      if (res.status === 200) {
+      console.log("res.data.token===================", res.data.success);
+
+      if (res.data.success) {
         saveSession({
           ...res.data.user,
           token: res.data.token,

@@ -10,6 +10,7 @@ import crypto from "crypto";
 
 export const createBooking = async (req, res) => {
   try {
+    console.log("11111111111111111");
     const {
       currency,
       checkInDate,

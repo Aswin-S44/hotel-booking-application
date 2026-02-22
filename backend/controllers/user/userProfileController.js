@@ -52,6 +52,7 @@ export const updateUserProfile = async (req, res) => {
 
 export const getUserProfile = async (req, res) => {
   try {
+    console.log("------------");
     const userId = req.user.id;
 
     const profile = await User.findOne({ _id: userId });

@@ -22,7 +22,7 @@ export const sigIn = async (req, res) => {
         .json({ status: 400, message: "Incorrect password or email" });
     }
 
-    const token = createSecretToken(user._id);
+    const token = createSecretToken(user._id); 
 
     res.cookie("token", token, {
       withCredentials: true,

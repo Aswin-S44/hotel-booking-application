@@ -1,4 +1,5 @@
 import { googleLoginService } from "../services/authService.js";
+import { createSecretToken } from "../utils/utils.js";
 
 export const googleLogin = async (req, res, next) => {
   try {
@@ -10,11 +11,31 @@ export const googleLogin = async (req, res, next) => {
 
     const user = await googleLoginService(idToken);
 
-    res.status(200).json({
-      success: true,
-      message: "Login successful",
-      user,
+    console.log("USER------------", user);
+
+    const token = createSecretToken(user._id);
+
+    res.cookie("token", token, {
+      withCredentials: true,
+      httpOnly: false,
     });
+
+    let loggedInUser = user;
+    loggedInUser["token"] = token;
+
+    res.status(201).json({
+      status: 200,
+      message: "User logged in successfully",
+      success: true,
+      user: loggedInUser,
+      token,
+    });
+
+    // res.status(200).json({
+    //   success: true,
+    //   message: "Login successful",
+    //   user,
+    // });
   } catch (error) {
     next(error);
   }
