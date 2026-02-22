@@ -206,7 +206,7 @@ const Listings = () => {
 
             <CardBody
               className="vstack gap-3"
-              style={{ minHeight: "400px", position: "relative" }}
+              
             >
               {loading && (
                 <div

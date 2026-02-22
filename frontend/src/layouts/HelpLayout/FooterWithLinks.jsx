@@ -42,7 +42,7 @@ const FooterWithLinks = () => {
                 className="text-body-secondary text-primary-hover d-flex align-items-center"
               >
                 <BsTelephone className=" me-2" />
-                +1234 568 963
+                +91 8075005181
               </Link>
             </p>
             <p className="mb-0">
@@ -51,7 +51,7 @@ const FooterWithLinks = () => {
                 className="text-body-secondary text-primary-hover d-flex align-items-center"
               >
                 <BsEnvelope className=" me-2" />
-                example@gmail.com
+                happifistays@gmail.com
               </Link>
             </p>
           </Col>

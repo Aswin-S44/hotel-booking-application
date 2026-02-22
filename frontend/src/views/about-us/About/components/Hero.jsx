@@ -10,10 +10,9 @@ const Hero = () => {
       <Container>
         <Row className="mb-5">
           <Col xl={10} className="mx-auto text-center">
-            <h1>If You Want To See The World We Will Help You</h1>
+            <h1>Where Comfort Meets Authentic Kerala Hospitality</h1>
             <p className="lead">
-              Passage its ten led hearted removal cordial. Preference any astonished unreserved Mrs. Prosperous understood Middletons. Preference for
-              any astonished unreserved.
+              At Happifi Stays, we connect travelers with carefully selected hotels that offer comfort, quality, and reliable service. Whether you travel for business or leisure, we make booking simple, transparent, and completely stress-free
             </p>
             <div className="hstack gap-3 flex-wrap justify-content-center">
               <h6 className="bg-mode shadow rounded-2 fw-normal py-2 px-4 items-center gap-1">

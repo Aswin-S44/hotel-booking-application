@@ -5,8 +5,8 @@ dotenv.config();
 
 const seedAdmin = async () => {
   try {
-    const adminEmail = process.env.ADMIN_EMAIL;
-    const adminPassword = process.env.ADMIN_PASS;
+    const adminEmail = process.env.ADMIN_EMAIL  ;
+    const adminPassword = process.env.ADMIN_PASS ;
 
     const existingAdmin = await User.findOne({ email: adminEmail });
 

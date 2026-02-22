@@ -6,30 +6,21 @@ const Cancellation = () => {
       </CardHeader>
       <CardBody className="p-4 pt-0">
         <div className="mt-4">
-          <h6 className="fw-normal">How can I cancel my taxi booking?</h6>
+          <h6 className="fw-normal">How can I cancel my hotel booking?</h6>
           <p className="mb-0">
-            Yet remarkably appearance gets him his projection. Diverted endeavor bed peculiar men the not desirous. Acuteness abilities ask can
-            offending furnished fulfilled sex. Warrant fifteen exposed ye at mistake. Blush since so in noisy still built up an again. As young ye
-            hopes no he place means. Partiality diminution gay yet entreaties admiration. In mention perhaps attempt pointed suppose. Unknown ye
-            chamber of warrant of Norland arrived.
+            You can cancel your reservation through your booking confirmation email or by contacting our support team. Cancellation policies vary depending on the hotel and selected rate plan. Refund eligibility will be determined according to the property’s cancellation window. We recommend reviewing the cancellation terms before confirming your booking.
           </p>
         </div>
         <div className="mt-4">
-          <h6 className="fw-normal">How do I cancel my booking in this situation?</h6>
+          <h6 className="fw-normal">How do I cancel my booking in special situations?</h6>
           <p className="mb-0">
-            Supposing so be resolving breakfast am or perfectly. It drew a hill from me. Valley by oh twenty direct me so. Departure defective
-            arranging rapturous did believe him all had supported. Family months lasted simple set nature vulgar him. Picture for attempt joy excited
-            ten carried manners talking how. Suspicion neglected the resolving agreement perceived at an. Comfort reached gay perhaps chamber his six
-            detract besides add.
+           In case of emergencies or unavoidable circumstances, please reach out to our support team immediately. We will coordinate with the hotel to explore flexible solutions whenever possible. While cancellation policies are set by individual hotels, we always try our best to assist you fairly. Supporting our guests during unexpected situations is our priority.
           </p>
         </div>
         <div className="mt-4">
-          <h6 className="fw-normal">How can I cancel or postpone a reservation I made through BOOKING?</h6>
+          <h6 className="fw-normal">How can I cancel or postpone a reservation made through Happifi Stays?</h6>
           <p className="mb-0">
-            Supposing so be resolving breakfast am or perfectly. It drew a hill from me. Valley by oh twenty direct me so. Departure defective
-            arranging rapturous did believe him all had supported. Family months lasted simple set nature vulgar him. Picture for attempt joy excited
-            ten carried manners talking how. Suspicion neglected the resolving agreement perceived at an. Comfort reached gay perhaps chamber his six
-            detract besides add.
+            If you booked directly through Happifi Stays, you can manage your reservation using your confirmation details. Postponements are subject to availability and applicable rate differences. Refunds, if eligible, will be processed according to the hotel’s policy. Our team is available to guide you step by step throughout the process.
           </p>
         </div>
       </CardBody>

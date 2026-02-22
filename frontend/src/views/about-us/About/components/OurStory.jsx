@@ -8,28 +8,14 @@ const OurStory = () => {
           <Col md={10} className="mx-auto">
             <h3 className="mb-4">Our Story</h3>
             <p className="fw-bold">
-              Founded in 2006, passage its ten led hearted removal cordial. Preference any astonished unreserved Mrs. Prosperous understood Middletons
-              in conviction an uncommonly do. Supposing so be resolving breakfast am or perfectly. It drew a hill from me. Valley by oh twenty direct
-              me so.
+              Happifi Stays was founded with a simple vision  to make hotel booking easy, reliable, and comfortable for every traveler visiting Kerala. Inspired by the warmth of South Indian hospitality, we focus on connecting guests with quality hotels that offer cleanliness, safety, and genuine care. We believe every stay should feel peaceful, welcoming, and truly satisfying.
             </p>
             <p className="mb-0">
-              Water timed folly right aware if oh truth. Imprudence attachment him his for sympathize. Large above be to means. Dashwood does provide
-              stronger is. Warrant private blushes removed an in equally totally if. Delivered dejection necessary objection do Mr prevailed. Mr
-              feeling does chiefly cordial in do. ...But discretion frequently sir she instruments unaffected admiration everything. Meant balls it if
-              up doubt small purse. Required his you put the outlived answered position. A pleasure exertion if believed provided to. All led out
-              world this music while asked. Paid mind even sons does he door no. Attended overcame repeated it is perceived Marianne in. I think on
-              style child of. Servants moreover in sensible it ye possible. Satisfied conveying a dependent contented he gentleman agreeable do be.
-              Water timed folly right aware if oh truth. Imprudence attachment him his for sympathize. Large above be to means. Dashwood does provide
-              stronger is. But discretion frequently sir she instruments unaffected admiration everything. Meant balls it if up doubt small purse.
-              Required his you put the outlived answered position. I think on style child of. Servants moreover in sensible it ye possible. Satisfied
-              conveying a dependent contented he gentleman agreeable do be. Warrant private blushes removed an in equally totally if. Delivered
-              dejection necessary objection do Mr prevailed. Required his you put the outlived answered position. A pleasure exertion if believed
-              provided to. All led out world this music while asked. Paid mind even sons does he door no. Attended overcame repeated it is perceived
-              Marianne in. I think on style child of. Servants moreover in sensible it ye possible.
+              Over the years, we have built trusted relationships with carefully selected hotels to ensure a seamless experience from booking to checkout. Our goal is not just to provide rooms, but to create comfortable stays that reflect the calm and cultural richness of Kerala.
             </p>
           </Col>
         </Row>
-        <Row className="g-4">
+        {/* <Row className="g-4">
           {ourStories.map((item, idx) => {
           const Icon = item.icon;
           return <Col key={idx} sm={6} lg={3}>
@@ -40,7 +26,7 @@ const OurStory = () => {
                 <p className="mb-0">{item.description}</p>
               </Col>;
         })}
-        </Row>
+        </Row> */}
       </Container>
     </section>;
 };
