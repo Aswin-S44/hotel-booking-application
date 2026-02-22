@@ -10,6 +10,8 @@ const NearbyPlaces = () => {
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(false);
 
+
+
   useEffect(() => {
     setLoading(true);
 
@@ -98,7 +100,7 @@ const NearbyPlaces = () => {
                 />
                 <div className="card-body p-0 pt-3">
                   <h5 className="card-title">
-                    <Link to="" className="stretched-link">
+                    <Link to={`/hotels/detail/${place?._id}`} className="stretched-link">
                       {place?.listingName}
                     </Link>
                   </h5>
