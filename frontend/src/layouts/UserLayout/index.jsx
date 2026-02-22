@@ -3,7 +3,7 @@ import { useToggle } from '@/hooks';
 import { Suspense, lazy, useEffect } from 'react';
 import { Button, Col, Container, Offcanvas, OffcanvasBody, OffcanvasHeader, Row } from 'react-bootstrap';
 import { FaSlidersH } from 'react-icons/fa';
-const TopNavBar = lazy(() => import('./TopNavBar'));
+import TopNavBar from '../../views/hotels/Home/components/TopNavBar';
 const LeftPanel = lazy(() => import('./LeftPanel'));
 const Footer = lazy(() => import('./Footer'));
 const UserLayout = ({
@@ -20,9 +20,7 @@ const UserLayout = ({
     };
   }, []);
   return <>
-      <Suspense>
-        <TopNavBar />
-      </Suspense>
+       <TopNavBar/>
 
       <main  className="min-vh-80">
         <section className="pt-3">

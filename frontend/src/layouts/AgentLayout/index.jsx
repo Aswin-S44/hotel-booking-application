@@ -1,13 +1,13 @@
 import { Preloader } from "@/components";
 import { Suspense, lazy } from "react";
-const TopNavBar = lazy(() => import("./TopNavBar"));
+import TopNavBar from "../../views/hotels/Home/components/TopNavBar";
 const AgentNavBar = lazy(() => import("./AgentNavBar"));
 const Footer = lazy(() => import("./Footer"));
 const AgentLayout = ({ children }) => {
   return (
     <>
       <Suspense>
-        <TopNavBar />
+        <TopNavBar/>
       </Suspense>
 
       <main>
