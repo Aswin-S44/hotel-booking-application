@@ -269,7 +269,7 @@ const heroRoutes = [
 ];
 const listingPagesRoutes = [
   {
-    path: " ",
+    path: "/booking-confirmed",
     name: "booking-confirmed",
     element: <BookingConfirm />,
   },

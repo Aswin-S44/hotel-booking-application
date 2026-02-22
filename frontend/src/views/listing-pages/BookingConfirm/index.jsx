@@ -2,7 +2,7 @@ import { PageMetaData } from '@/components';
 import ConfirmTicket from './components/ConfirmTicket';
 import FooterWithLinks from './components/FooterWithLinks';
 import TopNavBar4 from './components/TopNavBar4';
-const BookingConfirm = () => {
+const BookingConfirm = () => { 
   return <>
       <PageMetaData title="Booking Confirmed" />
 
