@@ -6,7 +6,7 @@ import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import signInImg from "@/assets/images/element/signin.svg";
-import logoIcon from "@/assets/images/logo-icon.svg";
+import logoIcon from "../../../assets/images/logo.png";
 import { developedByLink, currentYear } from "@/states";
 import { API_BASE_URL } from "../../../config/env";
 
@@ -56,14 +56,17 @@ const SignUp = () => {
     <>
       <Col lg={6} className="d-md-flex align-items-center order-2 order-lg-1">
         <div className="p-3 p-lg-5">
-          <img src={signInImg} alt="signin" />
+          <img src={signInImg} alt="signin"  />
         </div>
         <div className="vr opacity-1 d-none d-lg-block" />
       </Col>
 
       <div className="col-lg-6 order-1">
         <div className="p-3 p-lg-5">
-          <img src={logoIcon} className="h-40px mb-4" alt="logo" />
+          <a href="/hotels/home">
+          <img src={logoIcon} className="h-40px mb-4" alt="logo"  style={{
+    filter: "drop-shadow(2px 0 0 white) drop-shadow(-2px 0 0 white) drop-shadow(0 2px 0 white) drop-shadow(0 -2px 0 white)"
+  }} /></a>
           <h1 className="fs-2">Create New Account</h1>
           <p className="mb-0">
             Already a member?<Link to="/auth/sign-in"> Log in</Link>
