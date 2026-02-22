@@ -9,12 +9,17 @@ export const updateProfile = async (req, res) => {
       return res.status(404).send({ message: "User not found" });
     }
 
+    console.log("body-------------", req.body);
+
     const updateData = {
       name: req.body.name,
       contactNumber: req.body.contactNumber,
       location: req.body.location,
       birthday: req.body.birthday,
+      avatar: req.body?.avatar,
     };
+
+    console.log("updateData-----------------", updateData);
 
     if (req.file) {
       updateData.avatar = req.file.path;
