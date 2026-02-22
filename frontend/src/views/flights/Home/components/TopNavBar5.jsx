@@ -58,7 +58,6 @@ const TopNavBar5 = () => {
             </button>
 
             <AppMenu startBookingMenu showExtraPages mobileMenuOpen={isOpen} />
-
             <ul className="nav flex-row align-items-center list-unstyled ms-xl-auto">
               <Dropdown className="nav-item dropdown px-2">
                 <DropdownToggle as="button" className="btn btn-link text-warning lh-3 p-0 mb-0 arrow-none" type="button" aria-expanded="false">

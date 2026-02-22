@@ -80,6 +80,14 @@ const TopNavBar = () => {
     ? bookingHomeMenuItems.filter((item) => item.key !== "sign-in")
     : bookingHomeMenuItems;
 
+
+
+
+const handleThemeToggle = () => {
+  const newTheme = theme === "light" ? "dark" : "light";
+  updateTheme(newTheme);
+};
+
   return (
     <header
       className={clsx("navbar-light header-sticky", {
@@ -129,7 +137,15 @@ const TopNavBar = () => {
                   );
                 })}
               </ul>
-              
+            {!user && (
+  <button style={{border:"none", margin:"0px"}}
+    onClick={handleThemeToggle}
+    className="btn btn-sm btn-outline-primary ms-3 d-flex align-items-center gap-2"
+  >
+    {theme === "light" ? <BsMoonStars size={18} /> : <BsSun size={18} />}
+    {theme === "light" ? "Dark Mode" : "Light Mode"}
+  </button>
+)}
             </div>
           </Collapse>
 

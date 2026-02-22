@@ -325,3 +325,23 @@ height: 31px;
 }
 
 
+
+
+ .description-content-added,
+ .description-content-added p,
+ .description-content-added span,
+ .description-content-added strong {
+ background-color: transparent !important;
+  color: inherit !important;
+}
+
+
+@media (max-width: 900px) {
+.spl-class-for-mbl-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+}

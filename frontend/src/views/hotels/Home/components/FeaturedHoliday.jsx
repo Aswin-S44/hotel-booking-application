@@ -259,16 +259,16 @@ const FeaturedHoliday = () => {
 
                   <ul className="avatar-group mb-0">
                     <li className="avatar avatar-sm">
-                      <img className="avatar-img rounded-circle" src={avatar1} alt="avatar" />
+                      <img className="avatar-img rounded-circle" src="https://res.cloudinary.com/djnaor5ed/image/upload/v1771746044/Review_1_xusrhq.webp" alt="avatar" />
                     </li>
                     <li className="avatar avatar-sm">
-                      <img className="avatar-img rounded-circle" src={avatar2} alt="avatar" />
+                      <img className="avatar-img rounded-circle" src="https://res.cloudinary.com/djnaor5ed/image/upload/v1771746044/Review_-2_1_d0rzxw.webp" alt="avatar" />
                     </li>
                     <li className="avatar avatar-sm">
-                      <img className="avatar-img rounded-circle" src={avatar3} alt="avatar" />
+                      <img className="avatar-img rounded-circle" src="https://res.cloudinary.com/djnaor5ed/image/upload/v1771746285/Review_-5_sdks8s.webp" alt="avatar" />
                     </li>
                     <li className="avatar avatar-sm">
-                      <img className="avatar-img rounded-circle" src={avatar4} alt="avatar" />
+                      <img className="avatar-img rounded-circle" src="https://res.cloudinary.com/djnaor5ed/image/upload/v1771746044/girl-review_rombce.webp" alt="avatar" />
                     </li>
                     <li className="avatar avatar-sm">
                       <div className="avatar-img rounded-circle bg-primary">
@@ -290,11 +290,11 @@ const FeaturedHoliday = () => {
           </Col>
 
           <Col lg={6}>
-            <h2 className="mb-3 mb-lg-5">The Best Holidays Start Here!</h2>
-            <p className="mb-3 mb-lg-5">Book your hotel with us and don't forget to grab an awesome hotel deal to save massive on your stay.</p>
+            <h2 className="mb-3 mb-lg-5">The Best Stays in Kerala Start Here!</h2>
+            <p className="mb-3 mb-lg-5">Book your hotel with Happifi Stays and enjoy the comfort of trusted hotels across Kerala, at the best available rates for your perfect stay.</p>
 
-            <Row className="g-4">
-              <Col sm={6}>
+            <Row className="g-4 spl-class-for-mbl-section" >
+              <Col sm={6} className=" spl-class-for-mbl-section" >
                 <div className="icon-lg bg-success bg-opacity-10 text-success rounded-circle flex-centered">
                   <FaUtensils />
                 </div>
@@ -302,7 +302,7 @@ const FeaturedHoliday = () => {
                 <p className="mb-0">Departure defective arranging rapturous did. Conduct denied adding worthy little.</p>
               </Col>
 
-              <Col sm={6}>
+              <Col sm={6}  className=" spl-class-for-mbl-section" >
                 <div className="icon-lg bg-danger bg-opacity-10 text-danger rounded-circle flex-centered">
                   <BsFillStopwatchFill />
                 </div>
@@ -310,7 +310,7 @@ const FeaturedHoliday = () => {
                 <p className="mb-0">Supposing so be resolving breakfast am or perfectly. </p>
               </Col>
 
-              <Col sm={6}>
+              <Col sm={6}  className=" spl-class-for-mbl-section" >
                 <div className="icon-lg bg-orange bg-opacity-10 text-orange rounded-circle flex-centered">
                   <BsShieldFillCheck />
                 </div>
@@ -318,7 +318,7 @@ const FeaturedHoliday = () => {
                 <p className="mb-0">Arranging rapturous did believe him all had supported. </p>
               </Col>
 
-              <Col sm={6}>
+              <Col sm={6}  className=" spl-class-for-mbl-section" >
                 <div className="icon-lg bg-info bg-opacity-10 text-info rounded-circle flex-centered">
                   <BsFillLightningFill />
                 </div>
