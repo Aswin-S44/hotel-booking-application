@@ -4,11 +4,12 @@ import FooterWithLinks from './components/FooterWithLinks';
 import LatestArticle from './components/LatestArticle';
 import Newsletter from './components/Newsletter';
 import TopNavBar11 from './components/TopNavBar11';
+import TopNavBar from '../../hotels/Home/components/TopNavBar';
 const Blog = () => {
   return <>
       <PageMetaData title="Blog" />
 
-      <TopNavBar11 />
+      <TopNavBar />
 
       <main>
         <BlogList />

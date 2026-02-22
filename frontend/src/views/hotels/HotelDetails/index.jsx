@@ -15,7 +15,16 @@ const HotelDetails = () => {
   const [hotel, setHotel] = useState(null);
   const [loading, setLoading] = useState(true);
 
+useEffect(() => {
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
+  window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+}, [id]);
+
   useEffect(() => {
+
+window.scrollTo(0, 0);
+
     if (id) {
       const fetchHotelDetails = async () => {
         try {
@@ -38,6 +47,11 @@ const HotelDetails = () => {
   }, [id]);
 
   if (loading) return null;
+
+
+
+
+  
 
   return (
     <>

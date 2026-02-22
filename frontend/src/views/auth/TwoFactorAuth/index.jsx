@@ -65,7 +65,7 @@ const TwoFactorAuth = () => {
 
           <h1 className="mb-2 h3">Two factor authentication</h1>
           <p className="mb-sm-0">
-            We have to send a code to <b>example@gmail.com</b>
+            We have to send a code to <b>happifistays@gmail.com</b>
           </p>
 
           <form onSubmit={handleSubmit} className="mt-sm-4">

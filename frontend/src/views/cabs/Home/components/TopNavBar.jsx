@@ -226,7 +226,7 @@ const TopNavBar = () => {
                     </div>
                     <div>
                       <h6 className="h6 mt-2 mt-sm-0">Lori Ferguson</h6>
-                      <p className="small m-0">example@gmail.com</p>
+                      <p className="small m-0">happifistays@gmail.com</p>
                     </div>
                   </div>
                 </li>

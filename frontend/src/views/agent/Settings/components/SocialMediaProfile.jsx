@@ -21,7 +21,7 @@ const SocialMediaProfile = () => {
       facebook: 'loristev',
       twitter: 'loristev',
       instagram: 'loristev',
-      youtubeUrl: 'https://www.youtube.com/in/Booking-05620abc'
+      youtubeUrl: 'https://www.youtube.com/embed/4yVp8JeLZAU'
     }
   });
   return <Card className="border rounded-3">

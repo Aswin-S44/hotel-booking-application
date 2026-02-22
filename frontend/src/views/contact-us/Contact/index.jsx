@@ -4,11 +4,12 @@ import ContactForm from './components/ContactForm';
 import FooterWithLinks from './components/FooterWithLinks';
 import Hero from './components/Hero';
 import TopNavBar11 from './components/TopNavBar11';
+import TopNavBar from '../../hotels/Home/components/TopNavBar';
 const Contact = () => {
   return <>
       <PageMetaData title="Contact Us" />
 
-      <TopNavBar11 />
+      <TopNavBar />
 
       <main>
         <Hero />

@@ -25,8 +25,9 @@ const Hero = () => {
             </h1>
             <p className="mb-4">We bring you not only a stay option, but an experience in your budget to enjoy the luxury.</p>
             <div className="hstack gap-4 flex-wrap align-items-center">
-              <button className="btn btn-primary-soft mb-0">Discover Now</button>
-              <GlightBox data-glightbox data-gallery="office-tour" image="https://www.youtube.com/embed/tXHviS-4ygo" className="d-block">
+              <a href='/hotels/grid'>
+              <button className="btn btn-primary-soft mb-0">Discover Now</button></a>
+              <GlightBox data-glightbox data-gallery="office-tour" image="https://www.youtube.com/embed/4yVp8JeLZAU" className="d-block">
                 <div className="avatar avatar-md z-index-1 position-relative me-2">
                   <Image className="avatar-img rounded-circle" src={avatar12} alt="avatar" />
                   <div className="btn btn-xs btn-round btn-white shadow-sm position-absolute top-50 start-50 translate-middle z-index-9 mb-0 flex-centered">
@@ -41,8 +42,8 @@ const Hero = () => {
           </Col>
 
           <Col lg={6} className="position-relative">
-            <Image src={bg6} className="rounded" />
-            <figure className="position-absolute end-0 bottom-0">
+            <Image src="https://res.cloudinary.com/danenxaul/image/upload/v1771707138/luxury-architecture-exterior-design_1_1_gtahbh.webp" className="rounded" />
+            {/* <figure className="position-absolute end-0 bottom-0">
               <svg width="163px" height="163px" viewBox="0 0 163 163">
                 <path className="fill-warning" d="M145.6,66.2c-0.9-0.3-1.6,0.2-2.1-0.4c-0.5-0.7-1-1.5-1-2.4c0-3.1,0.1-6.2,0-9.3c0-0.7,0.3-1.3,0.5-1.9 c0.8-1.6,1.6-3.2,2.7-4.5c0.5-0.6,1.2-1.2,2-1.5c0.4-0.2,0.8,0.4,1.3-0.1c0.4-0.4,1,0.7,1.6,0.7c0.4,1-0.4,1.5-1,2.1 c0.7,0.3,1.4,0.3,2.1,0.7c0.6,0.4,1.2,0.7,1,1.5c-0.2,1,0.6,1.3,1,1.9c-0.2,0.3-0.6,0.4-0.5,0.8c1.2,3.2,0.3,5.4-0.7,8.1 c-0.3,0.7-0.7,1.6-0.7,2.2c-0.1,1.5-1.2,2.7-1.4,4.1c-0.2,1.1-0.9,1.7-2.1,1.6c-0.2,0-0.4,0.5-1,0.4c-0.2-0.2-0.7-0.5-0.7-0.8 c0-1-0.1-1.7-1.1-2.1C145.5,67.2,145.6,66.6,145.6,66.2" />
                 <path className="fill-warning" d="M94.3,143.5c1.1,0.3,2.4-0.5,3.2,0.7c-0.4,0.7-0.7,1.4-1,2.1c0.5,0.5,0.7,0.2,1.2,0.1c1.6-0.6,2-0.4,2.5,1.2 c0.1,0.2,0,0.6,0.3,0.6c1.8,0.4,1.4,2.2,2.1,3.2c-0.8,0.9,0.5,1.8,0.1,2.6c-0.5,0.8-0.3,2-1.3,2.6c-0.3,0.2-0.1,0.5-0.2,0.7 c-0.3,2.1-1.2,3.7-3.4,4.4c-0.3,0.1-0.4,0.6-1,0.4c-0.3-0.6-0.6-1.3-1-1.9c-0.5-0.2-1.5,0.3-1.4-1h-3c-0.2-1.4,0-2.9-1.1-3.9 c-0.1-0.1-0.1-0.4,0-0.5c0.7-1.2,0.2-2.6,0.7-3.8c0.3-0.6,0.4-1,0.1-1.6c-0.9-1.3,0-2.4,0.7-3.3C92.5,145,93.4,144.3,94.3,143.5" />
@@ -60,7 +61,7 @@ const Hero = () => {
                 <path className="fill-warning" d="M0.1,95.7c0.9-1.3,2.3-1.7,3.8-1.8c1,1.2-0.7,1.5-0.8,2.3c1.1,1,2-0.7,3.1,0c0.6,0.6-0.2,0.8-0.3,1.2 c0.4,0.5,1,0,1.4,0.3c0.4,1.1-0.3,2.3,0.6,3.3c-0.8,0.8-0.7,2.2-1.9,2.8c-1.1-0.2-1.8-1-2.6-1.7c-0.7-0.6-1.9-0.5-2.6-1.9 C1,98.9-0.4,97.4,0.1,95.7" />
                 <path className="fill-warning" d="M155.5,91.5c-0.9-0.5-1.7-0.7-2.3-1.6c0.4-0.2,0.8-0.5,1.2-0.7c-1.2-0.4-2.1,0.7-3.1,0c0.6-1,1.8-1,2.5-1.7 c0.1-0.6-0.3-0.6-0.7-0.7c-0.7-0.2-0.9,0.9-1.6,0.5c-0.3-0.3-0.4-0.7-0.1-0.9c1.7-1,3-2.3,4.5-3.5c0.9-0.7,1.1-0.9,2.5-1.2 c-0.1,0.5-0.6,0.7-0.9,1.1c0.7,0.7,1.3,0.1,1.9-0.2c0.1,1.1,0.9,1.9,0.5,3.4C158.3,87.4,157.4,89.8,155.5,91.5" />
               </svg>
-            </figure>
+            </figure> */}
 
             <div className="position-absolute top-0 end-0 z-index-1 mt-n4">
               <div className="bg-blur border border-light rounded-3 text-center shadow-lg p-3">

@@ -266,7 +266,7 @@ body.dashboard main{
 
 @media (max-width: 1199.98px) {
     .navbar-expand-xl .navbar-brand .navbar-brand-item {
-        height: 50px;
+        height: 70px;
     }
 }
 
@@ -302,7 +302,13 @@ a.nav-notification.btn.btn-light.p-0.mb-0.flex-centered.arrow-none.dropdown-togg
   }
 
 }
-
+@media (min-width: 1200px) {
+    .navbar-expand-xl .navbar-brand .navbar-brand-item {
+        height: 70px;
+        display: block;
+        width: auto;
+    }
+}
 
 // @media (min-width: 1490px) {
 
