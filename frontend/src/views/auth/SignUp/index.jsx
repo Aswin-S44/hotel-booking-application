@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { PasswordFormInput, TextFormInput } from "@/components";
-import { Col, Alert, Form } from "react-bootstrap"; // Added Form
-import { useForm, Controller } from "react-hook-form"; // Added Controller
-import { FaFacebookF } from "react-icons/fa";
+import { Col, Alert } from "react-bootstrap";
+import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -12,65 +11,42 @@ import { developedByLink, currentYear } from "@/states";
 import { API_BASE_URL } from "../../../config/env";
 
 const SignUp = () => {
-  const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const { control, handleSubmit, watch, trigger } = useForm({
+  const { control, handleSubmit } = useForm({
     defaultValues: {
       name: "",
       email: "",
       password: "",
       confirmPassword: "",
-      otp: "",
     },
     mode: "onChange",
   });
 
-  const emailValue = watch("email");
-
-  const onSendOTP = async (data) => {
-    const isStep1Valid = await trigger([
-      "name",
-      "email",
-      "password",
-      "confirmPassword",
-    ]);
-    if (!isStep1Valid) return;
-
-    setLoading(true);
-    setError("");
-    try {
-      await axios.post(`${API_BASE_URL}/api/v1/auth/send-otp`, {
-        email: data.email,
-      });
-      setStep(2);
-    } catch (err) {
-      setError(err.response?.data?.message || "Failed to send OTP");
-    } finally {
-      setLoading(false);
+  const onSubmit = async (data) => {
+    if (data.password !== data.confirmPassword) {
+      setError("Passwords do not match");
+      return;
     }
-  };
 
-  const onVerifyAndSignUp = async (data) => {
     setLoading(true);
     setError("");
     try {
-      const response = await axios.post(
-        `${API_BASE_URL}/api/v1/auth/verify-otp`,
-        {
-          name: data.name,
-          email: data.email,
-          password: data.password,
-          otp: data.otp,
-        }
-      );
-      if (response.data) {
+      const response = await axios.post(`${API_BASE_URL}/api/v1/auth/signup`, {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+      });
+
+      if (response.status === 200) {
         navigate("/auth/sign-in");
       }
     } catch (err) {
-      setError(err.response?.data?.message || "Verification failed");
+      setError(
+        err.response?.data?.message || "Something went wrong. Please try again."
+      );
     } finally {
       setLoading(false);
     }
@@ -99,115 +75,55 @@ const SignUp = () => {
             </Alert>
           )}
 
-          <form
-            onSubmit={
-              step === 1
-                ? handleSubmit(onSendOTP)
-                : handleSubmit(onVerifyAndSignUp)
-            }
-            className="mt-4 text-start"
-          >
-            {step === 1 ? (
-              <span>
-                <TextFormInput
-                  name="name"
-                  containerClass="mb-3"
-                  label="Full Name"
-                  type="text"
-                  control={control}
-                />
-                <TextFormInput
-                  name="email"
-                  containerClass="mb-3"
-                  label="Enter email id"
-                  type="email"
-                  control={control}
-                />
-                <PasswordFormInput
-                  name="password"
-                  containerClass="mb-3"
-                  label="Enter password"
-                  control={control}
-                />
-                <PasswordFormInput
-                  name="confirmPassword"
-                  containerClass="mb-3"
-                  label="Confirm password"
-                  control={control}
-                />
+          <form onSubmit={handleSubmit(onSubmit)} className="mt-4 text-start">
+            <TextFormInput
+              name="name"
+              containerClass="mb-3"
+              label="Full Name"
+              type="text"
+              control={control}
+            />
+            <TextFormInput
+              name="email"
+              containerClass="mb-3"
+              label="Enter email id"
+              type="email"
+              control={control}
+            />
+            <PasswordFormInput
+              name="password"
+              containerClass="mb-3"
+              label="Enter password"
+              control={control}
+            />
+            <PasswordFormInput
+              name="confirmPassword"
+              containerClass="mb-3"
+              label="Confirm password"
+              control={control}
+            />
 
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="btn btn-primary w-100 mb-0"
-                >
-                  {loading ? "Sending..." : "Send Verification Code"}
-                </button>
-              </span>
-            ) : (
-              <span>
-                <p className="text-muted">
-                  Enter the 6-digit code sent to <strong>{emailValue}</strong>
-                </p>
+            <button
+              type="submit"
+              disabled={loading}
+              className="btn btn-primary w-100 mb-0"
+            >
+              {loading ? "Creating Account..." : "Create Account"}
+            </button>
 
-                <Form.Group className="mb-3">
-                  <Form.Label>Enter OTP</Form.Label>
-                  <Controller
-                    name="otp"
-                    control={control}
-                    render={({ field }) => (
-                      <Form.Control
-                        {...field}
-                        type="text"
-                        placeholder="000000"
-                        autoFocus
-                        onChange={(e) => field.onChange(e.target.value)}
-                      />
-                    )}
-                  />
-                </Form.Group>
+            <div className="position-relative my-4">
+              <hr />
+              <p className="small position-absolute top-50 start-50 translate-middle bg-mode px-1 px-sm-2">
+                Or sign in with
+              </p>
+            </div>
 
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="btn btn-primary w-100 mb-0"
-                >
-                  {loading ? "Verifying..." : "Verify & Create Account"}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setStep(1)}
-                  className="btn btn-link w-100 mt-2"
-                >
-                  Back to Edit Details
-                </button>
-              </span>
-            )}
-
-            {step === 1 && (
-              <span>
-                <div className="position-relative my-4">
-                  <hr />
-                  <p className="small position-absolute top-50 start-50 translate-middle bg-mode px-1 px-sm-2">
-                    Or sign in with
-                  </p>
-                </div>
-
-                <div className="vstack gap-3">
-                  <button type="button" className="btn btn-light mb-0">
-                    <FcGoogle size={16} className="fab fa-fw me-2" />
-                    Continue with Google
-                  </button>
-                  {/* <button type="button" className="btn btn-light mb-0">
-                    <FaFacebookF
-                      size={16}
-                      className="fab fa-fw text-facebook me-2"
-                    />
-                    Continue with Facebook
-                  </button> */}
-                </div>
-              </span>
-            )}
+            <div className="vstack gap-3">
+              <button type="button" className="btn btn-light mb-0">
+                <FcGoogle size={16} className="fab fa-fw me-2" />
+                Continue with Google
+              </button>
+            </div>
 
             <div className="text-primary-hover text-body mt-3 text-center">
               Copyrights ©{currentYear} Booking. Build by{" "}

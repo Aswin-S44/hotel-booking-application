@@ -53,6 +53,7 @@ export const sendOTP = async (req, res) => {
     const { email } = req.body;
 
     const existingUser = await User.findOne({ email });
+    console.log("EMAIL ****************", email);
     if (existingUser) {
       return res.status(409).json(conflictResponse("User already exists"));
     }

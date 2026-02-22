@@ -19,7 +19,7 @@ import { updatePassword } from "../controllers/common/updatePassword.js";
 const authRouter = express.Router();
 
 authRouter.post("/signup", signUp);
-authRouter.post("/signin", sigIn);
+authRouter.post("/signin", sigIn); 
 authRouter.post("/google-login", googleLogin);
 authRouter.get("/me", getMe);
 authRouter.patch("/profile", userVerification, updateProfile);

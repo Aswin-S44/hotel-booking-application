@@ -93,21 +93,21 @@ const SignIn = () => {
         { withCredentials: true }
       );
 
-      // if (res.status === 200) {
-      //   saveSession({
-      //     ...res.data.user,
-      //     token: res.data.token,
-      //   });
+      if (res.status === 200) {
+        saveSession({
+          ...res.data.user,
+          token: res.data.token,
+        });
 
-      //   Swal.fire({
-      //     icon: "success",
-      //     title: "Login Successful",
-      //     timer: 1500,
-      //     showConfirmButton: false,
-      //   });
+        Swal.fire({
+          icon: "success",
+          title: "Login Successful",
+          timer: 1500,
+          showConfirmButton: false,
+        });
 
-      //   navigate("/agent/dashboard");
-      // }
+        navigate("/");
+      }
     } catch (error) {
       console.error("Google login failed:", error);
 
