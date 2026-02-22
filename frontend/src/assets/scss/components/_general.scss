@@ -304,17 +304,24 @@ a.nav-notification.btn.btn-light.p-0.mb-0.flex-centered.arrow-none.dropdown-togg
 }
 @media (min-width: 1200px) {
     .navbar-expand-xl .navbar-brand .navbar-brand-item {
-        height: 70px;
+        height: 60px;
         display: block;
         width: auto;
     }
 }
 
-// @media (min-width: 1490px) {
 
-//   .vstack.gap-4.container{
-//     min-height: 500px;
-//     position: relative;
-//   }
+@media (max-width: 550px) {
+span.position-absolute.top-50.start-50.translate-middle.z-index-n1.d-none.d-md-block.mt-4 {
+  display: block !important;
 
-// }
+}
+
+span.position-absolute.top-50.start-50.translate-middle.z-index-n1.d-none.d-md-block.mt-4  svg {
+width: 200.5px;
+height: 31px;
+}
+
+}
+
+

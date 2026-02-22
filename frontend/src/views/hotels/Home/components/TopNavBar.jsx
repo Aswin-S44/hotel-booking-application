@@ -129,6 +129,7 @@ const TopNavBar = () => {
                   );
                 })}
               </ul>
+              
             </div>
           </Collapse>
 
@@ -267,6 +268,7 @@ const TopNavBar = () => {
                           <BsHeart className=" me-2" />
                           My Wishlist
                         </DropdownItem>
+                        
                       </>
                     )}
 
@@ -295,7 +297,7 @@ const TopNavBar = () => {
                       <BsGear className=" me-2" />
                       Settings
                     </DropdownItem>
-
+ 
                     <DropdownItem
                       className="bg-danger-soft-hover"
                       onClick={removeSession}
@@ -305,7 +307,21 @@ const TopNavBar = () => {
                     </DropdownItem>
 
                     <DropdownDivider />
+                    <div style={{display:"flex"}}>
+                    {(themeModes ?? []).map((mode, idx) => {
+                                const Icon = mode.icon;
+                                return <li className={clsx(themeModes.length - 1 !== idx && 'mb-1')} key={mode.theme + idx}>
+                                      <DropdownItem onClick={() => updateTheme(mode.theme)} type="button" className={clsx('d-flex align-items-center', {
+                                    active: theme === mode.theme
+                                  })}>
+                                        <Icon />
+                                        &nbsp;&nbsp;
+                                        {toSentenceCase(mode.theme)}
+                                      </DropdownItem>
+                                    </li>;
+                              })} </div>
                   </DropdownMenu>
+                  
                 </Dropdown>
               </Nav>
             </>

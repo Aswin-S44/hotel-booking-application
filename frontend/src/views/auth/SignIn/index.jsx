@@ -133,7 +133,9 @@ const SignIn = () => {
       <Col lg={6} className="order-1">
         <div className="p-4 p-sm-7">
           <Link to="/">
-            <img className="h-50px mb-4" src={logo} alt="logo" />
+            <img className="h-50px mb-4" src={logo} alt="logo" style={{
+    filter: "drop-shadow(2px 0 0 white) drop-shadow(-2px 0 0 white) drop-shadow(0 2px 0 white) drop-shadow(0 -2px 0 white)"
+  }}/>
           </Link>
 
           <h1 className="mb-2 h3">Welcome back</h1>

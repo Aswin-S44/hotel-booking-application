@@ -71,8 +71,8 @@ const Hero = () => {
               </div>
             </div>
             <div className="vstack gap-5 align-items-center position-absolute top-0 start-0 d-none d-md-flex mt-4 ms-n3">
-              <img className="icon-lg shadow-lg border border-3 border-white rounded-circle" src={fourByThree11} alt="avatar" />
-              <img className="icon-xl shadow-lg border border-3 border-white rounded-circle" src={fourByThree12} alt="avatar" />
+              <img className="icon-lg shadow-lg border border-3 border-white rounded-circle" src="https://res.cloudinary.com/djnaor5ed/image/upload/v1771746627/interior-decoration-inspired-by-mexican-folklore_1_hwh8hk.webp" alt="avatar" />
+              <img className="icon-xl shadow-lg border border-3 border-white rounded-circle" src="https://res.cloudinary.com/djnaor5ed/image/upload/v1771746626/luxury-bedroom-hotel_1_c0xww0.webp" alt="avatar" />
             </div>
           </Col>
         </Row>
