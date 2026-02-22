@@ -65,7 +65,11 @@ const TopNavBar = () => {
     window.innerWidth >= 1200
   );
 
-  const profileIMage = user?.avatar ?? DEFAULT_AVATAR_IMAGE;
+  console.log("-------------test", user);
+
+  // Updated logic to ensure if avatar is an empty string, it falls back to default
+  const profileIMage = user?.avatar ? user.avatar : DEFAULT_AVATAR_IMAGE;
+  console.log("profileIMage---------------", profileIMage);
   const { isOpen: categoryIsOpen, toggle: categoryToggle } = useToggle(false);
 
   const handleClick = () => {
@@ -233,6 +237,12 @@ const handleThemeToggle = () => {
                       className="avatar-img rounded-2"
                       src={profileIMage}
                       alt="avatar"
+                      referrerPolicy="no-referrer"
+                      onError={(e) => {
+                        if (e.target.src !== DEFAULT_AVATAR_IMAGE) {
+                          e.target.src = DEFAULT_AVATAR_IMAGE;
+                        }
+                      }}
                     />
                   </DropdownToggle>
                   <DropdownMenu
@@ -248,6 +258,12 @@ const handleThemeToggle = () => {
                             className="avatar-img rounded-circle shadow"
                             src={profileIMage}
                             alt="avatar"
+                            referrerPolicy="no-referrer"
+                            onError={(e) => {
+                              if (e.target.src !== DEFAULT_AVATAR_IMAGE) {
+                                e.target.src = DEFAULT_AVATAR_IMAGE;
+                              }
+                            }}
                           />
                         </div>
                         <div>

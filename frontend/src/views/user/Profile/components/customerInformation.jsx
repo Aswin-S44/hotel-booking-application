@@ -30,6 +30,7 @@ const CustomerInformation = () => {
   const [profileImagePath, setProfileImagePath] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [providor, setProvidor] = useState();
+  const [preview, setPreview] = useState(DEFAULT_AVATAR_IMAGE);
 
   const informationSchema = yup.object({
     name: yup.string().required("Please enter your full name"),
@@ -37,8 +38,6 @@ const CustomerInformation = () => {
       .string()
       .email("Please enter a valid email")
       .required("Please enter your email"),
-    mobileNo: yup.string().required("Please enter your mobile number"),
-    address: yup.string().required("Please enter your address"),
   });
 
   const { control, handleSubmit, setValue, watch } = useForm({
@@ -46,17 +45,24 @@ const CustomerInformation = () => {
     defaultValues: {
       name: "",
       email: "",
-      mobileNo: "",
-      address: "",
-      // nationality: "",
-      dateOfBirth: "",
-      // gender: "Male",
+      contactNumber: "",
+      location: "",
+      birthday: "",
     },
   });
 
   useEffect(() => {
     fetchProfile();
   }, []);
+
+  // Update preview when a new file is selected
+  useEffect(() => {
+    if (selectedFile) {
+      const objectUrl = URL.createObjectURL(selectedFile);
+      setPreview(objectUrl);
+      return () => URL.revokeObjectURL(objectUrl);
+    }
+  }, [selectedFile]);
 
   const fetchProfile = async () => {
     try {
@@ -82,17 +88,16 @@ setProvidor(data.providor)
       // Prefilling data based on your API response structure
       setValue("name", data.name || "");
       setValue("email", data.email || "");
-      setValue("mobileNo", data.contactNumber || "");
-      setValue("address", data.location || "");
-      setValue("nationality", data.nationality || "");
-      // setValue("gender", data.gender || "Male");
+      setValue("contactNumber", data.contactNumber || "");
+      setValue("location", data.location || "");
 
       if (data.birthday) {
-        setValue("dateOfBirth", data.birthday.split("T")[0]);
+        setValue("birthday", data.birthday.split("T")[0]);
       }
 
       if (data.avatar) {
         setProfileImagePath(data.avatar);
+        setPreview(data.avatar);
       }
     } catch (error) {
       console.log(
@@ -102,19 +107,38 @@ setProvidor(data.providor)
     }
   };
 
+  // Helper to convert file to base64 for JSON transmission
+  const toBase64 = (file) =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+
   const onSubmit = async (data) => {
     try {
       setSubmitting(true);
 
-      // if (selectedFile) {
-      //   formData.append("profileImage", selectedFile);
-      // }
+      const payload = {
+        name: data.name,
+        contactNumber: data.contactNumber,
+        location: data.location,
+        birthday: data.birthday,
+      };
 
-      await axios.patch(`${API_BASE_URL}/api/v1/auth/profile`, data, {
+      // If a new file is selected, convert to base64 string
+      if (selectedFile) {
+        payload.avatar = await toBase64(selectedFile);
+      }
+
+      await axios.patch(`${API_BASE_URL}/api/v1/auth/profile`, payload, {
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
+
       setSubmitting(false);
       await fetchProfile();
       Swal.fire({
@@ -123,10 +147,11 @@ setProvidor(data.providor)
         icon: "success",
       });
     } catch (error) {
+      setSubmitting(false);
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Something went wrong!",
+        text: error.response?.data?.message || "Something went wrong!",
       });
     } finally {
       setLoading(false);
@@ -158,15 +183,10 @@ setProvidor(data.providor)
                 <span className="avatar avatar-xl">
                   <Image
                     className="avatar-img rounded-circle border border-white border-3 shadow"
-                    src={
-                      selectedFile
-                        ? URL.createObjectURL(selectedFile)
-                        : profileImagePath
-                        ? profileImagePath.startsWith("data:")
-                          ? profileImagePath
-                          : `${API_BASE_URL}/${profileImagePath}`
-                        : DEFAULT_AVATAR_IMAGE
-                    }
+                    src={preview}
+                    onError={(e) => {
+                      e.target.src = DEFAULT_AVATAR_IMAGE;
+                    }}
                   />
                 </span>
               </label>
@@ -181,6 +201,7 @@ setProvidor(data.providor)
                 id="uploadfile-1"
                 className="form-control d-none"
                 type="file"
+                accept="image/*"
                 onChange={(e) => setSelectedFile(e.target.files[0])}
               />
             </div>
@@ -200,72 +221,33 @@ setProvidor(data.providor)
             placeholder="Enter your email id"
             containerClass="col-md-6"
             control={control}
+            readOnly
           />
           <TextFormInput
-            name="mobileNo"
+            name="contactNumber"
             label="Mobile number*"
             placeholder="Enter your mobile number"
             containerClass="col-md-6"
             control={control}
           />
 
-          {/* <Col md={6}>
-            <label className="form-label">
-              Nationality<span className="text-danger">*</span>
-            </label>
-            <SelectFormInput
-              className="form-select"
-              value={watch("nationality")}
-              onChange={(e) => setValue("nationality", e.target.value)}
-            >
-              <option value="">Select your country</option>
-              <option value="USA">USA</option>
-              <option value="Paris">Paris</option>
-              <option value="India">India</option>
-              <option value="UK">UK</option>
-            </SelectFormInput>
-          </Col> */}
-
           <Col md={6}>
             <label className="form-label">
               Date of Birth<span className="text-danger">*</span>
             </label>
             <Flatpicker
-              value={watch("dateOfBirth")}
+              value={watch("birthday")}
               placeholder="Enter date of birth"
               options={{ dateFormat: "Y-m-d" }}
-              onChange={(date) =>
-                setValue(
-                  "dateOfBirth",
-                  date[0] ? date[0].toISOString().split("T")[0] : ""
-                )
-              }
+              onChange={(selectedDates, dateStr) => {
+                setValue("birthday", dateStr);
+              }}
             />
           </Col>
 
-          {/* <Col md={6}>
-            <label className="form-label">
-              Select Gender<span className="text-danger">*</span>
-            </label>
-            <div className="d-flex gap-4">
-              {["Male", "Female", "Others"].map((item) => (
-                <div className="form-check radio-bg-light" key={item}>
-                  <input
-                    className="form-check-input"
-                    type="radio"
-                    value={item}
-                    checked={watch("gender") === item}
-                    onChange={(e) => setValue("gender", e.target.value)}
-                  />
-                  <label className="form-check-label">{item}</label>
-                </div>
-              ))}
-            </div>
-          </Col> */}
-
           <TextAreaFormInput
-            name="address"
-            label="Address"
+            name="location"
+            label="location"
             spellCheck="false"
             rows={3}
             containerClass="col-12"

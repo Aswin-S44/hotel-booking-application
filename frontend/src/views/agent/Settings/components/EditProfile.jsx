@@ -124,7 +124,7 @@ const EditProfile = () => {
 
       // Construct plain JSON object
       const payload = {
-        name: data.name,
+        name: data.name, 
         contactNumber: data.mobileNo,
         location: data.location,
         birthday: birthday.toISOString(),
