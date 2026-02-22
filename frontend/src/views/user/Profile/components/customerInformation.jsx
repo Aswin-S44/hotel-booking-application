@@ -29,6 +29,7 @@ const CustomerInformation = () => {
   const [loading, setLoading] = useState(false);
   const [profileImagePath, setProfileImagePath] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+  const [providor, setProvidor] = useState();
 
   const informationSchema = yup.object({
     name: yup.string().required("Please enter your full name"),
@@ -74,9 +75,10 @@ const CustomerInformation = () => {
       }
 
       const data = res.data.data;
+console.log("data>>>>>>>>>>>>",data);
 
       if (!data) return;
-
+setProvidor(data.providor)
       // Prefilling data based on your API response structure
       setValue("name", data.name || "");
       setValue("email", data.email || "");

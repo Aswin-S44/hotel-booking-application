@@ -64,8 +64,10 @@ const UpdatePassword = () => {
     }
   };
 
-  return (
-    <Card className="border">
+  return (<>
+
+
+{user?.provider === "google" ? <></> :  <Card className="border">
       <CardHeader className="border-bottom">
         <h4 className="card-header-title">Update Password</h4>
         {user?.email && (
@@ -113,7 +115,9 @@ const UpdatePassword = () => {
           </Button>
         </div>
       </form>
-    </Card>
+    </Card>}
+
+  </>
   );
 };
 

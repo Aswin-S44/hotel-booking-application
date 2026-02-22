@@ -15,6 +15,11 @@ const UpdateEmail = () => {
   const [loading, setLoading] = useState(false);
   const [resendTimer, setResendTimer] = useState(0);
 
+
+console.log("user>>>>>>>>>>>",user?.provider);
+
+
+
   useEffect(() => {
     let interval;
     if (resendTimer > 0) {
@@ -109,7 +114,9 @@ const UpdateEmail = () => {
     }
   };
 
-  return (
+  return (<>
+
+{user?.provider === "google" ? <></> : 
     <Card className="border">
       <CardHeader className="border-bottom">
         <h4 className="card-header-title">Update email</h4>
@@ -179,7 +186,9 @@ const UpdateEmail = () => {
           </div>
         </form>
       </CardBody>
-    </Card>
+    </Card>  }
+
+</>
   );
 };
 
