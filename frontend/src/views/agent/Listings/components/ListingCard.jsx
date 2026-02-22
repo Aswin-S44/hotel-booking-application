@@ -235,43 +235,12 @@ const ListingCard = ({ roomListCard, setRooms }) => {
                   </Button>
                 </div>
               </div>
-<<<<<<< HEAD
             </CardBody>
           </Col>
         </Row>
       </Card>
       {/* <ToastContainer /> */}
     </>
-=======
-              <div className="hstack gap-2 mt-3 mt-sm-0">
-                <Button
-                  variant="primary"
-                  size="sm"
-                  className="mb-0 items-center"
-                  onClick={() => {
-                    navigate(`/listings/${roomListCard?.property}/edit`);
-                  }}
-                >
-                  <BsPencilSquare className=" fa-fw me-1" />
-                  Edit
-                </Button>
-                <Button
-                  onClick={handleDelete}
-                  variant="danger"
-                  size="sm"
-                  className="mb-0 items-center"
-                >
-                  <BsTrash3 className=" fa-fw me-1" />
-                  Delete
-                </Button>
-              </div>
-            </div>
-          </CardBody>
-        </Col>
-        {/* <ToastContainer /> */}
-      </Row>
-    </Card>
->>>>>>> 0ac12b2db5c92bdce0b8b832ebce9eec6aa328fa
   );
 };
 
