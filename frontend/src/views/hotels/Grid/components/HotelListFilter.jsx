@@ -64,7 +64,7 @@ const HotelListFilter = () => {
                 <BsSliders className=" fa-fe me-2" />
                 Show Filters
               </label>
-              <ul
+              <ul style={{display:"none"}}
                 className="nav nav-pills nav-pills-dark"
                 id="tour-pills-tab"
                 role="tablist"

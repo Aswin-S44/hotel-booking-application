@@ -4,11 +4,12 @@ import { Link } from 'react-router-dom';
 import FooterWithLinks from './components/FooterWithLinks';
 import TopNavBar11 from './components/TopNavBar11';
 import errorSvg from '@/assets/images/element/error.svg';
+import TopNavBar from '../hotels/Home/components/TopNavBar';
 const NotFound = () => {
   return <>
       <PageMetaData title="Not Found" />
 
-      <TopNavBar11 />
+      <TopNavBar/>
 
       <section>
         <Container>

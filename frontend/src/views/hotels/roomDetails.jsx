@@ -121,7 +121,7 @@ const RoomExtraDetails = () => {
   const serviceFee = room?.property?.policy?.extraCharges || 0;
   const subtotal = roomPrice * nights;
   const total = subtotal + serviceFee;
-  const currency = room?.property?.currency ?? "Rs";
+  const currency = "Rs";
 
   const handleBookNow = () => {
     if (!user) {
@@ -171,6 +171,7 @@ const RoomExtraDetails = () => {
     );
   };
 
+  
   const PriceSummaryCard = ({ isSticky = false }) => (
     <Card
       className={`bg-transparent border ${isSticky ? "sticky-top" : ""}`}
@@ -237,6 +238,9 @@ const RoomExtraDetails = () => {
     </Card>
   );
 
+console.log("room",room);
+
+
   return (
     <>
       <PageMetaData title="Hotel - Details" />
@@ -299,10 +303,11 @@ const RoomExtraDetails = () => {
                             </OverlayTrigger>
                           </div>
                           <div
-                            dangerouslySetInnerHTML={{
-                              __html: room?.property?.description,
-                            }}
-                          />
+  className="description-content-added"
+  dangerouslySetInnerHTML={{
+    __html: room?.property?.description,
+  }}
+/>
                         </CardBody>
                       </Card>
 

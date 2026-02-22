@@ -44,12 +44,12 @@ export const bookingHomeMenuItems = [
     url: "/help/center",
     icon: FaHandsHelping,
   },
-  {
-    key: "FAQ",
-    label: "FAQs",
-    url: "/faqs",
-    icon: LuMessageCircleQuestion,
-  },
+  // {
+  //   key: "FAQ",
+  //   label: "FAQs",
+  //   url: "/faqs",
+  //   icon: LuMessageCircleQuestion,
+  // },
   {
     key: "Blog-home",
     label: "Blogs",

@@ -6,7 +6,7 @@ import { footerLinks, topLinks } from '@/assets/data/footer-items';
 import logoLight from '@/assets/images/logo-light.svg';
 import expresscard from '@/assets/images/element/expresscard.svg';
 import mastercard from '@/assets/images/element/mastercard.svg';
-import paypal from '@/assets/images/element/paypal.svg';
+import paypal from '../../../../assets/images/element/UPI-apps-removebg-preview.png';
 import visa from '@/assets/images/element/visa.svg';
 import { developedByLink, currentYear } from '@/states';
 const FooterWithLinks = () => {
@@ -84,12 +84,12 @@ const FooterWithLinks = () => {
                 <Image src={mastercard} className="h-30px me-1" />
               </Link>
             </li>
-            <li className="list-inline-item me-2">
+            {/* <li className="list-inline-item me-2">
               {' '}
               <Link to="">
                 <Image src={expresscard} className="h-30px me-1" />
               </Link>
-            </li>
+            </li> */}
           </ul>
         </Col>
         <Col sm={5} md={6} lg={3} className="text-sm-end">
