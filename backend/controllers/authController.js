@@ -11,8 +11,6 @@ export const googleLogin = async (req, res, next) => {
 
     const user = await googleLoginService(idToken);
 
-    console.log("USER------------", user);
-
     const token = createSecretToken(user._id);
 
     res.cookie("token", token, {

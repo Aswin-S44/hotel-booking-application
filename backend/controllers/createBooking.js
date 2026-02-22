@@ -6,6 +6,7 @@ import Property from "../models/propertySchema.js";
 import Activity from "../models/activitySchema.js";
 import Room from "../models/roomSchema.js";
 import Stats from "../models/statsSchema.js";
+import User from "../models/userSchema.js";
 import crypto from "crypto";
 
 export const createBooking = async (req, res) => {
@@ -46,10 +47,11 @@ export const createBooking = async (req, res) => {
     const shopOwner = await Property.findOne({ _id: propertyId }).select({
       owner: 1,
     });
-    const shopId = shopOwner.owner;
+
     if (!shopOwner) {
       return res.status(404).send({ message: "Shop not found" });
     }
+    const shopId = shopOwner.owner;
 
     const room = await Room.findOne({ _id: roomId, isAvailable: true });
     if (!room) {
@@ -117,6 +119,7 @@ export const createBooking = async (req, res) => {
       });
     }
 
+    const guestDetails = [];
     if (guests?.length > 0) {
       for (const guest of guests) {
         const guestUserData = {
@@ -131,11 +134,22 @@ export const createBooking = async (req, res) => {
           selectedPaymentTypeId: req.body.selectedPaymentTypeId,
           bookingId: createdBooking._id,
         };
-        await Guests.create(guestUserData);
+        const savedGuest = await Guests.create(guestUserData);
+        guestDetails.push(savedGuest);
       }
     }
+
     await Room.updateOne({ _id: roomId }, { $set: { isAvailable: false } });
-    res.status(200).send({ success: true, message: "Booking created" });
+
+    const bookedUserDetails = await User.findById(userId).select("-password");
+
+    res.status(200).send({
+      success: true,
+      message: "Booking created",
+      booking: createdBooking,
+      bookedUser: bookedUserDetails,
+      guests: guestDetails,
+    });
   } catch (error) {
     return res.status(500).send({
       success: false,

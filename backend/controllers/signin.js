@@ -14,6 +14,13 @@ export const sigIn = async (req, res) => {
       return res.json({ status: 400, message: "Incorrect password or email" });
     }
 
+    if (!user.password) {
+      return res.status(400).json({
+        message:
+          "This account was created using Google. Please log in with Google.",
+      });
+    }
+
     const auth = await bcrypt.compare(password, user.password);
 
     if (!auth) {
@@ -22,7 +29,7 @@ export const sigIn = async (req, res) => {
         .json({ status: 400, message: "Incorrect password or email" });
     }
 
-    const token = createSecretToken(user._id); 
+    const token = createSecretToken(user._id);
 
     res.cookie("token", token, {
       withCredentials: true,
@@ -40,6 +47,7 @@ export const sigIn = async (req, res) => {
       token,
     });
   } catch (error) {
+    console.log("Errr-------------", error);
     return res.status(500).send({ message: "Internal server error" });
   }
 };
